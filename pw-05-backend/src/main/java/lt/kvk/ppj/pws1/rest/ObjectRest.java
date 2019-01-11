@@ -23,7 +23,7 @@ public class ObjectRest implements ObjectApi {
 
 	@Override
 	public ResponseEntity<Void> addObject(@Valid Object object) {
-		
+		System.out.println("Testing........");
 		return null;
 	}
 

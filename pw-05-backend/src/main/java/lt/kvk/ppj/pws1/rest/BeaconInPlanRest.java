@@ -17,7 +17,6 @@ public class BeaconInPlanRest implements BeaconInPlanApi {
 
 	@Override
 	public ResponseEntity<Void> addBeaconInPlan(@Valid BeaconInPlan beaconInPlan) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
