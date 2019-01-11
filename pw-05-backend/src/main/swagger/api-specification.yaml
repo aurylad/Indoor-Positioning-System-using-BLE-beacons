@@ -1,0 +1,455 @@
+swagger: '2.0'
+info:
+  description: IPS API Deffinition
+  version: 1.0.0
+  title: IPS
+host: 'localhost:8080'
+basePath: /api
+schemes:
+  - http
+  - https
+paths:
+
+                 # DEVICES-DATA
+
+  /device-data:
+    get:
+      operationId: getDeviceData
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: >-
+            Successful response, with a representation of the device data.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/DeviceData'
+                
+                 # PLANS
+     
+  /plan:
+    get:
+      operationId: getPlan
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: >-
+            Successful response, with a representation of the plan data.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Plan'
+    
+    put:
+      operationId: addPlan
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: plan
+          schema:
+            $ref: '#/definitions/Plan'
+      responses:
+        '200':
+          description: OK  
+          
+    post:
+      operationId: updatePlan
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: plan
+          schema:
+            $ref: '#/definitions/Plan'
+      responses:
+        '200':
+          description: OK  
+          
+  /plan/{id}:
+    delete:
+      operationId: deletePlan
+      parameters:
+        - in: path
+          name: id
+          type: integer
+          format: int64
+          required: true
+          description: Numeric ID of the plan to delete.
+      responses:
+        '200':
+          description: OK      
+   
+    get:
+      operationId: getPlanById
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          type: integer
+          format: int64
+          required: true
+          description: Numeric ID of the plan to get.
+      responses:
+        '200':
+          description: >-
+            Successful response, with a representation of plan.
+          schema:
+            $ref: '#/definitions/Plan'
+    
+                  # LOGS
+   
+  /log:
+    get:
+      operationId: getLog
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: >-
+            Successful response, with a representation of the log data.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Log'
+ 
+                  # BEACONS
+  
+  /beacon:
+    get:
+      operationId: getBeacon
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: >-
+            Successful response, with a representation of the beacon data.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Beacon'
+
+    put:
+      operationId: addBeacon
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: beacon
+          schema:
+            $ref: '#/definitions/Beacon'
+      responses:
+        '200':
+          description: OK  
+          
+    post:
+      operationId: updateBeacon
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: beacon
+          schema:
+            $ref: '#/definitions/Beacon'
+      responses:
+        '200':
+          description: OK  
+          
+  /beacon/{id}:
+    delete:
+      operationId: deleteBeacon
+      parameters:
+        - in: path
+          name: id
+          type: integer
+          format: int64
+          required: true
+          description: Numeric ID of the beacon to delete.
+      responses:
+        '200':
+          description: OK      
+   
+    get:
+      operationId: getBeaconById
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          type: integer
+          format: int64
+          required: true
+          description: Numeric ID of the beacon to get.
+      responses:
+        '200':
+          description: >-
+            Successful response, with a representation of beacon.
+          schema:
+            $ref: '#/definitions/Beacon'
+          
+                  # BEACONS IN PLAN
+                  
+  /beacon-in-plan:
+    get:
+      operationId: getBeaconInPlan
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: >-
+            Successful response, with a representation of the beacon in plan data.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/BeaconInPlan'
+
+    put:
+      operationId: addBeaconInPlan
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: beaconInPlan
+          schema:
+            $ref: '#/definitions/BeaconInPlan'
+      responses:
+        '200':
+          description: OK  
+          
+    post:
+      operationId: updateBeaconInPlan
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: beaconInPlan
+          schema:
+            $ref: '#/definitions/BeaconInPlan'
+      responses:
+        '200':
+          description: OK  
+          
+  /beacon-in-plan/{id}:
+    delete:
+      operationId: deleteBeaconInPlan
+      parameters:
+        - in: path
+          name: id
+          type: integer
+          format: int64
+          required: true
+          description: Numeric ID of the beacon in plan to delete.
+      responses:
+        '200':
+          description: OK      
+   
+    get:
+      operationId: getBeaconInPlanById
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          type: integer
+          format: int64
+          required: true
+          description: Numeric ID of the beacon in plan to get.
+      responses:
+        '200':
+          description: >-
+            Successful response, with a representation of beacon in plan.
+          schema:
+            $ref: '#/definitions/BeaconInPlan'
+    
+                  # OBJECTS  
+                  
+  /object:
+    get:
+      operationId: getObject
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: >-
+            Successful response, with a representation of the object data.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Object'
+
+    put:
+      operationId: addObject
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: object
+          schema:
+            $ref: '#/definitions/Object'
+      responses:
+        '200':
+          description: OK  
+          
+    post:
+      operationId: updateObject
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: object
+          schema:
+            $ref: '#/definitions/Object'
+      responses:
+        '200':
+          description: OK  
+          
+  /object/{id}:
+    delete:
+      operationId: deleteObject
+      parameters:
+        - in: path
+          name: id
+          type: integer
+          format: int64
+          required: true
+          description: Numeric ID of the object to delete.
+      responses:
+        '200':
+          description: OK      
+   
+    get:
+      operationId: getObjectById
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          type: integer
+          format: int64
+          required: true
+          description: Numeric ID of the object to get.
+      responses:
+        '200':
+          description: >-
+            Successful response, with a representation of object.
+          schema:
+            $ref: '#/definitions/Object'
+    
+definitions:
+
+  DeviceData:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      objectId:
+        type: number
+        description: Tracking object indentif. code
+      signal:
+        type: number
+        description: Received signal strength
+      TransmitterId:
+        type: string
+        description: Beacon name, from which signal was received
+ 
+  Plan:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      planImage:
+        type: string
+        description: Encoded place image
+      planWidth:
+        type: number
+        description: Plan width
+      planHeight:
+        type: number
+        description: Plan height
+      planScale:
+        type: number
+        description: Plan scale
+        
+  Log:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      planId:
+        type: integer
+        format: int64
+      coordinateX:
+        type: number
+        description: Object coordinate x on plan
+      coordinateY:
+        type: number
+        description: Object coordinate y on plan
+      regDateTime:
+        type: string
+        format: date-time
+        description: Date and time, when object coordinates was registered
+      objectId: 
+        type: number
+        description: Tracking object indentf. code
+      objectName:
+        type: string
+        description: Object name
+      objectType:
+        type: string
+        description: Tracking object type
+      objectAccessLevel:
+        type: number
+        description: Object access level
+        
+  Beacon:     
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      beaconId:
+        type: string
+        description: Beacon identification code
+      batteryStatus:
+        type: number
+      
+  BeaconInPlan:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      beaconId:
+        type: string
+        description: Beacon identification code
+      beaconCoordinateX:
+        type: number
+      beaconCoordinateY:
+        type: number
+      plandId:
+        type: integer
+        format: int64
+      
+  Object:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      objectCode:
+        type: string
+        description: Object identification code
+      objectType:
+        type: string
+        description: What kinf of object 
+      objectName:
+        type: string
+      objectAccessLevel:
+        type: string
+        description: Which access level has object

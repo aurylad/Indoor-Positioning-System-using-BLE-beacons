@@ -1,0 +1,22 @@
+<table id="work-log">
+  <thead>
+    <th>Last Name</th>
+    <th>Addresse</th>
+    <th>Job Name</th>
+    <th>Begin Time</th>
+    <th>End Time</th>
+    <th>Operations</th>
+  </thead>
+  <tbody>
+    <tr *ngFor="let workLog of workLogs">
+      <td>{{workLog.lastName}}</td>
+      <td>{{workLog.address}}</td>
+      <td>{{workLog.jobName}}</td>
+      <td>{{workLog.beginTime | date:"yyyy/MM/dd HH:mm"}}</td>
+      <td>{{workLog.endTime | date:"yyyy/MM/dd HH:mm"}}</td>
+      <td><button class="button btn-delete" (click)="deleteWorkLog(workLog)">Delete</button>
+        <button class="button btn-edit" (click)="updateWorkLog(workLog)">Edit</button></td>
+    </tr>
+  </tbody>
+</table>
+<button class="button btn-add" (click)="newWorkLog(workLog)">Add New Work Log</button>

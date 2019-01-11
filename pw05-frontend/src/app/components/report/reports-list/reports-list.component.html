@@ -1,0 +1,16 @@
+<table id="report">
+  <thead>
+    <th>Last Name</th>
+    <th>Address</th>
+    <th>Hours</th>
+    <th>Salary</th>
+  </thead>
+  <tbody>
+    <tr *ngFor="let rep of report">
+      <td>{{rep.lastName}}</td>
+      <td>{{rep.address}}</td>
+      <td>{{rep.totalWorkedHours}}</td>
+      <td>{{rep.totalSalary}}</td>
+    </tr>
+  </tbody>
+</table>
