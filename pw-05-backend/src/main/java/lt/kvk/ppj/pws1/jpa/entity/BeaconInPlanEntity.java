@@ -24,10 +24,10 @@ public class BeaconInPlanEntity extends AbstractBaseEntity {
 	private static final long serialVersionUID = 1L;
 
 	@Column(name = "coordinate_x", nullable = false)
-	private Double coordinateX;
+	private Float coordinateX;
 
 	@Column(name = "coordinate_y", nullable = false)
-	private Double coordinateY;
+	private Float coordinateY;
 
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "beacon_id", nullable = false)

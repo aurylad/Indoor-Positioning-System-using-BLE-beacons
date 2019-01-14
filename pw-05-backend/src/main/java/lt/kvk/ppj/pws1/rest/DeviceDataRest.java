@@ -17,7 +17,7 @@ public class DeviceDataRest implements DeviceDataApi {
 
 	@Override
 	public ResponseEntity<Void> addDeviceData(@Valid DeviceData deviceData) {
-		
+		System.out.println(deviceData);
 		return null;
 	}
 

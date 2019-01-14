@@ -26,6 +26,10 @@ public class ObjectRest implements TrackedObjectApi {
 	@Autowired
 	private ObjectRepository objectRepository;
 
+	public ObjectRest() {
+		this.objectRepository = null;
+	}
+
 	@Override
 	public ResponseEntity<Void> addObject(@ApiParam(value = "") @Valid @RequestBody TrackedObject object) {
 		return save(object, null);

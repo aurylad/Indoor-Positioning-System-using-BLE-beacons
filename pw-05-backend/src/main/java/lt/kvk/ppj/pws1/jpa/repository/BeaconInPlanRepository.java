@@ -9,4 +9,5 @@ import lt.kvk.ppj.pws1.jpa.entity.BeaconInPlanEntity;
 public interface BeaconInPlanRepository extends PagingAndSortingRepository<BeaconInPlanEntity, Long> {
 
 	Iterable<BeaconInPlanEntity> findAllByOrderByIdAsc();
+	
 }

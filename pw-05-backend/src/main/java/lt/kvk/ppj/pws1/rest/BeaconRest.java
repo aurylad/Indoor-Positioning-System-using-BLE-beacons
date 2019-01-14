@@ -24,9 +24,13 @@ import lt.kvk.ppj.pws1.jpa.repository.BeaconRepository;
 @RestController
 @RequestMapping("/api")
 public class BeaconRest implements BeaconApi {
-	
+
 	@Autowired
 	private BeaconRepository beaconRepository;
+
+	public BeaconRest() {
+		this.beaconRepository = null;
+	}
 
 	@Override
 	public ResponseEntity<Void> addBeacon(@ApiParam(value = "") @Valid @RequestBody Beacon beacon) {
@@ -43,7 +47,7 @@ public class BeaconRest implements BeaconApi {
 	@Override
 	public ResponseEntity<List<Beacon>> getBeacon() {
 		final List<Beacon> list = new ArrayList<>();
-		for (final BeaconEntity src : beaconRepository.findAllByOrderByIdAsc()) {
+		for (final BeaconEntity src : beaconRepository.findAll()) {
 			list.add(toBeacon(src));
 		}
 		return Utils.toResponseEntity(list);
@@ -64,14 +68,14 @@ public class BeaconRest implements BeaconApi {
 	public ResponseEntity<Void> updateBeacon(@ApiParam(value = "") @Valid @RequestBody Beacon beacon) {
 		return save(beacon, beacon.getId());
 	}
-	
+
 	private static Beacon toBeacon(BeaconEntity src) {
 		final Beacon tgt = new Beacon();
 		tgt.setId(src.getId());
 		tgt.setBeaconId(src.getBeaconId());
 		return tgt;
 	}
-	
+
 	private ResponseEntity<Void> save(final Beacon src, Long id) {
 		final BeaconEntity tgt = new BeaconEntity(id);
 		tgt.setBeaconId(src.getBeaconId());

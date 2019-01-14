@@ -343,15 +343,36 @@ definitions:
   DeviceData:
     type: object
     properties:
-      objectId:
+      objectId1:
         type: string
-        description: Tracking object indentif. code
-      signal:
+        description: Tracking object 1 indentif. code 
+      objectId2:
+        type: string
+        description: Tracking object 2 indentif. code
+      objectId3:
+        type: string
+        description: Tracking object 3 indentif. code
+      signal1:
         type: number
-        description: Received signal strength
-      TransmitterId:
+        format: float
+        description: Received signal strength 1
+      signal2:
+        type: number
+        format: float
+        description: Received signal strength 2
+      signal3:
+        type: number
+        format: float
+        description: Received signal strength 3
+      TransmitterId1:
         type: string
-        description: Beacon name, from which signal was received
+        description: 1 Beacon name, from which signal was received
+      TransmitterId2:
+        type: string
+        description: 2 Beacon name, from which signal was received
+      TransmitterId3:
+        type: string
+        description: 3 Beacon name, from which signal was received
  
   Plan:
     type: object
@@ -359,17 +380,23 @@ definitions:
       id:
         type: integer
         format: int64
+      planName:
+        type: string
+        description: Plan identf. name
       planImage:
         type: string
         description: Encoded place image
       planWidth:
-        type: number
+        type: integer 
+        format: int32
         description: Plan width
       planHeight:
-        type: number
+        type: integer 
+        format: int32
         description: Plan height
       planScale:
         type: number
+        format: float
         description: Plan scale
         
   Log:
@@ -383,16 +410,18 @@ definitions:
         format: int64
       coordinateX:
         type: number
+        format: float
         description: Object coordinate x on plan
       coordinateY:
         type: number
+        format: float
         description: Object coordinate y on plan
       regDateTime:
         type: string
         format: date-time
         description: Date and time, when object coordinates was registered
       objectId: 
-        type: number
+        type: string
         description: Tracking object indentf. code
       objectName:
         type: string
@@ -401,7 +430,7 @@ definitions:
         type: string
         description: Tracking object type
       objectAccessLevel:
-        type: number
+        type: string
         description: Object access level
         
   Beacon:     
@@ -425,11 +454,12 @@ definitions:
         description: Beacon identification code
       beaconCoordinateX:
         type: number
+        format: float
       beaconCoordinateY:
         type: number
+        format: float
       plandId:
-        type: integer
-        format: int64
+        type: string
       
   TrackedObject:
     type: object

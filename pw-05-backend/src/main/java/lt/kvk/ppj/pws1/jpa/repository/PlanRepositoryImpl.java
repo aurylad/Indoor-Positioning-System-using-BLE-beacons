@@ -17,16 +17,15 @@ public class PlanRepositoryImpl implements PlanRepositoryCustom {
 	}
 
 	@Override
-	public PlanEntity findOneOrCreateByPlanName(String planName, double planScale, String planPicture, double planWidth,
-			double planHeight) {
-		PlanEntity plan = planRepository.findOneByPlanName(planName);
+	public PlanEntity findOneOrCreateByPlanName(PlanEntity pln) {
+		PlanEntity plan = planRepository.findOneByPlanName(pln.getPlanName());
 		if (plan == null) {
 			plan = new PlanEntity();
-			plan.setPlanHeight(planHeight);
-			plan.setPlanName(planName);
-			plan.setPlanPicture(planPicture);
-			plan.setPlanScale(planScale);
-			plan.setPlanWidth(planWidth);
+			plan.setPlanName(pln.getPlanName());
+			plan.setPlanScale(pln.getPlanScale());
+			plan.setPlanImage(pln.getPlanImage());
+			plan.setPlanWidth(pln.getPlanWidth());
+			plan.setPlanHeight(pln.getPlanHeight());
 			plan = planRepository.save(plan);
 		}
 		return plan;
