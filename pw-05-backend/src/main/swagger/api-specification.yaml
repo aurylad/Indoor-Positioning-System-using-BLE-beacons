@@ -266,7 +266,7 @@ paths:
     
                   # OBJECTS  
                   
-  /object:
+  /tracked-object:
     get:
       operationId: getObject
       produces:
@@ -278,7 +278,7 @@ paths:
           schema:
             type: array
             items:
-              $ref: '#/definitions/Object'
+              $ref: '#/definitions/TrackedObject'
 
     put:
       operationId: addObject
@@ -288,7 +288,7 @@ paths:
         - in: body
           name: object
           schema:
-            $ref: '#/definitions/Object'
+            $ref: '#/definitions/TrackedObject'
       responses:
         '200':
           description: OK  
@@ -301,12 +301,12 @@ paths:
         - in: body
           name: object
           schema:
-            $ref: '#/definitions/Object'
+            $ref: '#/definitions/TrackedObject'
       responses:
         '200':
           description: OK  
           
-  /object/{id}:
+  /tracked-object/{id}:
     delete:
       operationId: deleteObject
       parameters:
@@ -336,7 +336,7 @@ paths:
           description: >-
             Successful response, with a representation of object.
           schema:
-            $ref: '#/definitions/Object'
+            $ref: '#/definitions/TrackedObject'
     
 definitions:
 
@@ -436,7 +436,7 @@ definitions:
         type: integer
         format: int64
       
-  Object:
+  TrackedObject:
     type: object
     properties:
       id:

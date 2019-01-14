@@ -1,12 +1,12 @@
 postgres:
-  image: postgres:11
+  image: timescale/timescaledb
   environment:
-    POSTGRES_DB: pw-s1
+    POSTGRES_DB: ips
     POSTGRES_USER: pw-s1
     POSTGRES_PASSWORD: pw-S1_123!
   ports:
     - "5432:5432"
   expose:
     - "5432"
-  volumes:
-    - ./src/docker/postgres/initdb.d/:/docker-entrypoint-initdb.d
+#  volumes:
+#    - ./src/docker/postgres/initdb.d/:/docker-entrypoint-initdb.d

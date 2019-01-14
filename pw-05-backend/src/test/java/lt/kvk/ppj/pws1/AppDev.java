@@ -29,6 +29,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
 public class AppDev {
 
 	public static void main(String[] args) throws Exception {
+		System.setProperty("spring.jackson.serialization.INDENT_OUTPUT", "true");
 		final ConfigurableApplicationContext ctx = SpringApplication.run(AppDev.class, args);
 
 	}

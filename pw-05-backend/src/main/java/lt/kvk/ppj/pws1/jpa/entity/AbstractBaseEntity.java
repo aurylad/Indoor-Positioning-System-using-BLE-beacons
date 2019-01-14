@@ -13,9 +13,9 @@ import javax.persistence.Version;
 
 @MappedSuperclass
 @Access(AccessType.FIELD)
-abstract class AbstractBaseEntity implements Serializable {
+abstract class AbstractBaseEntity {
 
-	private static final long serialVersionUID = 1L;
+//	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,9 +24,9 @@ abstract class AbstractBaseEntity implements Serializable {
 
 	// REF.:
 	// https://stackoverflow.com/questions/2572566/java-jpa-version-annotation
-	@Version
-	@Column(name = "_optlock_", nullable = false)
-	private long version = 0L;
+//	@Version
+//	@Column(name = "_optlock_", nullable = false)
+//	private long version = 0L;
 
 	AbstractBaseEntity(Long id) {
 		this.id = id;
@@ -40,8 +40,8 @@ abstract class AbstractBaseEntity implements Serializable {
 		return id;
 	}
 
-	public long getVersion() {
-		return version;
-	}
+//	public long getVersion() {
+//		return version;
+//	}
 	
 }

@@ -15,8 +15,8 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 @Data
-@ToString(callSuper=true, exclude = {"logEntity"})
-@EqualsAndHashCode(callSuper = true, exclude = {"logEntity"})
+@ToString(callSuper = true, exclude = { "logEntity" })
+@EqualsAndHashCode(callSuper = true, exclude = { "logEntity" })
 @Entity(name = "Object")
 @Table(name = "objects", uniqueConstraints = //
 @UniqueConstraint(columnNames = { "identification_code" }))
@@ -24,20 +24,24 @@ public class ObjectEntity extends AbstractBaseEntity {
 
 	@Column(name = "identification_code", nullable = false)
 	private String objIdentificationCode;
-	
+
 	@Column(name = "type", nullable = false)
 	private String objType;
-	
+
 	@Column(name = "name", nullable = false)
 	private String objName;
-	
+
 	@Column(name = "access_level", nullable = false)
 	private String accessLevel;
-	
+
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "object")
 	private Set<LogEntity> logEntity;
-	
+
+	public ObjectEntity(Long id) {
+		super(id);
+	}
+
 	public ObjectEntity() {
-		
+
 	}
 }

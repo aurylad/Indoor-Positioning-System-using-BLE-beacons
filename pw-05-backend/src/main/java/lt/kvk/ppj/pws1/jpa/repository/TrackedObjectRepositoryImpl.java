@@ -7,12 +7,12 @@ import org.springframework.stereotype.Repository;
 import lt.kvk.ppj.pws1.jpa.entity.ObjectEntity;
 
 @Repository
-public class ObjectRepositoryImpl implements ObjectRepositoryCustom {
+public class TrackedObjectRepositoryImpl implements TrackedObjectRepositoryCustom {
 
-	private final ObjectRepository objectRepository;
+	private final TrackedObjectRepository objectRepository;
 
 	@Autowired
-	public ObjectRepositoryImpl(@Lazy ObjectRepository objectRepository) {
+	public TrackedObjectRepositoryImpl(@Lazy TrackedObjectRepository objectRepository) {
 		this.objectRepository = objectRepository;
 	}
 
