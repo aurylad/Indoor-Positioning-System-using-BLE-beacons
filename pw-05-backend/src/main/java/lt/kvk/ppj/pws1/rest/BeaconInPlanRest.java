@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lt.kvk.ppj.pw.s1.server.api.BeaconInPlanApi;
 import lt.kvk.ppj.pw.s1.server.model.BeaconInPlan;
+import lt.kvk.ppj.pw.s1.server.model.TrackedObject;
+import lt.kvk.ppj.pws1.jpa.entity.BeaconInPlanEntity;
+import lt.kvk.ppj.pws1.jpa.entity.ObjectEntity;
 
 @RestController
 @RequestMapping("/api")
@@ -42,6 +45,12 @@ public class BeaconInPlanRest implements BeaconInPlanApi {
 	public ResponseEntity<Void> updateBeaconInPlan(@Valid BeaconInPlan beaconInPlan) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	private ResponseEntity<Void> save(final BeaconInPlan src, Long beaconInPlanId) {
+//		final BeaconInPlanEntity tgt = new BeaconInPlanEntity();
+//		tgt.set
+		return ResponseEntity.ok().build();
 	}
 
 }

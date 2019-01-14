@@ -18,7 +18,6 @@ import lt.kvk.ppj.pw.s1.server.api.TrackedObjectApi;
 import lt.kvk.ppj.pw.s1.server.model.TrackedObject;
 import lt.kvk.ppj.pws1.jpa.entity.ObjectEntity;
 import lt.kvk.ppj.pws1.jpa.repository.ObjectRepository;
-import lt.kvk.ppj.pws1.jpa.repository.TrackedObjectRepository;
 
 @RestController
 @RequestMapping("/api")

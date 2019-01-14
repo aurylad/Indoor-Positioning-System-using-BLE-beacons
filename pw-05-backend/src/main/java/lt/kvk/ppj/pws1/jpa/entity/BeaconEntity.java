@@ -28,6 +28,10 @@ public class BeaconEntity extends AbstractBaseEntity {
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "beacon")
 	private Set<BeaconInPlanEntity> beaconInPlan;
 
+	public BeaconEntity(Long id) {
+		super(id);
+	}
+	
 	public BeaconEntity() {
 
 	}
