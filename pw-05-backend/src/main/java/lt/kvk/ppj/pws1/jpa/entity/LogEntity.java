@@ -25,10 +25,10 @@ import lombok.ToString;
 public class LogEntity extends AbstractBaseEntity {
 
 	@Column(name = "coordinate_x", nullable = false)
-	private Double logCoordinateX;
+	private Float logCoordinateX;
 
 	@Column(name = "coordinate_y", nullable = false)
-	private Double logCoordinatey;
+	private Float logCoordinateY;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "date_time", nullable = false)

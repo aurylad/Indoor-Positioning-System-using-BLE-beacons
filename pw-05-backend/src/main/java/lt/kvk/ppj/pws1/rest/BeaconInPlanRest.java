@@ -85,13 +85,13 @@ public class BeaconInPlanRest implements BeaconInPlanApi {
 
 	private ResponseEntity<Void> save(final BeaconInPlan src, Long beaconInPlanId) {
 		final BeaconEntity beacon = beaconRepository.findOneOrCreateByBeaconId(src.getBeaconId());
-		final PlanEntity plan = planRepository.findOneByPlanName(src.getPlandId());
-		final PlanEntity planAll = planRepository.findOneOrCreateByPlanName(plan);
-		final BeaconInPlanEntity tgt = new BeaconInPlanEntity();
+		final PlanEntity plan = planRepository.findOneByPlanId(src.getPlandId());
+//		final PlanEntity planAll = planRepository.findOneOrCreateByPlanName(plan);
+		final BeaconInPlanEntity tgt = new BeaconInPlanEntity(beaconInPlanId);
 		tgt.setBeacon(beacon);
 		tgt.setCoordinateX(src.getBeaconCoordinateX());
 		tgt.setCoordinateY(src.getBeaconCoordinateY());
-		tgt.setPlan(planAll);
+		tgt.setPlan(plan);
 		beaconInPlanRepository.save(tgt);
 
 		return ResponseEntity.ok().build();
@@ -101,7 +101,7 @@ public class BeaconInPlanRest implements BeaconInPlanApi {
 		final BeaconInPlan tgt = new BeaconInPlan();
 		tgt.setId(src.getId());
 		tgt.setBeaconId(src.getBeacon().getBeaconId());
-		tgt.setPlandId(src.getPlan().getPlanName());
+		tgt.setPlandId(src.getPlan().getPlanId());
 		tgt.setBeaconCoordinateX(src.getCoordinateX());
 		tgt.setBeaconCoordinateY(src.getCoordinateY());
 		return tgt;

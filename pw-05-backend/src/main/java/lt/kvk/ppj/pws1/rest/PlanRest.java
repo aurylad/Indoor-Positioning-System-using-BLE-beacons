@@ -69,7 +69,7 @@ public class PlanRest implements PlanApi {
 
 	private ResponseEntity<Void> save(final Plan src, Long id) {
 		final PlanEntity tgt = new PlanEntity(id);
-		tgt.setPlanName(src.getPlanName());
+		tgt.setPlanId(src.getPlanName());
 		tgt.setPlanImage(src.getPlanImage());
 		tgt.setPlanScale(src.getPlanScale());
 		tgt.setPlanHeight(src.getPlanHeight());
@@ -81,7 +81,7 @@ public class PlanRest implements PlanApi {
 	private static Plan toPlan(PlanEntity src) {
 		final Plan tgt = new Plan();
 		tgt.setId(src.getId());
-		tgt.setPlanName(src.getPlanName());
+		tgt.setPlanName(src.getPlanId());
 		tgt.setPlanImage(src.getPlanImage());
 		tgt.setPlanScale(src.getPlanScale());
 		tgt.setPlanHeight(src.getPlanHeight());

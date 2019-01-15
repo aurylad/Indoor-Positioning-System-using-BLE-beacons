@@ -23,7 +23,7 @@ import lombok.ToString;
 public class ObjectEntity extends AbstractBaseEntity {
 
 	@Column(name = "identification_code", nullable = false)
-	private String objIdentificationCode;
+	private String objectId;
 
 	@Column(name = "type", nullable = false)
 	private String objType;

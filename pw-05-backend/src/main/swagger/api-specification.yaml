@@ -115,6 +115,42 @@ paths:
             type: array
             items:
               $ref: '#/definitions/Log'
+              
+  /log/{planId}:
+    get:
+      operationId: getPlanByPlanId
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: planId
+          type: string
+          required: true
+          description: Numeric ID of the plan to get log data.
+      responses:
+        '200':
+          description: >-
+            Successful response, with a representation of plan.
+          schema:
+            $ref: '#/definitions/Plan'
+            
+  /log/object/{objectID}:
+    get:
+      operationId: getPlanByObjectId
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: objectID
+          type: string
+          required: true
+          description: Numeric ID of the object to get log data.
+      responses:
+        '200':
+          description: >-
+            Successful response, with a representation of plan.
+          schema:
+            $ref: '#/definitions/Plan'
  
                   # BEACONS
   
@@ -406,8 +442,7 @@ definitions:
         type: integer
         format: int64
       planId:
-        type: integer
-        format: int64
+        type: string
       coordinateX:
         type: number
         format: float

@@ -8,6 +8,5 @@ import lt.kvk.ppj.pws1.jpa.entity.PlanEntity;
 
 @RepositoryRestResource(path = "plans", exported = false)
 public interface PlanRepository extends PagingAndSortingRepository<PlanEntity, Long>, PlanRepositoryCustom {
-	PlanEntity findOneByPlanName(@Param("planName") String planName);
-	//Iterable<PlanEntity> findAllByOrderByIdAsc();
+	PlanEntity findOneByPlanId(@Param("planId") String planId);
 }

@@ -23,7 +23,7 @@ import lombok.ToString;
 public class PlanEntity extends AbstractBaseEntity {
 
 	@Column(name = "name", nullable = false)
-	private String planName;
+	private String planId;
 
 	@Column(name = "scale", nullable = false)
 	private Float planScale;
