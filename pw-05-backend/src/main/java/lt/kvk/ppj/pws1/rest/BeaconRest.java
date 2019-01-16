@@ -16,9 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.annotations.ApiParam;
 import lt.kvk.ppj.pw.s1.server.api.BeaconApi;
 import lt.kvk.ppj.pw.s1.server.model.Beacon;
-import lt.kvk.ppj.pw.s1.server.model.TrackedObject;
 import lt.kvk.ppj.pws1.jpa.entity.BeaconEntity;
-import lt.kvk.ppj.pws1.jpa.entity.ObjectEntity;
 import lt.kvk.ppj.pws1.jpa.repository.BeaconRepository;
 
 @RestController

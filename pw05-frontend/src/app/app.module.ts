@@ -1,44 +1,38 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { HttpModule } from '@angular/http';
-import { FormsModule } from '@angular/forms'
+import { FormsModule } from '@angular/forms';
 
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
+import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { ReportsListComponent } from './components/report/reports-list/reports-list.component';
-import { PricesListComponent } from './components/prices/prices-list/prices-list.component';
-import { WorkLogsListComponent } from './components/work-logs/work-logs-list/work-logs-list.component';
-import { WorkLogFormComponent } from './components/work-logs/work-log-form/work-log-form.component';
-import { PriceFormComponent } from './components/prices/price-form/price-form.component';
-import { ReportService } from './service/report/report.service';
-import { PricesService } from './service/prices/prices.service';
-import { WorkLogsService } from './service/work-logs/work-logs.service';
-import { from } from 'rxjs';
 
-const appRoutes: Routes = [
-  { path: '', component: ReportsListComponent },
-  { path: 'prices', component: PricesListComponent },
-  { path: 'price-form', component: PriceFormComponent },
-  { path: 'work-logs', component: WorkLogsListComponent },
-  { path: 'work-log-from', component: WorkLogFormComponent }
-]
+import { ApiModule } from './api/api.module';
+import { NavigationComponent } from './component/navigation/navigation.component';
+import { PriceDetailsComponent } from './component/price-details/price-details.component';
+import { PricesComponent } from './component/prices/prices.component';
+import { ReportComponent } from './component/report/report.component';
+import { GuestVisitDetailsComponent } from './component/guest-visit-details/guest-visit-details.component';
+import { GuestVisitsComponent } from './component/guest-visits/guest-visits.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ReportsListComponent,
-    PricesListComponent,
-    WorkLogsListComponent,
-    WorkLogFormComponent,
-    PriceFormComponent
+    PricesComponent,
+    PriceDetailsComponent,
+    GuestVisitsComponent,
+    GuestVisitDetailsComponent,
+    ReportComponent,
+    NavigationComponent
   ],
   imports: [
     BrowserModule,
-    HttpModule,
     FormsModule,
-    RouterModule.forRoot(appRoutes)
+    NgbModule,
+    ApiModule,
+    AppRoutingModule
   ],
-  providers: [ReportService, PricesService, WorkLogsService],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

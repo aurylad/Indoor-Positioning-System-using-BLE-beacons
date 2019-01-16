@@ -1,7 +1,5 @@
 package lt.kvk.ppj.pws1.jpa.entity;
 
-import java.io.Serializable;
-
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Column;
@@ -9,7 +7,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
-import javax.persistence.Version;
 
 @MappedSuperclass
 @Access(AccessType.FIELD)
@@ -43,5 +40,5 @@ abstract class AbstractBaseEntity {
 //	public long getVersion() {
 //		return version;
 //	}
-	
+
 }

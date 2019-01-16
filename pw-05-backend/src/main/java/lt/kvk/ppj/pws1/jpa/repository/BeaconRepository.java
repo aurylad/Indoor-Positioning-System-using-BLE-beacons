@@ -9,6 +9,5 @@ import lt.kvk.ppj.pws1.jpa.entity.BeaconEntity;
 @RepositoryRestResource(path = "beacons", exported = false)
 public interface BeaconRepository extends PagingAndSortingRepository<BeaconEntity, Long>, BeaconRepositoryCustom {
 	
-	//Iterable<BeaconEntity> findAllByOrderByIdAsc();
 	BeaconEntity findOneByBeaconId(@Param("beaconId") String beaconId);
 }

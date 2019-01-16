@@ -2,7 +2,6 @@ package lt.kvk.ppj.pws1.rest;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -13,11 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.annotations.ApiParam;
 import lt.kvk.ppj.pw.s1.server.api.LogApi;
 import lt.kvk.ppj.pw.s1.server.model.Log;
-import lt.kvk.ppj.pw.s1.server.model.Plan;
-import lt.kvk.ppj.pw.s1.server.model.TrackedObject;
-import lt.kvk.ppj.pws1.jpa.entity.BeaconInPlanEntity;
 import lt.kvk.ppj.pws1.jpa.entity.LogEntity;
-import lt.kvk.ppj.pws1.jpa.entity.ObjectEntity;
 import lt.kvk.ppj.pws1.jpa.repository.LogRepository;
 
 @RestController
@@ -26,6 +21,11 @@ public class LogRest implements LogApi {
 
 	@Autowired
 	private LogRepository logRepository;
+
+	public LogRest() {
+
+		this.logRepository = null;
+	}
 
 	@Override
 	public ResponseEntity<List<Log>> getLog() {
@@ -37,22 +37,29 @@ public class LogRest implements LogApi {
 	}
 
 	@Override
-	public ResponseEntity<Plan> getPlanByObjectId (String objectID) {
-		return null;
-//		Optional<LogEntity> optional = logRepository.;
-//		if (optional.isPresent()) {
-//			return ResponseEntity.ok(toLog(optional.get()));
-//		} else {
-//			return ResponseEntity.notFound().build();
-//		}
+	public ResponseEntity<Log> getLogByObjectId(@ApiParam(value = "Numeric ID of the object to get log data.", //
+			required = true) @PathVariable("objectID ") String objectID) {
+
+		LogEntity optional = logRepository.findOneByObjectId(objectID);
+		if (optional != null) {
+			return ResponseEntity.ok(toLog(optional));
+		} else {
+			return ResponseEntity.notFound().build();
+		}
 	}
 
 	@Override
-	public ResponseEntity<Plan> getPlanByPlanId(String planId) {
-		// TODO Auto-generated method stub
-		return null;
+	public ResponseEntity<Log> getLogByPlanId(@ApiParam(value = "Numeric ID of the plan to get log data.", //
+			required = true) @PathVariable("planId ") String planId) {
+
+		LogEntity optional = logRepository.findOneByPlanId(planId);
+		if (optional != null) {
+			return ResponseEntity.ok(toLog(optional));
+		} else {
+			return ResponseEntity.notFound().build();
+		}
 	}
- 
+
 	private static Log toLog(LogEntity src) {
 		final Log tgt = new Log();
 		tgt.setId(src.getId());

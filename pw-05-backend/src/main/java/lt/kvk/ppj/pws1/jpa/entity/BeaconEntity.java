@@ -21,7 +21,7 @@ import lombok.ToString;
 @Table(name = "beacons", uniqueConstraints = //
 @UniqueConstraint(columnNames = { "beacon_id" }))
 public class BeaconEntity extends AbstractBaseEntity {
-
+	
 	@Column(name = "beacon_id", nullable = true)
 	private String beaconId;
 

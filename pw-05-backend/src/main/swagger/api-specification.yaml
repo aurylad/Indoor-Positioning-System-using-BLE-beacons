@@ -118,7 +118,7 @@ paths:
               
   /log/{planId}:
     get:
-      operationId: getPlanByPlanId
+      operationId: getLogByPlanId
       produces:
         - application/json
       parameters:
@@ -132,11 +132,11 @@ paths:
           description: >-
             Successful response, with a representation of plan.
           schema:
-            $ref: '#/definitions/Plan'
+            $ref: '#/definitions/Log'
             
   /log/object/{objectID}:
     get:
-      operationId: getPlanByObjectId
+      operationId: getLogByObjectId
       produces:
         - application/json
       parameters:
@@ -150,7 +150,7 @@ paths:
           description: >-
             Successful response, with a representation of plan.
           schema:
-            $ref: '#/definitions/Plan'
+            $ref: '#/definitions/Log'
  
                   # BEACONS
   

@@ -13,10 +13,10 @@ import lt.kvk.ppj.pw.s1.server.api.DeviceDataApi;
 import lt.kvk.ppj.pw.s1.server.model.DeviceData;
 import lt.kvk.ppj.pws1.jpa.entity.BeaconEntity;
 import lt.kvk.ppj.pws1.jpa.entity.BeaconInPlanEntity;
-import lt.kvk.ppj.pws1.jpa.entity.PlanEntity;
+import lt.kvk.ppj.pws1.jpa.entity.ObjectEntity;
 import lt.kvk.ppj.pws1.jpa.repository.BeaconInPlanRepository;
 import lt.kvk.ppj.pws1.jpa.repository.BeaconRepository;
-import lt.kvk.ppj.pws1.jpa.repository.PlanRepository;
+import lt.kvk.ppj.pws1.jpa.repository.ObjectRepository;
 
 @RestController
 @RequestMapping("/api")
@@ -26,29 +26,46 @@ public class DeviceDataRest implements DeviceDataApi {
 	private BeaconRepository beaconRepository;
 
 	@Autowired
-	private PlanRepository planRepository;
-
-	@Autowired
 	private BeaconInPlanRepository beaconInPlanRepository;
+	
+	@Autowired
+	private ObjectRepository objectRepository;
 
 	public DeviceDataRest() {
 		this.beaconRepository = null;
-		this.planRepository = null;
 		this.beaconInPlanRepository = null;
+		this.objectRepository = null;
 	}
 
 	@Override
 	public ResponseEntity<Void> addDeviceData(@Valid DeviceData deviceData) {
 
-		toDeviceData(deviceData);
+		final ObjectEntity object = objectRepository.findOneByObjectId(deviceData.getObjectId1());
+		final BeaconEntity beacon = beaconRepository.findOneByBeaconId(deviceData.getTransmitterId1());
+		final List<BeaconInPlanEntity> beaconInPlanAllData = beaconInPlanRepository
+				.findBeaconInPlanByBeaconId(beacon.getId());
+
+		// Container for info
+		BeaconInPlanEntity beaconInPlanEntity = new BeaconInPlanEntity();
+
+		for (BeaconInPlanEntity src : beaconInPlanAllData) {
+			beaconInPlanEntity.setCoordinateX(src.getCoordinateX());
+			beaconInPlanEntity.setCoordinateY(src.getCoordinateY());
+			beaconInPlanEntity.setBeacon(src.getBeacon());
+			beaconInPlanEntity.setPlan(src.getPlan());
+
+		}
+
+		// Included Plan object info and Beacon object info
+		System.out.println("BeaconInPlan ALL info:    " + beaconInPlanEntity);
+		// ALL Beacon object info
+		System.out.println("Beacon info:	" + beaconInPlanEntity.getBeacon() + ".get...");
+		// ALL Plan object info
+		System.out.println("Plan info:	" + beaconInPlanEntity.getPlan() + ".get...");
+		//All Object data info
+		System.out.println("Object info:    " + object.getObjName() + ".get...");
 
 		return null;
-	}
-
-	public void toDeviceData (DeviceData src) {
-		final BeaconEntity beacon = beaconRepository.findOneByBeaconId(src.getObjectId1());
-		final BeaconInPlanEntity beaconInPlan = beaconInPlanRepository.findOneByBeaconId(src.getObjectId1());
-		final PlanEntity plan = planRepository.findOneByPlanId(beaconInPlan.getPlan().getPlanId());
 	}
 
 }

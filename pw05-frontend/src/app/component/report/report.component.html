@@ -1,0 +1,19 @@
+<app-navigation activeId="report"></app-navigation>
+<table class="table table-sm table-hover table-bordered">
+  <thead class="thead-dark">
+  <tr>
+    <th>Pavardė</th>
+    <th>Vardas</th>
+    <th>Gyventa parų</th>
+    <th>Bendras mokestis</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let o of rows">
+    <td>{{o.lastName}}</td>
+    <td>{{o.firstName}}</td>
+    <td>{{o.totalLivedDays}}</td>
+    <td>{{o.totalCoast}}</td>
+  </tr>
+  </tbody>
+</table>

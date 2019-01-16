@@ -23,7 +23,7 @@ import lombok.ToString;
 @Table(name = "results_log", uniqueConstraints = //
 @UniqueConstraint(columnNames = { "coordinate_x", "coordinate_y", "date_time" }))
 public class LogEntity extends AbstractBaseEntity {
-
+	
 	@Column(name = "coordinate_x", nullable = false)
 	private Float logCoordinateX;
 

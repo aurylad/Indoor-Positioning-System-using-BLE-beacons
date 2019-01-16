@@ -13,7 +13,7 @@
 	</properties>
 
 	<modules>
-		<module>pw-05-csv</module>
+		<module>ips-backend</module>
 		<module>pw-05-frontend</module>
 		<module>pw-05-backend</module>
 	</modules>

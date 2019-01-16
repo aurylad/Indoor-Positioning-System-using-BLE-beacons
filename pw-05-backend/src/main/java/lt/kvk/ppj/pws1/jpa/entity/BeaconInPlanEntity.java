@@ -21,8 +21,6 @@ import lombok.ToString;
 @UniqueConstraint(columnNames = { "beacon_id" }))
 public class BeaconInPlanEntity extends AbstractBaseEntity {
 
-	private static final long serialVersionUID = 1L;
-
 	@Column(name = "coordinate_x", nullable = false)
 	private Float coordinateX;
 

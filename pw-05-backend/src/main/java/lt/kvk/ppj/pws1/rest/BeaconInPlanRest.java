@@ -18,10 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.annotations.ApiParam;
 import lt.kvk.ppj.pw.s1.server.api.BeaconInPlanApi;
 import lt.kvk.ppj.pw.s1.server.model.BeaconInPlan;
-import lt.kvk.ppj.pw.s1.server.model.TrackedObject;
 import lt.kvk.ppj.pws1.jpa.entity.BeaconEntity;
 import lt.kvk.ppj.pws1.jpa.entity.BeaconInPlanEntity;
-import lt.kvk.ppj.pws1.jpa.entity.ObjectEntity;
 import lt.kvk.ppj.pws1.jpa.entity.PlanEntity;
 import lt.kvk.ppj.pws1.jpa.repository.BeaconInPlanRepository;
 import lt.kvk.ppj.pws1.jpa.repository.BeaconRepository;
@@ -68,8 +66,9 @@ public class BeaconInPlanRest implements BeaconInPlanApi {
 	}
 
 	@Override
-	public ResponseEntity<BeaconInPlan> getBeaconInPlanById(@ApiParam(value = "Numeric ID of the beacon in plan to get.", //
-			required = true) @PathVariable("id") Long id) {
+	public ResponseEntity<BeaconInPlan> getBeaconInPlanById(
+			@ApiParam(value = "Numeric ID of the beacon in plan to get.", //
+					required = true) @PathVariable("id") Long id) {
 		Optional<BeaconInPlanEntity> optional = beaconInPlanRepository.findById(id);
 		if (optional.isPresent()) {
 			return ResponseEntity.ok(toBeaconInPlan(optional.get()));
@@ -79,7 +78,8 @@ public class BeaconInPlanRest implements BeaconInPlanApi {
 	}
 
 	@Override
-	public ResponseEntity<Void> updateBeaconInPlan(@ApiParam(value = "") @Valid @RequestBody BeaconInPlan beaconInPlan) {
+	public ResponseEntity<Void> updateBeaconInPlan(
+			@ApiParam(value = "") @Valid @RequestBody BeaconInPlan beaconInPlan) {
 		return save(beaconInPlan, beaconInPlan.getId());
 	}
 

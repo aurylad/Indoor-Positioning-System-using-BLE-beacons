@@ -21,7 +21,7 @@ import lombok.ToString;
 @Table(name = "building_plan", uniqueConstraints = //
 @UniqueConstraint(columnNames = { "name" }))
 public class PlanEntity extends AbstractBaseEntity {
-
+	
 	@Column(name = "name", nullable = false)
 	private String planId;
 
