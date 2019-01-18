@@ -1,0 +1,93 @@
+.full-width-div {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+.container-fluid {
+  padding-right:0;
+  padding-left:0;
+  height: 100%;
+  margin-right:auto;
+  margin-left:auto;
+}
+
+.col-md-2 {
+  height: 95vh;
+}
+
+.col-md-10 {
+  padding-top: 25px;
+  padding-bottom: 25px;
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+
+html, body {
+  font-family: "Lato", sans-serif;
+  height: 100%;
+}
+
+div.top-title {
+  padding-left: 15px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.sidenav {
+  /* height: 676px; */
+  height: 100%;
+  width: 100%;
+  background-color: rgb(80, 82, 81);
+  padding-top: 5px;  
+}
+
+/* Style the sidenav links and the dropdown button */
+.sidenav a, .dropdown-btn {
+  padding: 6px 8px 6px 16px;
+  text-decoration: none;
+  font-size: 17px;
+  color: #ffffff;
+  display: block;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  outline: none;
+}
+
+/* On mouse-over */
+.sidenav a:hover, .dropdown-btn:hover {
+  color: #a19696;
+}
+
+
+/* Add an active class to the active dropdown button */
+.active {
+  background-color: green;
+  color: white;
+}
+
+/* Dropdown container (hidden by default). Optional: add a lighter background color and some left padding to change the design of the dropdown content */
+.dropdown-container {
+  display: none;
+  background-color: #262626;
+  padding-left: 8px;
+}
+
+/* Optional: Style the caret down icon */
+.fa-caret-down {
+  float: right;
+  padding-right: 8px;
+}
+
+/* Some media queries for responsiveness */
+/* @media screen and (max-height: 450px) {
+  .sidenav {padding-top: 14px;}
+  .sidenav a {font-size: 18px;}
+} */

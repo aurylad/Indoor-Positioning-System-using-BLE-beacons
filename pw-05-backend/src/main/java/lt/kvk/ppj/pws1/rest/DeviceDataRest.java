@@ -6,6 +6,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,6 +21,7 @@ import lt.kvk.ppj.pws1.jpa.repository.ObjectRepository;
 
 @RestController
 @RequestMapping("/api")
+@CrossOrigin(origins="http://localhost:4200", allowedHeaders="*")
 public class DeviceDataRest implements DeviceDataApi {
 
 	@Autowired

@@ -1,0 +1,79 @@
+<head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+      </head>
+      
+      <body>
+        <div class="full-width-div">
+          <div class="container-fluid">
+      
+            <!-- Bottom title header -->
+            <div class="row no-gutters">
+              <div class="col-md-12" style="background-color:rgb(225, 233, 235);">
+                <div class="top-title">
+                  <h2>Indoor Positioning System</h2>
+                </div>
+              </div>
+            </div>
+      
+            <!-- Side navbar -->
+            <div class="row no-gutters">
+              <div class="col-md-2" no-float style="background-color:lavender;">
+      
+                <div class="sidenav">
+                  <a (click)="mainPage()">PAGRINDINIS</a>
+                  <a>STEBĖTI OBJEKTUS</a>
+      
+                  <button class="dropdown-btn">VIETOS
+                    <i class="fa fa-caret-down"></i>
+                  </button>
+                  <div class="dropdown-container">
+                    <a (click)="planListPage()">Vietų sąrašas</a>
+                    <a>Pridėti planą</a>
+                    <a>Draudžiamos vietos</a>
+                  </div>
+      
+                  <button class="dropdown-btn">SEKAMI OBJEKTAI
+                    <i class="fa fa-caret-down"></i>
+                  </button>
+                  <div class="dropdown-container">
+                    <a>Objektų registracija</a>
+                    <a>Judėjimo istorija</a>
+                    <a>Redagavimas</a>
+                    <a>Panaikinimas</a>
+                  </div>
+      
+                  <button class="dropdown-btn">OBJEKTŲ INFORMACIJA
+                    <i class="fa fa-caret-down"></i>
+                  </button>
+                  <div class="dropdown-container">
+                    <a>Pažeidimų istorija</a>
+                    <a>Sekamų objektų sąrašas</a>
+                  </div>
+      
+                  <button class="dropdown-btn">SIŲSTUVAI
+                    <i class="fa fa-caret-down"></i>
+                  </button>
+                  <div class="dropdown-container">
+                    <a>Siųstuvų registracija</a>
+                    <a>redagavimas</a>
+                    <a>Panaikinimas</a>
+                  </div>
+                </div>
+              </div>
+      
+              <!-- Content main container -->
+              <div class="col-md-10" style="background-color:lavenderblush;">
+                <div class="row no-gutters">
+                    <div class="container-fluid">
+                        <router-outlet></router-outlet>
+                    </div>
+                    <!-- <button class="button button-prices" (click)="planListPage()">To Main</button> -->
+                </div>
+              </div>
+      
+            </div>
+          </div>
+        </div>
+      </body>
+

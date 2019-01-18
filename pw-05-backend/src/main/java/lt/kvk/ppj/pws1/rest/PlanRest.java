@@ -8,6 +8,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +22,7 @@ import lt.kvk.ppj.pws1.jpa.repository.PlanRepository;
 
 @RestController
 @RequestMapping("/api")
+@CrossOrigin(origins="http://localhost:4200", allowedHeaders="*")
 public class PlanRest implements PlanApi {
 
 	@Autowired
