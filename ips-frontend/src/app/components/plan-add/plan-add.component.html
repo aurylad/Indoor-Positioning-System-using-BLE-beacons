@@ -15,15 +15,18 @@
         <div class="col-md-4" no-float style="background-color:lavender;">
 
           <form (ngSubmit)="processForm()" class="addPlanForm">
-            <H3>Plano informacija</H3>
+            <H3>Plano informacija</H3><br>
 
             <div class="form group">
-              <label for="planPic">Plano paveikslėlis</label>
 
-              <!-- Picture upload -->
-              <input type='file' name="planPic" (change)="onSelectFile($event)">
+              <!----------------- Picture upload ---------------------->
+              <label class="custom-file-upload">
+                <input type="file" id="uploadButton" (change)="imgUplaod()" />
+                <i class="fa fa-cloud-upload"></i> <b>Įkelti planą</b>
+              </label>
+              <!------------------  ----------------------------------->
+
               <br><br>
-
               <label for="planName">Plano pavadinimas</label>
               <input type="text" name="planName" class="form-control" placeholder="Įveskite plano pavadinimą...">
               <br>
@@ -51,12 +54,14 @@
 
         </div>
 
-        <!-- Plan container -->
+        <!-- Right side content container -->
         <div class="col-md-8" style="background-color:rgb(216, 216, 216);">
           <div class="row no-gutters">
-            <div class="autoscale" (click)="measuringToolCheckBox()">
-              <img class="testImg" [src]="url">
-            </div>
+            <!----------------------------- Canvas For Plan ---------------------------------------------->
+            <canvas id="myCanvas" (click)="measuringToolCheckBox($event)">
+              Your browser does not support the canvas element.
+            </canvas>
+            <!---------------------------------  --------------------------------------------------------->
           </div>
         </div>
 
