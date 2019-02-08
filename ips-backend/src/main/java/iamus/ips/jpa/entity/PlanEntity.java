@@ -28,7 +28,7 @@ public class PlanEntity extends AbstractBaseEntity {
 	@Column(name = "scale", nullable = false)
 	private Float planScale;
 
-	@Column(name = "plan_picture", nullable = false)
+	@Column(name = "plan_picture", nullable = false, columnDefinition = "TEXT")
 	private String planImage;
 
 	@Column(name = "plan_width", nullable = false)

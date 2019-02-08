@@ -14,7 +14,7 @@ export class ObjectComponent implements OnInit {
   constructor(private _apiService: ApiService) { }
 
   ngOnInit() {
-    console.log("Testing")
+    
     this._apiService.getObject().subscribe((trackedObject) => {
       console.log(trackedObject);
       this.trackedObject = trackedObject;

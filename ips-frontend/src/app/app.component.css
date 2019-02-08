@@ -41,7 +41,7 @@ div.top-title {
 .sidenav {
   /* height: 676px; */
   height: 100%;
-  width: 100%;
+  width: 90%;
   background-color: rgb(80, 82, 81);
   padding-top: 5px;  
 }
@@ -51,6 +51,7 @@ div.top-title {
   padding: 6px 8px 6px 16px;
   text-decoration: none;
   font-size: 13px;
+  font-family: Helvetica;
   color: #ffffff;
   display: block;
   border: none;

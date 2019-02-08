@@ -1,7 +1,3 @@
-.addPlanForm{
-    padding-left: 1%;
-    padding-right: 5%;   
-}
 
 /* Everything for check box */
 .onoffswitch {
@@ -60,4 +56,33 @@ input[type="file"] {
     padding: 6px 12px;
     cursor: pointer;
     background-color: #34A7C1;  
+}
+
+.info-box {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    border-top: solid 1px #e2e2e2;
+    border-right: solid 1px #e2e2e2;
+    border-bottom: solid 1px #e2e2e2;
+    border-left: solid 1px #e2e2e2;
+    box-shadow: 0 -2px 3px rgba(0,0,0,0.05);
+    background-color: white;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    box-shadow: none;
+    color: #818181;
+}
+
+.align-items--center {
+    align-items: center;
+}
+
+.display--flex {
+    display: flex;
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
 }

@@ -3,14 +3,16 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
-import{AppComponent} from './app.component';
+import { AppComponent } from './app.component';
 import { ObjectComponent } from './components/object/object.component';
 import { ApiService } from './api/services/api.service';
 import { MainComponent } from './components/main/main.component';
 import { PlansListComponent } from './components/plans-list/plans-list.component';
 import { PlanAddComponent } from './components/plan-add/plan-add.component';
+import { from } from 'rxjs';
 
 const appRoutes: Routes = [
   { path: 'object', component: ObjectComponent },
@@ -31,6 +33,7 @@ const appRoutes: Routes = [
     BrowserModule,
     HttpModule,
     HttpClientModule,
+    FormsModule,
     RouterModule.forRoot(appRoutes),
     AppRoutingModule
   ],

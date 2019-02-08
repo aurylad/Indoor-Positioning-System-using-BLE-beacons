@@ -40,5 +40,9 @@ export class AppComponent implements OnInit {
     this._router.navigate(['']);
   }
 
+  planAddPage() {
+    this._router.navigate(['/plan/add']);
+  }
+
 
 }

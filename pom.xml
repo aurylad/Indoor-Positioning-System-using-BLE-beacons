@@ -15,6 +15,7 @@
 	<modules>
 		<module>ips-backend</module>
 		<module>ips-frontend</module>
+		<module>ips-frontend_v02</module>
 	</modules>
 
 </project>

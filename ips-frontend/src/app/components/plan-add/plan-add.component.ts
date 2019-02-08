@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Plan } from 'src/app/api/models';
+import { ApiService } from '../../api/services/api.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-plan-add',
@@ -7,33 +10,41 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PlanAddComponent implements OnInit {
 
+  private plan: Plan;
+
   indexForCoordToShow = 0;
   firstPointX;
   firstPointY;
   resultDistBetweenPoints;
+  img = new Image();
 
-  constructor() { }
+
+  constructor(private _apiService: ApiService, private _router: Router) { }
 
   ngOnInit() {
     (<HTMLInputElement>document.getElementById("measureCheckBox")).disabled = true;
   }
 
+  planListPage() {
+    this._router.navigate(['/plan/list']);
+  }
+
   imgUplaod() {
     const input = <HTMLInputElement>document.querySelector('input[type=file]');
-    console.log(input.files);
+
     const reader = new FileReader();
     reader.onload = () => {
-      const img = new Image();
-      img.onload = () => {
+      // const img = new Image();
+      this.img.onload = () => {
         const canvas = <HTMLCanvasElement>document.getElementById("myCanvas");
         const ctx = canvas.getContext("2d");
-        canvas.width = img.naturalWidth;
-        canvas.height = img.naturalHeight;
-        ctx.drawImage(img, 0, 0);
-        console.log(img.naturalWidth);
-        console.log(img.naturalHeight);
+        canvas.width = this.img.naturalWidth;
+        canvas.height = this.img.naturalHeight;
+        ctx.drawImage(this.img, 0, 0);
+        console.log(this.img.naturalWidth);
+        console.log(this.img.naturalHeight);
       }
-      img.src = reader.result as string;
+      this.img.src = reader.result as string;
     }
     reader.readAsDataURL(input.files[0]);
   }
@@ -57,14 +68,14 @@ export class PlanAddComponent implements OnInit {
       var distBetweenX = this.firstPointX - x;
       var distBetweenY = this.firstPointY - y;
       if (Math.abs(distBetweenX) > Math.abs(distBetweenY)) {
-        this.resultDistBetweenPoints = Math.abs(distBetweenX);  
+        this.resultDistBetweenPoints = Math.abs(distBetweenX);
       } else {
         this.resultDistBetweenPoints = Math.abs(distBetweenY);
       }
-      console.log( this.resultDistBetweenPoints);
-      
+      console.log(this.resultDistBetweenPoints);
+
     }
-    
+
     //Draw circle on cicked place
     var ctx = canvas.getContext("2d");
     ctx.beginPath();
@@ -92,101 +103,29 @@ export class PlanAddComponent implements OnInit {
     }
   }
 
-  // showCoords(event) {
-  //   this.indexForCoordToShow++;
+  processForm() {
+    
+    var planName = (<HTMLInputElement>document.getElementById("planName")).value;
+    var distanceInCm = (<HTMLInputElement>document.getElementById("measureCheckBox")).value;
+    var scale = +distanceInCm / this.resultDistBetweenPoints;
 
-  //   if (this.indexForCoordToShow == 2) {
-  //     var cX = event.clientX;
-  //     var cY = event.clientY;
-  //     this.cXFirst = cX;
-  //     this.cYFirst = cY;
-  //   } else if (this.indexForCoordToShow > 2) {
-  //     cX = event.clientX;
-  //     cY = event.clientY;
-  //     this.cXSecond = cX;
-  //     this.cYSecond = cY;
+    // Create final object to send in server
+    const planObj = <Plan>{
+      planName: planName,
+      planImage: this.img.src,
+      // planImage: "sadfgh6fd5aesdf645gv6fhyg4srd6fc",
+      planWidth: this.img.naturalWidth,
+      planHeight: this.img.naturalHeight,
+      planScale: +scale.toFixed(2)
+    }
 
-  //     var resultBetweenX = this.cXFirst - this.cXSecond;
-  //     var resultBetweenY = this.cYFirst - this.cYSecond;
-
-  //     if (Math.abs(resultBetweenX) > Math.abs(resultBetweenY)) {
-  //       document.getElementById("demo").innerHTML = "Pasirinktas atstumas-   " + Math.abs(resultBetweenX) + " pixels";
-  //     } else {
-  //       document.getElementById("demo").innerHTML = "Pasirinktas atstumas-   " + Math.abs(resultBetweenY) + " pixels";
-  //     }
-
-  //     this.indexForCoordToShow = 1;
-  //   }
-  // }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  // measuringToolCheckBox() {
-  //   let element = <HTMLInputElement>document.getElementById("myonoffswitch");
-  //   if (element.checked) {
-  //     (<HTMLInputElement>document.getElementById("measureCheckBox")).disabled = false;
-  //     this.showCoords(event);
-  //   } else {
-  //     (<HTMLInputElement>document.getElementById("measureCheckBox")).disabled = true;
-  //   }
-  // }
-
-  // url: any = " ";
-  // onSelectFile(event) {
-  //   if (event.target.files && event.target.files[0]) {
-  //     var reader = new FileReader();
-  //     reader.readAsDataURL(event.target.files[0]); // read file as data url
-  //     reader.onload = (event) => { // called once readAsDataURL is completed
-  //       this.url = (<FileReader>event.target).result;
-  //     }
-  //   }
-  // }
-
-  // showCoords(event) {
-  //   this.indexForCoordToShow++;
-
-  //   if (this.indexForCoordToShow == 2) {
-  //     var cX = event.clientX;
-  //     var cY = event.clientY;
-  //     this.cXFirst = cX;
-  //     this.cYFirst = cY;
-  //   } else if (this.indexForCoordToShow > 2) {
-  //     cX = event.clientX;
-  //     cY = event.clientY;
-  //     this.cXSecond = cX;
-  //     this.cYSecond = cY;
-
-  //     var resultBetweenX = this.cXFirst - this.cXSecond;
-  //     var resultBetweenY = this.cYFirst - this.cYSecond;
-
-  //     if (Math.abs(resultBetweenX) > Math.abs(resultBetweenY)) {
-  //       document.getElementById("demo").innerHTML = "Pasirinktas atstumas-   " + Math.abs(resultBetweenX) + " pixels";
-  //     } else {
-  //       document.getElementById("demo").innerHTML = "Pasirinktas atstumas-   " + Math.abs(resultBetweenY) + " pixels";
-  //     }
-
-  //     this.indexForCoordToShow = 1;
-  //   }
-  // }
+    this.plan = planObj;
+    this._apiService.addPlan(this.plan).subscribe((plan) => {
+      alert("Planas užregistruotas sėkmingai!")
+      this.planListPage();
+    }, (error) => {
+      console.log(error);
+      alert("Atsiprašome, įvyko klaida.")
+    });
+  }
 }

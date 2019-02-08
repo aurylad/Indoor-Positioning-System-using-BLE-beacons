@@ -14,43 +14,45 @@
       <div class="row no-gutters">
         <div class="col-md-4" no-float style="background-color:lavender;">
 
-          <form (ngSubmit)="processForm()" class="addPlanForm">
-            <H3>Plano informacija</H3><br>
+          <div class="container">
+            <h3>Plano duomenys</h3>
+            <hr>
+            <form (ngSubmit)="processForm($event)">
 
-            <div class="form group">
-
-              <!----------------- Picture upload ---------------------->
-              <label class="custom-file-upload">
-                <input type="file" id="uploadButton" (change)="imgUplaod()" />
-                <i class="fa fa-cloud-upload"></i> <b>Įkelti planą</b>
-              </label>
-              <!------------------  ----------------------------------->
-
-              <br><br>
-              <label for="planName">Plano pavadinimas</label>
-              <input type="text" name="planName" class="form-control" placeholder="Įveskite plano pavadinimą...">
-              <br>
-
-              <!-- Checkbox for meassuring tool on/off -->
-              Matavimo įrankis:
-              <div class="onoffswitch">
-                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" (click)="measuringToolCheckBox()">
-                <label class="onoffswitch-label" for="myonoffswitch">
-                  <span class="onoffswitch-inner"></span>
-                  <span class="onoffswitch-switch"></span>
+              <div class="form-group">
+                <!----------------- Picture upload ---------------------->
+                <label class="custom-file-upload">
+                  <input type="file" id="uploadButton" (change)="imgUplaod()" />
+                  <i class="fa fa-cloud-upload"></i> <b>Įkelti planą</b>
                 </label>
+                <!------------------  ----------------------------------->
               </div>
 
-              <!-- Container for coordinates view  -->
-              <p id="demo"></p>
+              <div class="form-group">
+                <label for="planName"><b><font color="#585858">Plano pavadinimas:</font></b></label>
+                <input class="form-control" name="planName" id="planName" placeholder="Įveskite plano pavadinimą...">
+              </div>
 
-              <label for="planName">Atstumas (cm)</label>
-              <input type="text" id="measureCheckBox" name="planName" class="form-control" placeholder="Pasirinkite atkarpą žemėlapyje...">
+              <!-- Checkbox for measuring tool -->
+              <label for="myonoffswitch"><b>Matavimo įrankis:</b></label>
+              <div class="form-group">
+                <div class="onoffswitch">
+                  <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" (click)="measuringToolCheckBox()">
+                  <label class="onoffswitch-label" for="myonoffswitch">
+                    <span class="onoffswitch-inner"></span>
+                    <span class="onoffswitch-switch"></span>
+                  </label>
+                </div>
+              </div>
 
-            </div>
-            <br>
-            <input type="submit" value="save" class="btn btn-success">
-          </form>
+              <div class="form-group">
+                <label for="measureCheckBox"><b>Atstumas (cm):</b></label>
+                <input class="form-control" id="measureCheckBox" placeholder="Įveskite atstumą tarp taškų...">
+              </div>
+
+              <button type="submit" class="btn btn-primary">Išsaugoti</button>
+            </form>
+          </div>
 
         </div>
 
@@ -68,7 +70,14 @@
       </div>
     </div>
   </div>
-
+  <div class="info-box display--flex align-items--center">
+    <div class="info-box-icon display--inline-block margin-right--small">
+      <i class="icon icon-circle info-box-icon-circle font-size--larger"></i>
+      <i class="icon icon-i info-box-icon-i"></i>
+    </div>
+    <div class="info-box-text display--inline-block">
+      You can drag the marker on the map to choose the address or use the text field for searching. </div>
+  </div>
 </body>
 
 </html>
