@@ -13,11 +13,35 @@ import { NgbdratingBasicComponent } from './rating/rating.component';
 import { NgbdtabsBasicComponent } from './tabs/tabs.component';
 import { NgbdtimepickerBasicComponent } from './timepicker/timepicker.component';
 import { NgbdtypeheadBasicComponent } from './typehead/typehead.component';
+import { NgbdplanUploadBasicComponent } from './plan-upload/plan-upload.component';
+import {BeaconRegComponent} from './beacon-reg/beacon-reg.component';
 
 export const ComponentsRoutes: Routes = [
   {
     path: '',
     children: [
+      {
+        path: 'plan-upload',
+        component: NgbdplanUploadBasicComponent,
+        data: {
+          title: 'Plano įkėlimas',
+          urls: [
+            { title: 'Pagrindinis', url: '/dashboard' },
+            { title: 'Plano įkėlimas' }
+          ]
+        }
+      },
+      {
+        path: 'beacon-reg',
+        component: BeaconRegComponent,
+        data: {
+          title: 'Siųstuvų registracija',
+          urls: [
+            { title: 'Pagrindinis', url: '/dashboard' },
+            { title: 'Siųstuvų registracija' }
+          ]
+        }
+      },
       {
         path: 'progressbar',
         component: NgbdpregressbarBasicComponent,

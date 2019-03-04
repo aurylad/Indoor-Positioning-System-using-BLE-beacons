@@ -20,6 +20,9 @@ import { NgbdratingBasicComponent } from './rating/rating.component';
 import { NgbdtabsBasicComponent } from './tabs/tabs.component';
 import { NgbdtimepickerBasicComponent } from './timepicker/timepicker.component';
 import { NgbdtypeheadBasicComponent } from './typehead/typehead.component';
+import { NgbdplanUploadBasicComponent } from './plan-upload/plan-upload.component';
+import { BeaconRegComponent } from './beacon-reg/beacon-reg.component';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -43,6 +46,8 @@ import { NgbdtypeheadBasicComponent } from './typehead/typehead.component';
     NgbdtabsBasicComponent,
     NgbdtimepickerBasicComponent,
     NgbdtypeheadBasicComponent,
+    NgbdplanUploadBasicComponent,
+    BeaconRegComponent,
   ]
 })
 export class ComponentsModule {}

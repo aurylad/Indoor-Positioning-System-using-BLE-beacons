@@ -1,0 +1,109 @@
+<ngb-alert *ngIf="successMessage" type="success" (close)="successMessage = null">{{ successMessage }}
+</ngb-alert>
+<div class="col-md-12">
+  <div class="card">
+    <div class="card-body">
+      <ngb-tabset>
+        <ngb-tab title="Registracija plane">
+          <ng-template ngbTabContent>
+            <br>
+
+            <div class="col-md-12">
+              <div class="card">
+                <div class="card-body">
+
+
+
+                </div>
+              </div>
+            </div>
+            <!------------------------------- Testing area ----------------------------------------------------------->
+            <select [(ngModel)]="selectedItem">
+              <option *ngFor='let beacon of beacons' [value]="beacon.id">{{beacon.beaconId}}</option>
+            </select>
+
+            <select [(ngModel)]="selectedItem">
+              <option *ngFor='let plan of plans' [value]="plan.planName">{{plan.planName}}</option>
+            </select>
+
+            <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
+              <button class="btn btn-outline-primary" ngbDropdownToggle>Drop me</button>
+              <div class="dropdown-menu" ngbDropdownMenu>
+                <button class="dropdown-item">One</button>
+                <button class="dropdown-item">Two</button>
+                <button class="dropdown-item">Four!</button>
+              </div>
+            </div>
+
+            <!-- <mat-form-field>
+              <mat-select placeholder="Favorite food">
+                <mat-option *ngFor="let plan of plans" [value]="plan.planName">
+                  {{plan.planName}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field> -->
+            
+            <!-- <mat-checkbox>Check me!</mat-checkbox> -->
+
+ 
+            <!-- Beacons table -->
+            <table>
+              <thead>
+                <th>Id</th>
+                <th>BeaconId</th>
+              </thead>
+              <tbody>
+                <tr *ngFor='let beacon of beacons'>
+                  <td>{{beacon.id}}</td>
+                  <td>{{beacon.beaconId}}</td>
+                </tr>
+              </tbody>
+            </table>
+            <!-- Plans table -->
+            <table>
+              <thead>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Width</th>
+                <th>Height</th>
+                <th>Scale</th>
+              </thead>
+              <tbody>
+                <tr *ngFor='let plan of plans'>
+                  <td>{{plan.id}}</td>
+                  <td>{{plan.planName}}</td>
+                  <td>{{plan.planWidth}}</td>
+                  <td>{{plan.planHeight}}</td>
+                  <td>{{plan.planScale}}</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <!----------------------------------------------  ----------------------------------------------------------->
+          </ng-template>
+        </ngb-tab>
+        <ngb-tab title="Siųstuvo registracija">
+          <ng-template ngbTabContent>
+            <br>
+            <div class="col-md-5">
+              <form (ngSubmit)="processBeaconRegForm()">
+                <div class="form-group">
+                  <label for="beaconId">SIŲSTUVO KODAS:</label>
+                  <div class="input-group">
+                    <input type="text" class="form-control" name="beaconId" placeholder="Įveskite siųstuvo koda..."
+                      [(ngModel)]="beacon.beaconId">
+                    <span class="input-group-btn">
+                      <input type="submit" value="IŠSAUGOTI" class="btn btn-success">
+                    </span>
+                  </div>
+                </div>
+              </form>
+              <h6 class="card-subtitle">* Ši forma skirta sistemoje užregistruoti naują prietaisą, vėliau šį prietaisą
+                galite užregistruoti įkeltame plane.</h6>
+            </div>
+          </ng-template>
+        </ngb-tab>
+      </ngb-tabset>
+    </div>
+  </div>
+</div>

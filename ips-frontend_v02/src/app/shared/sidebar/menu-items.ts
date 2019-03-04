@@ -11,8 +11,24 @@ export const ROUTES: RouteInfo[] = [
   },
   {
     path: '/starter',
-    title: 'Starter Page',
+    title: 'Pagrindinis',
     icon: 'mdi mdi-gauge',
+    class: '',
+    extralink: false,
+    submenu: []
+  },
+  {
+    path: '/component/plan-upload',
+    title: 'Plano įkėlimas',
+    icon: 'mdi mdi-google-maps',
+    class: '',
+    extralink: false,
+    submenu: []
+  },
+  {
+    path: '/component/beacon-reg',
+    title: 'Siųstuvų registracija',
+    icon: 'mdi mdi-google-circles-extended',
     class: '',
     extralink: false,
     submenu: []

@@ -175,6 +175,7 @@ paths:
       parameters:
         - in: body
           name: beacon
+          required: true
           schema:
             $ref: '#/definitions/Beacon'
       responses:
@@ -188,6 +189,7 @@ paths:
       parameters:
         - in: body
           name: beacon
+          required: true
           schema:
             $ref: '#/definitions/Beacon'
       responses:

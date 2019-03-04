@@ -1,6 +1,10 @@
 import * as $ from 'jquery';
 import { BrowserModule } from '@angular/platform-browser';
+
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatInputModule, MatButtonModule, MatSelectModule, MatIconModule, MatCheckboxModule } from '@angular/material';
+import { BeaconRegComponent } from './component/beacon-reg/beacon-reg.component'
+
 import {
   CommonModule,
   LocationStrategy,
@@ -22,6 +26,7 @@ import { BreadcrumbComponent } from './shared/breadcrumb/breadcrumb.component';
 import { Approutes } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SpinnerComponent } from './shared/spinner.component';
+import { from } from 'rxjs';
 
 @NgModule({
   declarations: [
@@ -35,12 +40,18 @@ import { SpinnerComponent } from './shared/spinner.component';
   imports: [
     CommonModule,
     BrowserModule,
-    BrowserAnimationsModule,
     FormsModule,
     HttpClientModule,
     NgbModule.forRoot(),
-    RouterModule.forRoot(Approutes, { useHash: false })
+    RouterModule.forRoot(Approutes, { useHash: false }),
+    MatInputModule,
+    MatButtonModule,
+    MatSelectModule,
+    MatIconModule,
+    MatCheckboxModule,
+    BrowserAnimationsModule
   ],
+
   providers: [
     {
       provide: LocationStrategy,

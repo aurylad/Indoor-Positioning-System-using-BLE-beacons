@@ -1,0 +1,58 @@
+<ngb-alert *ngIf="successMessage" type="success" (close)="successMessage = null">{{ successMessage }}
+</ngb-alert>
+<div class="row">
+  <div class="col-md-3 col-xlg-2">
+    <div class="card">
+      <div class="card-body">
+        <h3 class="card-title">Plano duomenys</h3>
+        <h6 class="card-subtitle">Norėdami įkelti planą, pateikite visus žemiau prašomus duomenis</h6>
+        <form (ngSubmit)="processForm($event)">
+
+          <label class="btn btn-block btn-outline-secondary">
+            Įkelti failą&hellip; <input type="file" style="display: none;" id="uploadButton" (change)="imgUplaod()"
+              accept="image/png, image/jpeg">
+          </label>
+
+          <p id="fileName"></p>
+
+          <div class="form-group">
+            <label for="planName">PLANO PAVADINIMAS:</label>
+            <input class="form-control" name="planName" id="planName" placeholder="Įveskite plano pavadinimą...">
+          </div>
+
+          <!-- Checkbox for measuring tool -->
+          <label for="myonoffswitch">MATAVIMO ĮRANKIS:</label>
+          <div class="form-group">
+            <div class="onoffswitch">
+              <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch"
+                (click)="measuringToolCheckBox()">
+              <label class="onoffswitch-label" for="myonoffswitch">
+                <span class="onoffswitch-inner"></span>
+                <span class="onoffswitch-switch"></span>
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="measureCheckBox">ATSTUMAS (CM):</label>
+            <input class="form-control" id="measureCheckBox" placeholder="Įveskite atstumą tarp taškų...">
+          </div>
+          <h6 class="card-subtitle">Pažymėkite du taškus plane, tuomet nurodykite atstumą tarp jų centimetrais. Tai gali
+            būti durys, langas ir t.t. Tai svarbu tiksliam vietos nustatymui.</h6>
+          <button type="submit" class="btn btn-block btn-success">IŠSAUGOTI</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-9 col-xlg-8">
+    <div class="card">
+      <div class="card-body">
+        <h3 class="card-title">Plano vaizdas </h3>
+        <h6 class="card-subtitle">Aktyvavę matavimo įrankį, gali pažymėti du taškus plane</h6>
+        <canvas id="myCanvas" (click)="measuringToolCheckBox($event)">
+          Your browser does not support the canvas element.
+        </canvas>
+      </div>
+    </div>
+  </div>
+</div>
