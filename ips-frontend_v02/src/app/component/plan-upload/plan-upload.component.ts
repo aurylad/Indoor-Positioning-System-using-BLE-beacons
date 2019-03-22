@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 
+
 @Component({
   selector: 'app-plan-upload',
   templateUrl: './plan-upload.component.html',
@@ -47,11 +48,13 @@ export class NgbdplanUploadBasicComponent implements OnInit {
         const ctx = canvas.getContext("2d");
         canvas.width = this.img.naturalWidth;
         canvas.height = this.img.naturalHeight;
-        ctx.drawImage(this.img, 0, 0);
-        console.log(this.img.naturalWidth);
-        console.log(this.img.naturalHeight);
+        ctx.drawImage(this.img, 0, 0);        
+        // console.log(this.img.naturalWidth);
+        // console.log(this.img.naturalHeight);
       }
       this.img.src = reader.result as string;
+      console.log(reader.result);
+      
     }
     reader.readAsDataURL(input.files[0]);
     document.getElementById("fileName").innerHTML = "Įkelta failas - " + input.files[0].name;
@@ -121,7 +124,6 @@ export class NgbdplanUploadBasicComponent implements OnInit {
     const planObj = <Plan>{
       planName: planName,
       planImage: this.img.src,
-      // planImage: "sadfgh6fd5aesdf645gv6fhyg4srd6fc",
       planWidth: this.img.naturalWidth,
       planHeight: this.img.naturalHeight,
       planScale: +scale.toFixed(2)
@@ -130,7 +132,6 @@ export class NgbdplanUploadBasicComponent implements OnInit {
     this.plan = planObj;
     this._apiService.addPlan(this.plan).subscribe((plan) => {
       this._success.next(`Operacija atlikta sėkmingai!`);
-      // this.planListPage();
     }, (error) => {
       console.log(error);
       alert("Atsiprašome, įvyko klaida. Patikrinkite ar planas tokiu pavadinimu jau nėra užregistruotas.")

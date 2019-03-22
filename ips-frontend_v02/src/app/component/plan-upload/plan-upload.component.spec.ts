@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PlanUploadComponent } from './plan-upload.component';
+import { NgbdplanUploadBasicComponent } from './plan-upload.component';
 
 describe('PlanUploadComponent', () => {
-  let component: PlanUploadComponent;
-  let fixture: ComponentFixture<PlanUploadComponent>;
+  let component: NgbdplanUploadBasicComponent;
+  let fixture: ComponentFixture<NgbdplanUploadBasicComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PlanUploadComponent ]
+      declarations: [ NgbdplanUploadBasicComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PlanUploadComponent);
+    fixture = TestBed.createComponent(NgbdplanUploadBasicComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

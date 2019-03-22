@@ -7,81 +7,108 @@
         <ngb-tab title="Registracija plane">
           <ng-template ngbTabContent>
             <br>
-
+            <!-- Top selection meniu bar -->
             <div class="col-md-12">
-              <div class="card">
-                <div class="card-body">
+              <mat-form-field>
+                <mat-select placeholder="Pasirinkti planą" (selectionChange)="onMapSelected($event.value)">
+                  <mat-option *ngFor="let plan of plan" [value]="plan.id">
+                    {{plan.planName}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="row">
+              <div class="col-md-9 col-xlg-8">
 
 
 
-                </div>
+
+
+
+                <canvas id="beaconRegCanvas" (click)="selectBeaconPlace($event)">
+                  Your browser does not support the canvas element.
+                </canvas>
+
+
+
+
+
+
+
+              </div>
+              <div class="col-md-3 col-xlg-2">
+                <h3 class="card-title">Galimi siųstuvai</h3>
+                <h6 class="card-subtitle">Pasirinkite siųstuvą iš sąrašo, pažymėtas siųstuvas atsiras plane. Nutemkite
+                  atsiradusį siųstuvą į norimą vietą.</h6>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                <table mat-table [dataSource]="unusedBeaconsList" class="mat-elevation-z8">
+
+                  <!-- Checkbox Column -->
+                  <ng-container matColumnDef="select">
+                    <th mat-header-cell *matHeaderCellDef></th>
+                    <td mat-cell *matCellDef="let row">
+                      <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
+                        [checked]="selection.isSelected(row)">
+                      </mat-checkbox>
+                    </td>
+                  </ng-container>
+
+
+                  <!-- Position Column -->
+                  <ng-container matColumnDef="id">
+                    <th mat-header-cell *matHeaderCellDef> Nr. </th>
+                    <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+                  </ng-container>
+
+                  <!-- Name Column -->
+                  <ng-container matColumnDef="beaconId">
+                    <th mat-header-cell *matHeaderCellDef> Siustuvas </th>
+                    <td mat-cell *matCellDef="let element"> {{element.beaconId}} </td>
+                  </ng-container>
+
+                  <tr mat-header-row *matHeaderRowDef="displayedColumnsBeaconReg"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumnsBeaconReg;" (click)="selection.toggle(row)">
+                  </tr>
+                </table>
+                <br>
+                <button (click)="saveBeacOnPlan()" class="btn btn-block btn-success">Išsaugoti</button>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
               </div>
             </div>
-            <!------------------------------- Testing area ----------------------------------------------------------->
-            <select [(ngModel)]="selectedItem">
-              <option *ngFor='let beacon of beacons' [value]="beacon.id">{{beacon.beaconId}}</option>
-            </select>
-
-            <select [(ngModel)]="selectedItem">
-              <option *ngFor='let plan of plans' [value]="plan.planName">{{plan.planName}}</option>
-            </select>
-
-            <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
-              <button class="btn btn-outline-primary" ngbDropdownToggle>Drop me</button>
-              <div class="dropdown-menu" ngbDropdownMenu>
-                <button class="dropdown-item">One</button>
-                <button class="dropdown-item">Two</button>
-                <button class="dropdown-item">Four!</button>
-              </div>
-            </div>
-
-            <!-- <mat-form-field>
-              <mat-select placeholder="Favorite food">
-                <mat-option *ngFor="let plan of plans" [value]="plan.planName">
-                  {{plan.planName}}
-                </mat-option>
-              </mat-select>
-            </mat-form-field> -->
-            
-            <!-- <mat-checkbox>Check me!</mat-checkbox> -->
-
- 
-            <!-- Beacons table -->
-            <table>
-              <thead>
-                <th>Id</th>
-                <th>BeaconId</th>
-              </thead>
-              <tbody>
-                <tr *ngFor='let beacon of beacons'>
-                  <td>{{beacon.id}}</td>
-                  <td>{{beacon.beaconId}}</td>
-                </tr>
-              </tbody>
-            </table>
-            <!-- Plans table -->
-            <table>
-              <thead>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Width</th>
-                <th>Height</th>
-                <th>Scale</th>
-              </thead>
-              <tbody>
-                <tr *ngFor='let plan of plans'>
-                  <td>{{plan.id}}</td>
-                  <td>{{plan.planName}}</td>
-                  <td>{{plan.planWidth}}</td>
-                  <td>{{plan.planHeight}}</td>
-                  <td>{{plan.planScale}}</td>
-                </tr>
-              </tbody>
-            </table>
-
-            <!----------------------------------------------  ----------------------------------------------------------->
           </ng-template>
         </ngb-tab>
+        <!--------------------------------- Beacon registration tab ---------------------------------->
         <ngb-tab title="Siųstuvo registracija">
           <ng-template ngbTabContent>
             <br>
@@ -91,7 +118,7 @@
                   <label for="beaconId">SIŲSTUVO KODAS:</label>
                   <div class="input-group">
                     <input type="text" class="form-control" name="beaconId" placeholder="Įveskite siųstuvo koda..."
-                      [(ngModel)]="beacon.beaconId">
+                      [(ngModel)]="formBeacon.beaconId">
                     <span class="input-group-btn">
                       <input type="submit" value="IŠSAUGOTI" class="btn btn-success">
                     </span>
@@ -100,6 +127,25 @@
               </form>
               <h6 class="card-subtitle">* Ši forma skirta sistemoje užregistruoti naują prietaisą, vėliau šį prietaisą
                 galite užregistruoti įkeltame plane.</h6>
+            </div>
+
+            <div class="col-md-5">
+              <br>
+              <h3 class="card-title">Sistemoje užregistruoti siųstuvai</h3>
+              <table mat-table [dataSource]="beacons" class="mat-elevation-z8">
+                <ng-container matColumnDef="id">
+                  <th mat-header-cell *matHeaderCellDef> Nr. </th>
+                  <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="beaconId">
+                  <th mat-header-cell *matHeaderCellDef> Siųstuvas </th>
+                  <td mat-cell *matCellDef="let element"> {{element.beaconId}} </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumnsBeaconList"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumnsBeaconList;"></tr>
+              </table>
             </div>
           </ng-template>
         </ngb-tab>

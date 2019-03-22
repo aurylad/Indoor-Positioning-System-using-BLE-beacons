@@ -153,6 +153,20 @@ paths:
             $ref: '#/definitions/Log'
  
                   # BEACONS
+                  
+  /free-beacon:
+    get:
+      operationId: getFreeBeacons
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: >-
+            Successful response, with a representation of the free beacons data.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Beacon'
   
   /beacon:
     get:
@@ -167,7 +181,7 @@ paths:
             type: array
             items:
               $ref: '#/definitions/Beacon'
-
+    
     put:
       operationId: addBeacon
       consumes:

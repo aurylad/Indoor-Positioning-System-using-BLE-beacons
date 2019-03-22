@@ -1,9 +1,8 @@
 import * as $ from 'jquery';
 import { BrowserModule } from '@angular/platform-browser';
 
+import 'hammerjs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatInputModule, MatButtonModule, MatSelectModule, MatIconModule, MatCheckboxModule } from '@angular/material';
-import { BeaconRegComponent } from './component/beacon-reg/beacon-reg.component'
 
 import {
   CommonModule,
@@ -44,11 +43,6 @@ import { from } from 'rxjs';
     HttpClientModule,
     NgbModule.forRoot(),
     RouterModule.forRoot(Approutes, { useHash: false }),
-    MatInputModule,
-    MatButtonModule,
-    MatSelectModule,
-    MatIconModule,
-    MatCheckboxModule,
     BrowserAnimationsModule
   ],
 

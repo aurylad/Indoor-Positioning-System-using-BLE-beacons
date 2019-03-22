@@ -22,6 +22,10 @@ import { NgbdtimepickerBasicComponent } from './timepicker/timepicker.component'
 import { NgbdtypeheadBasicComponent } from './typehead/typehead.component';
 import { NgbdplanUploadBasicComponent } from './plan-upload/plan-upload.component';
 import { BeaconRegComponent } from './beacon-reg/beacon-reg.component';
+import {MatTableModule} from '@angular/material/table';
+
+import { MatInputModule, MatSelectModule, MatCheckboxModule } from '@angular/material';
+
 
 @NgModule({
   imports: [
@@ -30,7 +34,11 @@ import { BeaconRegComponent } from './beacon-reg/beacon-reg.component';
     FormsModule,
     ReactiveFormsModule,
     JsonpModule,
-    NgbModule
+    NgbModule,
+    MatSelectModule,
+    MatInputModule,
+    MatTableModule,
+    MatCheckboxModule
   ],
   declarations: [
     NgbdpregressbarBasicComponent,
@@ -50,4 +58,4 @@ import { BeaconRegComponent } from './beacon-reg/beacon-reg.component';
     BeaconRegComponent,
   ]
 })
-export class ComponentsModule {}
+export class ComponentsModule { }
