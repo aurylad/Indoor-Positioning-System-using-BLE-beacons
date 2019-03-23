@@ -23,8 +23,16 @@ import { NgbdtypeheadBasicComponent } from './typehead/typehead.component';
 import { NgbdplanUploadBasicComponent } from './plan-upload/plan-upload.component';
 import { BeaconRegComponent } from './beacon-reg/beacon-reg.component';
 import {MatTableModule} from '@angular/material/table';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatRadioModule} from '@angular/material/radio';
+import {MatButtonModule} from '@angular/material/button';
+import { MatPaginatorModule } from '@angular/material';
+
+
+
 
 import { MatInputModule, MatSelectModule, MatCheckboxModule } from '@angular/material';
+import { ObjectRegComponent } from './object-reg/object-reg.component';
 
 
 @NgModule({
@@ -38,7 +46,11 @@ import { MatInputModule, MatSelectModule, MatCheckboxModule } from '@angular/mat
     MatSelectModule,
     MatInputModule,
     MatTableModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatFormFieldModule,
+    MatRadioModule,
+    MatButtonModule,
+    MatPaginatorModule
   ],
   declarations: [
     NgbdpregressbarBasicComponent,
@@ -56,6 +68,7 @@ import { MatInputModule, MatSelectModule, MatCheckboxModule } from '@angular/mat
     NgbdtypeheadBasicComponent,
     NgbdplanUploadBasicComponent,
     BeaconRegComponent,
+    ObjectRegComponent,
   ]
 })
 export class ComponentsModule { }

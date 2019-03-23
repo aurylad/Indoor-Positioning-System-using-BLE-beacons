@@ -15,6 +15,8 @@ import { NgbdtimepickerBasicComponent } from './timepicker/timepicker.component'
 import { NgbdtypeheadBasicComponent } from './typehead/typehead.component';
 import { NgbdplanUploadBasicComponent } from './plan-upload/plan-upload.component';
 import {BeaconRegComponent} from './beacon-reg/beacon-reg.component';
+import {ObjectRegComponent} from './object-reg/object-reg.component';
+
 
 export const ComponentsRoutes: Routes = [
   {
@@ -39,6 +41,17 @@ export const ComponentsRoutes: Routes = [
           urls: [
             { title: 'Pagrindinis', url: '/dashboard' },
             { title: 'Siųstuvų registracija' }
+          ]
+        }
+      },
+      {
+        path: 'object-reg',
+        component: ObjectRegComponent,
+        data: {
+          title: 'Objektų registracija',
+          urls: [
+            { title: 'Pagrindinis', url: '/dashboard' },
+            { title: 'Objektų registracija' }
           ]
         }
       },
