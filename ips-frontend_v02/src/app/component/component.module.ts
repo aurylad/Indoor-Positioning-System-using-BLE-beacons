@@ -22,17 +22,20 @@ import { NgbdtimepickerBasicComponent } from './timepicker/timepicker.component'
 import { NgbdtypeheadBasicComponent } from './typehead/typehead.component';
 import { NgbdplanUploadBasicComponent } from './plan-upload/plan-upload.component';
 import { BeaconRegComponent } from './beacon-reg/beacon-reg.component';
-import {MatTableModule} from '@angular/material/table';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatRadioModule} from '@angular/material/radio';
-import {MatButtonModule} from '@angular/material/button';
+import { MatTableModule } from '@angular/material/table';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatButtonModule } from '@angular/material/button';
 import { MatPaginatorModule } from '@angular/material';
+import { MatStepperModule } from '@angular/material/stepper';
+
 
 
 
 
 import { MatInputModule, MatSelectModule, MatCheckboxModule } from '@angular/material';
 import { ObjectRegComponent } from './object-reg/object-reg.component';
+import { ObjectRenderingComponent } from './object-rendering/object-rendering.component';
 
 
 @NgModule({
@@ -50,7 +53,8 @@ import { ObjectRegComponent } from './object-reg/object-reg.component';
     MatFormFieldModule,
     MatRadioModule,
     MatButtonModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatStepperModule
   ],
   declarations: [
     NgbdpregressbarBasicComponent,
@@ -69,6 +73,7 @@ import { ObjectRegComponent } from './object-reg/object-reg.component';
     NgbdplanUploadBasicComponent,
     BeaconRegComponent,
     ObjectRegComponent,
+    ObjectRenderingComponent,
   ]
 })
 export class ComponentsModule { }

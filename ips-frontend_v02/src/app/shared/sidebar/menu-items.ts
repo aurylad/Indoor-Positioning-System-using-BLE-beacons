@@ -32,10 +32,19 @@ export const ROUTES: RouteInfo[] = [
     class: '',
     extralink: false,
     submenu: []
-  },{
+  },
+  {
     path: '/component/object-reg',
     title: 'Objekto registracija',
-    icon: 'mdi mdi-account-box',
+    icon: 'mdi mdi-account-box',                      
+    class: '',
+    extralink: false,
+    submenu: []
+  },
+  {
+    path: '/component/object-rendering',
+    title: 'Objektų atvaizdavimas',
+    icon: 'mdi mdi-satellite',
     class: '',
     extralink: false,
     submenu: []

@@ -116,15 +116,16 @@ paths:
             items:
               $ref: '#/definitions/Log'
               
-  /log/{planId}:
+  /log/{id}:
     get:
       operationId: getLogByPlanId
       produces:
         - application/json
       parameters:
         - in: path
-          name: planId
-          type: string
+          name: id
+          type: integer
+          format: int64
           required: true
           description: Numeric ID of the plan to get log data.
       responses:
@@ -132,17 +133,20 @@ paths:
           description: >-
             Successful response, with a representation of plan.
           schema:
-            $ref: '#/definitions/Log'
+            type: array
+            items:
+              $ref: '#/definitions/Log'
             
-  /log/object/{objectID}:
+  /log/object/{id}:
     get:
       operationId: getLogByObjectId
       produces:
         - application/json
       parameters:
         - in: path
-          name: objectID
-          type: string
+          name: id
+          type: integer
+          format: int64
           required: true
           description: Numeric ID of the object to get log data.
       responses:
@@ -150,24 +154,12 @@ paths:
           description: >-
             Successful response, with a representation of plan.
           schema:
-            $ref: '#/definitions/Log'
+            type: array
+            items:
+              $ref: '#/definitions/Log'
  
                   # BEACONS
                   
-  /free-beacon:
-    get:
-      operationId: getFreeBeacons
-      produces:
-        - application/json
-      responses:
-        '200':
-          description: >-
-            Successful response, with a representation of the free beacons data.
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/Beacon'
-  
   /beacon:
     get:
       operationId: getBeacon

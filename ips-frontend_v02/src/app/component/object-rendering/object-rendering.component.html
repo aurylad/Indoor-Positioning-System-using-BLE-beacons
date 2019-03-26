@@ -1,0 +1,110 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-body">
+
+        <!-- <mat-horizontal-stepper [linear]="isLinear" #stepper>
+          <mat-step [stepControl]="firstFormGroup">
+            <form [formGroup]="firstFormGroup">
+              <ng-template matStepLabel>Pasirinkite planą</ng-template>
+
+              <mat-form-field>
+                <mat-select placeholder="Pasirinkti..." (selectionChange)="onMapSelected($event.value)">
+                  <mat-option *ngFor="let plans of plans" [value]="plans.id">
+                    {{plans.planName}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+
+              <div align="right">
+                <button mat-button matStepperNext><b>Kitas</b></button>
+              </div>
+            </form>
+          </mat-step>
+          <mat-step [stepControl]="secondFormGroup">
+            <form [formGroup]="secondFormGroup">
+              <ng-template matStepLabel>Pasirinkite objektą</ng-template>
+
+              <mat-form-field>
+                <mat-select placeholder="Pasirinkti..." (selectionChange)="onObjectSelected($event.value)">
+                  <mat-option *ngFor="let trackedObjects of trackedObjects" [value]="trackedObjects">
+                    {{trackedObjects.objectName}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+
+              <div align="right">
+                <button mat-button matStepperPrevious>Atgal</button>
+                <button mat-button matStepperNext>Kitas</button>
+              </div>
+            </form>
+          </mat-step>
+          <mat-step>
+            <ng-template matStepLabel>Pradėti</ng-template>
+
+            <button class="btn btn-success" (click)="trigger()">IŠSAUGOTI</button>
+            <button class="btn btn-success" value="Click" id="start">TRIGGER</button>
+            <div align="right">
+              <button mat-button matStepperPrevious>Atgal</button>
+              <button mat-button (click)="stepper.reset()">Iš naujo</button>
+            </div>
+          </mat-step>
+        </mat-horizontal-stepper> -->
+
+
+
+
+        <mat-form-field>
+          <mat-select placeholder="Pasirinkti planą" (selectionChange)="onMapSelected($event.value)">
+            <mat-option *ngFor="let plans of plans" [value]="plans.id">
+              {{plans.planName}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        &nbsp;
+        <mat-form-field>
+          <mat-select placeholder="Pasirinkti objektą" (selectionChange)="onObjectSelected($event.value)">
+            <mat-option *ngFor="let trackedObjects of trackedObjects" [value]="trackedObjects">
+              {{trackedObjects.objectName}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+       
+       
+       
+        <datetime-range start="start" end="end"></datetime-range>
+
+
+
+        <br> 
+        <button class="btn btn-success" (click)="trigger()">IŠSAUGOTI</button>  
+        &nbsp;
+        <button class="btn btn-success" value="Click" id="start">TRIGGER</button>
+
+
+
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-body">
+
+        <!-- (click)="selectBeaconPlace($event)" -->
+        <div align="center">
+          <canvas id="objectsRenderingCanvas">
+            Your browser does not support the canvas element.
+          </canvas>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

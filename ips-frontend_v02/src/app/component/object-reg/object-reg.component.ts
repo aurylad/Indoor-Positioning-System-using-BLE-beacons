@@ -19,19 +19,21 @@ export class ObjectRegComponent implements OnInit {
 
   private trackedObjects: TrackedObject[];
   displayedColumns: string[] = ['position', 'name', 'type', 'accessLevel', 'objectCode'];
-
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-
   userForm: any = {};
   staticAlertClosed = false;
   successMessage: string;
   private _success = new Subject<string>();
+
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+
+
   ngOnInit() {
     setTimeout(() => (this.staticAlertClosed = true), 20000);
     this._success.subscribe(message => (this.successMessage = message));
     this._success.pipe(debounceTime(5000)).subscribe(() => (this.successMessage = null));
     this.getTrackedObjects();
   }
+
 
   getTrackedObjects() {
     this._apiService.getObject().subscribe((trackedObjects) => {
@@ -42,8 +44,9 @@ export class ObjectRegComponent implements OnInit {
     return this.trackedObjects;
   }
 
+
   // private trackedObjectToSave: TrackedObject = {};
-  saveTrackedObject(trackedObjectToSave: TrackedObject = {}) {    
+  saveTrackedObject(trackedObjectToSave: TrackedObject = {}) {
     this._apiService.addObject(trackedObjectToSave).subscribe((trackedObjectToSave) => {
       this._success.next(`Operacija atlikta sėkmingai!`);
       this.getTrackedObjects();
@@ -53,8 +56,8 @@ export class ObjectRegComponent implements OnInit {
     });
   }
 
-  formData(objectForm: NgForm): void {
 
+  formData(objectForm: NgForm): void {
     if ((objectForm.value.objectName, objectForm.value.objectAccessLevel, objectForm.value.objectType) !== "") {
       var d = new Date();
       let objectCode: any;

@@ -16,6 +16,7 @@ import { NgbdtypeheadBasicComponent } from './typehead/typehead.component';
 import { NgbdplanUploadBasicComponent } from './plan-upload/plan-upload.component';
 import {BeaconRegComponent} from './beacon-reg/beacon-reg.component';
 import {ObjectRegComponent} from './object-reg/object-reg.component';
+import { ObjectRenderingComponent } from './object-rendering/object-rendering.component';
 
 
 export const ComponentsRoutes: Routes = [
@@ -52,6 +53,17 @@ export const ComponentsRoutes: Routes = [
           urls: [
             { title: 'Pagrindinis', url: '/dashboard' },
             { title: 'Objektų registracija' }
+          ]
+        }
+      },
+      {
+        path: 'object-rendering',
+        component: ObjectRenderingComponent,
+        data: {
+          title: 'Objektų atvaizdavimas',
+          urls: [
+            { title: 'Pagrindinis', url: '/dashboard' },
+            { title: 'Objektų atvaizdavimas' }
           ]
         }
       },

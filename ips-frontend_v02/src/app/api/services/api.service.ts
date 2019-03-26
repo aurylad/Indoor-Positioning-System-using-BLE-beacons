@@ -263,17 +263,17 @@ class ApiService extends __BaseService {
   }
 
   /**
-   * @param planId Numeric ID of the plan to get log data.
+   * @param id Numeric ID of the plan to get log data.
    * @return Successful response, with a representation of plan.
    */
-  getLogByPlanIdResponse(planId: string): __Observable<__StrictHttpResponse<Log>> {
+  getLogByPlanIdResponse(id: number): __Observable<__StrictHttpResponse<Array<Log>>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
 
     let req = new HttpRequest<any>(
       'GET',
-      this.rootUrl + `/log/${planId}`,
+      this.rootUrl + `/log/${id}`,
       __body,
       {
         headers: __headers,
@@ -284,32 +284,32 @@ class ApiService extends __BaseService {
     return this.http.request<any>(req).pipe(
       __filter(_r => _r instanceof HttpResponse),
       __map((_r) => {
-        return _r as __StrictHttpResponse<Log>;
+        return _r as __StrictHttpResponse<Array<Log>>;
       })
     );
   }
   /**
-   * @param planId Numeric ID of the plan to get log data.
+   * @param id Numeric ID of the plan to get log data.
    * @return Successful response, with a representation of plan.
    */
-  getLogByPlanId(planId: string): __Observable<Log> {
-    return this.getLogByPlanIdResponse(planId).pipe(
-      __map(_r => _r.body as Log)
+  getLogByPlanId(id: number): __Observable<Array<Log>> {
+    return this.getLogByPlanIdResponse(id).pipe(
+      __map(_r => _r.body as Array<Log>)
     );
   }
 
   /**
-   * @param objectID Numeric ID of the object to get log data.
+   * @param id Numeric ID of the object to get log data.
    * @return Successful response, with a representation of plan.
    */
-  getLogByObjectIdResponse(objectID: string): __Observable<__StrictHttpResponse<Log>> {
+  getLogByObjectIdResponse(id: number): __Observable<__StrictHttpResponse<Array<Log>>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
 
     let req = new HttpRequest<any>(
       'GET',
-      this.rootUrl + `/log/object/${objectID}`,
+      this.rootUrl + `/log/object/${id}`,
       __body,
       {
         headers: __headers,
@@ -320,17 +320,17 @@ class ApiService extends __BaseService {
     return this.http.request<any>(req).pipe(
       __filter(_r => _r instanceof HttpResponse),
       __map((_r) => {
-        return _r as __StrictHttpResponse<Log>;
+        return _r as __StrictHttpResponse<Array<Log>>;
       })
     );
   }
   /**
-   * @param objectID Numeric ID of the object to get log data.
+   * @param id Numeric ID of the object to get log data.
    * @return Successful response, with a representation of plan.
    */
-  getLogByObjectId(objectID: string): __Observable<Log> {
-    return this.getLogByObjectIdResponse(objectID).pipe(
-      __map(_r => _r.body as Log)
+  getLogByObjectId(id: number): __Observable<Array<Log>> {
+    return this.getLogByObjectIdResponse(id).pipe(
+      __map(_r => _r.body as Array<Log>)
     );
   }
 
@@ -370,7 +370,7 @@ class ApiService extends __BaseService {
   /**
    * @param beacon undefined
    */
-  addBeaconResponse(beacon?: Beacon): __Observable<__StrictHttpResponse<null>> {
+  addBeaconResponse(beacon: Beacon): __Observable<__StrictHttpResponse<null>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -395,7 +395,7 @@ class ApiService extends __BaseService {
   /**
    * @param beacon undefined
    */
-  addBeacon(beacon?: Beacon): __Observable<null> {
+  addBeacon(beacon: Beacon): __Observable<null> {
     return this.addBeaconResponse(beacon).pipe(
       __map(_r => _r.body as null)
     );
@@ -404,7 +404,7 @@ class ApiService extends __BaseService {
   /**
    * @param beacon undefined
    */
-  updateBeaconResponse(beacon?: Beacon): __Observable<__StrictHttpResponse<null>> {
+  updateBeaconResponse(beacon: Beacon): __Observable<__StrictHttpResponse<null>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -429,7 +429,7 @@ class ApiService extends __BaseService {
   /**
    * @param beacon undefined
    */
-  updateBeacon(beacon?: Beacon): __Observable<null> {
+  updateBeacon(beacon: Beacon): __Observable<null> {
     return this.updateBeaconResponse(beacon).pipe(
       __map(_r => _r.body as null)
     );
@@ -850,6 +850,5 @@ class ApiService extends __BaseService {
 
 module ApiService {
 }
-
 
 export { ApiService }
