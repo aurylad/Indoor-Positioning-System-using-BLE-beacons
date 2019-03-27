@@ -74,7 +74,7 @@ public class DeviceDataRest implements DeviceDataApi {
 		System.out.println("Device id:    " + closestTransmitter.get(2));
 	
 
-		final ObjectEntity object = objectRepository.findOneByObjectId(String.valueOf(closestTransmitter.get(0)));
+		final ObjectEntity object = objectRepository.findOneByObjectCode(String.valueOf(closestTransmitter.get(0)));
 		final BeaconEntity beacon = beaconRepository.findOneByBeaconId( String.valueOf(closestTransmitter.get(2)));
 		System.out.println("Beacon:    " + beacon);
 		

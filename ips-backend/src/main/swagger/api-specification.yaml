@@ -381,6 +381,92 @@ paths:
             Successful response, with a representation of object.
           schema:
             $ref: '#/definitions/TrackedObject'
+            
+  /violations:
+    get:
+      operationId: getViolation
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: >-
+            Successful response, with a representation of the violations data.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Violations'
+    
+  /restricted-area:
+    get:
+      operationId: getRestrictedArea
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: >-
+            Successful response, with a representation of restricted area data.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/RestrictedArea'
+
+    put:
+      operationId: addRestrictedArea
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: object
+          schema:
+            $ref: '#/definitions/RestrictedArea'
+      responses:
+        '200':
+          description: OK
+    
+    post:
+      operationId: updateRestrictedArea
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: object
+          schema:
+            $ref: '#/definitions/RestrictedArea'
+      responses:
+        '200':
+          description: OK
+          
+  /restricted-area/{id}:
+    delete:
+      operationId: deleteRestrictedArea
+      parameters:
+        - in: path
+          name: id
+          type: integer
+          format: int64
+          required: true
+          description: Numeric ID of the restricted area to delete.
+      responses:
+        '200':
+          description: OK
+          
+    get:
+      operationId: getRestrictedAreaById
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          type: integer
+          format: int64
+          required: true
+          description: Numeric ID of the object to get.
+      responses:
+        '200':
+          description: >-
+            Successful response, with a representation of restricted area.
+          schema:
+            $ref: '#/definitions/RestrictedArea'
     
 definitions:
 
@@ -521,3 +607,52 @@ definitions:
       objectAccessLevel:
         type: string
         description: Which access level has object
+        
+  Violations:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      objectCode:
+        type: string
+        description: Object identification code
+      objectType:
+        type: string
+        description: What kinf of object 
+      objectName:
+        type: string
+      objectAccessLevel:
+        type: string
+        description: Which access level has object
+      ViolationDateTime:
+        type: string
+        format: date-time
+      RestrictedArea:
+        type: string
+      PlanName:
+        type: string
+ 
+  RestrictedArea:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      coordinateTopX:
+        type: number
+        format: float 
+      coordinateTopY:
+        type: number
+        format: float
+      coordinateBottomX:
+        type: number
+        format: float
+      coordinateBottomY:
+        type: number
+        format: float
+      planId:
+        type: integer
+        format: int64
+      
+      

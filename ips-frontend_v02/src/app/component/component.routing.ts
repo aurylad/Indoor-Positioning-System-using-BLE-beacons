@@ -14,9 +14,10 @@ import { NgbdtabsBasicComponent } from './tabs/tabs.component';
 import { NgbdtimepickerBasicComponent } from './timepicker/timepicker.component';
 import { NgbdtypeheadBasicComponent } from './typehead/typehead.component';
 import { NgbdplanUploadBasicComponent } from './plan-upload/plan-upload.component';
-import {BeaconRegComponent} from './beacon-reg/beacon-reg.component';
-import {ObjectRegComponent} from './object-reg/object-reg.component';
+import { BeaconRegComponent } from './beacon-reg/beacon-reg.component';
+import { ObjectRegComponent } from './object-reg/object-reg.component';
 import { ObjectRenderingComponent } from './object-rendering/object-rendering.component';
+import { RestrictedAreaRegComponent } from './restricted-area-reg/restricted-area-reg.component';
 
 
 export const ComponentsRoutes: Routes = [
@@ -64,6 +65,17 @@ export const ComponentsRoutes: Routes = [
           urls: [
             { title: 'Pagrindinis', url: '/dashboard' },
             { title: 'Objektų atvaizdavimas' }
+          ]
+        }
+      },
+      {
+        path: 'restricted-area-reg',
+        component: RestrictedAreaRegComponent,
+        data: {
+          title: 'Draudžiamų zonų nustatymas',
+          urls: [
+            { title: 'Pagrindinis', url: '/dashboard' },
+            { title: 'Draudžiamų zonų nustatymas' }
           ]
         }
       },

@@ -38,8 +38,8 @@ export class ObjectRenderingComponent implements OnInit {
     this.secondFormGroup = this._formBuilder.group({
       secondCtrl: ['', Validators.required]
     });
+    this.getLogs();
 
-   
     this.getObjects();
     this.getPlans();
   }
@@ -65,6 +65,8 @@ export class ObjectRenderingComponent implements OnInit {
   // --------------------------------------------------IF PLAN SELECTED----------------------------------------------//
   onMapSelected(selectedPlanId) {
     this._apiService.getPlanById(selectedPlanId).subscribe((plan) => {
+      console.log(selectedPlanId);
+      
       this.img.onload = () => {
         this.canvas = <HTMLCanvasElement>document.getElementById("objectsRenderingCanvas");
         this.ctx = this.canvas.getContext("2d");
@@ -138,6 +140,7 @@ export class ObjectRenderingComponent implements OnInit {
   getLogs() {
     this._apiService.getLog().subscribe((log) => {
       this.log = log
+      console.log(this.log);
     }, (error) => {
       console.log(error);
     })

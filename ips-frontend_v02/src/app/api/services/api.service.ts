@@ -13,6 +13,8 @@ import { Log } from '../models/log';
 import { Beacon } from '../models/beacon';
 import { BeaconInPlan } from '../models/beacon-in-plan';
 import { TrackedObject } from '../models/tracked-object';
+import { Violations } from '../models/violations';
+import { RestrictedArea } from '../models/restricted-area';
 @Injectable({
   providedIn: 'root',
 })
@@ -844,6 +846,210 @@ class ApiService extends __BaseService {
   getObjectById(id: number): __Observable<TrackedObject> {
     return this.getObjectByIdResponse(id).pipe(
       __map(_r => _r.body as TrackedObject)
+    );
+  }
+
+  /**
+   * @return Successful response, with a representation of the violations data.
+   */
+  getViolationResponse(): __Observable<__StrictHttpResponse<Array<Violations>>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+    let req = new HttpRequest<any>(
+      'GET',
+      this.rootUrl + `/violations`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<Array<Violations>>;
+      })
+    );
+  }
+  /**
+   * @return Successful response, with a representation of the violations data.
+   */
+  getViolation(): __Observable<Array<Violations>> {
+    return this.getViolationResponse().pipe(
+      __map(_r => _r.body as Array<Violations>)
+    );
+  }
+
+  /**
+   * @return Successful response, with a representation of restricted area data.
+   */
+  getRestrictedAreaResponse(): __Observable<__StrictHttpResponse<Array<RestrictedArea>>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+    let req = new HttpRequest<any>(
+      'GET',
+      this.rootUrl + `/restricted-area`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<Array<RestrictedArea>>;
+      })
+    );
+  }
+  /**
+   * @return Successful response, with a representation of restricted area data.
+   */
+  getRestrictedArea(): __Observable<Array<RestrictedArea>> {
+    return this.getRestrictedAreaResponse().pipe(
+      __map(_r => _r.body as Array<RestrictedArea>)
+    );
+  }
+
+  /**
+   * @param object undefined
+   */
+  addRestrictedAreaResponse(object?: RestrictedArea): __Observable<__StrictHttpResponse<null>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+    __body = object;
+    let req = new HttpRequest<any>(
+      'PUT',
+      this.rootUrl + `/restricted-area`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<null>;
+      })
+    );
+  }
+  /**
+   * @param object undefined
+   */
+  addRestrictedArea(object?: RestrictedArea): __Observable<null> {
+    return this.addRestrictedAreaResponse(object).pipe(
+      __map(_r => _r.body as null)
+    );
+  }
+
+  /**
+   * @param object undefined
+   */
+  updateRestrictedAreaResponse(object?: RestrictedArea): __Observable<__StrictHttpResponse<null>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+    __body = object;
+    let req = new HttpRequest<any>(
+      'POST',
+      this.rootUrl + `/restricted-area`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<null>;
+      })
+    );
+  }
+  /**
+   * @param object undefined
+   */
+  updateRestrictedArea(object?: RestrictedArea): __Observable<null> {
+    return this.updateRestrictedAreaResponse(object).pipe(
+      __map(_r => _r.body as null)
+    );
+  }
+
+  /**
+   * @param id Numeric ID of the restricted area to delete.
+   */
+  deleteRestrictedAreaResponse(id: number): __Observable<__StrictHttpResponse<null>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+
+    let req = new HttpRequest<any>(
+      'DELETE',
+      this.rootUrl + `/restricted-area/${id}`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<null>;
+      })
+    );
+  }
+  /**
+   * @param id Numeric ID of the restricted area to delete.
+   */
+  deleteRestrictedArea(id: number): __Observable<null> {
+    return this.deleteRestrictedAreaResponse(id).pipe(
+      __map(_r => _r.body as null)
+    );
+  }
+
+  /**
+   * @param id Numeric ID of the object to get.
+   * @return Successful response, with a representation of restricted area.
+   */
+  getRestrictedAreaByIdResponse(id: number): __Observable<__StrictHttpResponse<RestrictedArea>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+
+    let req = new HttpRequest<any>(
+      'GET',
+      this.rootUrl + `/restricted-area/${id}`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<RestrictedArea>;
+      })
+    );
+  }
+  /**
+   * @param id Numeric ID of the object to get.
+   * @return Successful response, with a representation of restricted area.
+   */
+  getRestrictedAreaById(id: number): __Observable<RestrictedArea> {
+    return this.getRestrictedAreaByIdResponse(id).pipe(
+      __map(_r => _r.body as RestrictedArea)
     );
   }
 }

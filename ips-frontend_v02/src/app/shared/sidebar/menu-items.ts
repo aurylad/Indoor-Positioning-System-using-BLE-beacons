@@ -50,6 +50,14 @@ export const ROUTES: RouteInfo[] = [
     submenu: []
   },
   {
+    path: '/component/restricted-area-reg',
+    title: 'Draudžiamos zonos',
+    icon: 'mdi mdi-minus-circle-outline',
+    class: '',
+    extralink: false,
+    submenu: []
+  },
+  {
     path: '',
     title: 'UI Components',
     icon: 'mdi mdi-dots-horizontal',

@@ -73,7 +73,7 @@ public class ObjectRest implements TrackedObjectApi {
 		final TrackedObject tgt = new TrackedObject();
 		tgt.setId(src.getId());
 		tgt.setObjectAccessLevel(src.getAccessLevel());
-		tgt.setObjectCode(src.getObjectId());
+		tgt.setObjectCode(src.getObjectCode());
 		tgt.setObjectName(src.getObjName());
 		tgt.setObjectType(src.getObjType());
 		return tgt;
@@ -81,7 +81,7 @@ public class ObjectRest implements TrackedObjectApi {
 
 	private ResponseEntity<Void> save(final TrackedObject src, Long objectId) {
 		final ObjectEntity tgt = new ObjectEntity(objectId);
-		tgt.setObjectId(src.getObjectCode());
+		tgt.setObjectCode(src.getObjectCode());
 		tgt.setAccessLevel(src.getObjectAccessLevel());
 		tgt.setObjName(src.getObjectName());
 		tgt.setObjType(src.getObjectType());

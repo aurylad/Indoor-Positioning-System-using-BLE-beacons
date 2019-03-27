@@ -29,14 +29,11 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatPaginatorModule } from '@angular/material';
 import { MatStepperModule } from '@angular/material/stepper';
 import { AngularDateTimePickerModule } from 'angular2-datetimepicker';
-import {MatDatepickerModule} from '@angular/material/datepicker';
-
-
-
 
 import { MatInputModule, MatSelectModule, MatCheckboxModule } from '@angular/material';
 import { ObjectRegComponent } from './object-reg/object-reg.component';
 import { ObjectRenderingComponent } from './object-rendering/object-rendering.component';
+import { RestrictedAreaRegComponent } from './restricted-area-reg/restricted-area-reg.component';
 
 
 @NgModule({
@@ -76,6 +73,7 @@ import { ObjectRenderingComponent } from './object-rendering/object-rendering.co
     BeaconRegComponent,
     ObjectRegComponent,
     ObjectRenderingComponent,
+    RestrictedAreaRegComponent,
   ]
 })
 export class ComponentsModule { }

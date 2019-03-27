@@ -2,7 +2,6 @@ package iamus.ips.rest;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import iamus.ips.jpa.entity.BeaconEntity;
 import iamus.ips.jpa.entity.LogEntity;
 import iamus.ips.jpa.repository.LogRepository;
 import io.swagger.annotations.ApiParam;
@@ -26,8 +24,8 @@ public class LogRest implements LogApi {
 	@Autowired
 	private LogRepository logRepository;
 
-	public LogRest() {
 
+	public LogRest() {
 		this.logRepository = null;
 	}
 
@@ -64,13 +62,14 @@ public class LogRest implements LogApi {
 		return Utils.toResponseEntity(list);
 	}
 
+
 	private static Log toLog(LogEntity src) {
 		final Log tgt = new Log();
 		tgt.setId(src.getId());
 		tgt.setCoordinateX(src.getLogCoordinateX());
 		tgt.setCoordinateY(src.getLogCoordinateY());
 		tgt.setRegDateTime(src.getLogDateTime());
-		tgt.setObjectId(src.getObject().getObjectId());
+		tgt.setObjectId(src.getObject().getObjectCode());
 		tgt.setPlanId(src.getPlan().getPlanId());
 		tgt.setObjectAccessLevel(src.getObject().getAccessLevel());
 		tgt.setObjectName(src.getObject().getObjName());

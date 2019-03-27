@@ -10,6 +10,6 @@ import iamus.ips.jpa.entity.ObjectEntity;
 public interface ObjectRepository extends PagingAndSortingRepository<ObjectEntity, Long> {
 	
 	 Iterable<ObjectEntity> findAllByOrderByIdAsc();
-	 ObjectEntity findOneByObjectId(@Param("objectId") String objectId);
+	 ObjectEntity findOneByObjectCode(@Param("objectCode") String objectId);
 }
 
