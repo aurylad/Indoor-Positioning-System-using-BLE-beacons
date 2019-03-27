@@ -71,15 +71,22 @@
             </mat-option>
           </mat-select>
         </mat-form-field>
-       
-       
-       
-        <datetime-range start="start" end="end"></datetime-range>
 
 
+        <div class="datetime">
+          <label for="StartDatetimepicker">Pradžios laikas:</label>
+          <angular2-date-picker id="StartDatetimepicker" [(ngModel)]="date" [settings]="settings"
+            (onDateSelect)="onDateSelect($event)"></angular2-date-picker>
 
-        <br> 
-        <button class="btn btn-success" (click)="trigger()">IŠSAUGOTI</button>  
+          <label for="StartDatetimepicker">Pabaigos laikas:</label>
+          <angular2-date-picker id="EndDatetimepicker" [(ngModel)]="date" [settings]="settings"
+            (onDateSelect)="onDateSelect($event)"></angular2-date-picker>
+        </div>
+
+
+        <br>
+        <br>
+        <button class="btn btn-success" (click)="trigger()">IŠSAUGOTI</button>
         &nbsp;
         <button class="btn btn-success" value="Click" id="start">TRIGGER</button>
 

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Log, Plan, TrackedObject } from 'src/app/api/models';
 import { ApiService } from 'src/app/api/services';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 
 @Component({
@@ -39,11 +39,23 @@ export class ObjectRenderingComponent implements OnInit {
       secondCtrl: ['', Validators.required]
     });
 
-
+   
     this.getObjects();
     this.getPlans();
   }
 
+  date: Date = new Date();
+  settings = {
+    bigBanner: true,
+    timePicker: true,
+    format: 'dd-MM-yyyy HH:mm',
+    defaultOpen: false,
+    closeOnSelect: false
+  };
+
+  onDateSelect(event: Date){
+    console.log(event.getMinutes() + "asds");
+  }
 
   onObjectSelected(selectedObjectId) {
     this.selectedObjectCode = selectedObjectId.objectCode;
@@ -82,7 +94,7 @@ export class ObjectRenderingComponent implements OnInit {
 
   trigger() {
     console.log("IŠSAUGOTI");
-    
+
     this.logByPlanAndObject = [];
     this.logByPlanId.forEach(element => {
       if (element.objectId === this.selectedObjectCode) {
@@ -98,7 +110,7 @@ export class ObjectRenderingComponent implements OnInit {
   //Read array throw time interval and draw a circle on plan
   movementSimulation(logData) {
     console.log("TRIGGER");
-    
+
     let a = 1                     //Test  
     var curNewsIndex = -1;
     var intervalID = setInterval(() => {

@@ -28,7 +28,8 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatButtonModule } from '@angular/material/button';
 import { MatPaginatorModule } from '@angular/material';
 import { MatStepperModule } from '@angular/material/stepper';
-
+import { AngularDateTimePickerModule } from 'angular2-datetimepicker';
+import {MatDatepickerModule} from '@angular/material/datepicker';
 
 
 
@@ -54,7 +55,8 @@ import { ObjectRenderingComponent } from './object-rendering/object-rendering.co
     MatRadioModule,
     MatButtonModule,
     MatPaginatorModule,
-    MatStepperModule
+    MatStepperModule,
+    AngularDateTimePickerModule
   ],
   declarations: [
     NgbdpregressbarBasicComponent,
