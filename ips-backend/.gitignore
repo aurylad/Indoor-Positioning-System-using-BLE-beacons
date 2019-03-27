@@ -3,4 +3,4 @@
 /.classpath
 /.project
 /.factorypath
-/.ips-backend/src/test/resources/application.properties
+ips-backend/src/test/resources/application.properties
