@@ -20,9 +20,8 @@
     <div class="card">
       <div class="card-body">
 
-        <!-- (click)="selectBeaconPlace($event)" -->
-        <div align="center">
-          <canvas id="objectsRenderingCanvas">
+        <div>
+          <canvas id="objectsRenderingCanvas" (click)="setRestrictedAreas($event)">
             Your browser does not support the canvas element.
           </canvas>
         </div>

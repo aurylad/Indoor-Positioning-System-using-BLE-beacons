@@ -61,8 +61,49 @@ export class RestrictedAreaRegComponent implements OnInit {
     return this.trackedObjects;
   }
 
-  setRestrictedAreas(){
-    s
-  }
+  setRestrictedAreas(event) {
+    var rect = this.canvas.getBoundingClientRect();
+    var x = event.clientX - rect.left;
+    var y = event.clientY - rect.top;
+    console.log(x);
+    console.log(y);
+    
+    
+    this.ctx.beginPath();
+    this.ctx.moveTo(x, y);
+    this.ctx.lineTo(30, 100);
+    this.ctx.lineTo(70, 100);
+    this.ctx.strokeStyle = "red";
+    this.ctx.stroke();
 
+    // ctx.beginPath();
+    // ctx.moveTo(0, 0);
+    // ctx.lineTo(300, 150);
+    // ctx.stroke();
+
+    // ctx.beginPath();
+    // ctx.moveTo(20, 20);
+    // ctx.lineTo(20, 100);
+    // ctx.lineTo(80, 100);
+    // ctx.closePath();
+    // ctx.stroke();
+
+    // ctx.beginPath();
+    // ctx.moveTo(20, 20);
+    // ctx.lineTo(20, 100);
+    // ctx.lineTo(80, 100);
+    // ctx.closePath();
+    // ctx.stroke();
+
+    // ctx.fillStyle = "red";
+    // ctx.fillRect(20, 20, 75, 50);
+
+    // //Turn transparency on
+    // ctx.globalAlpha = 0.2;
+    // ctx.fillStyle = "blue";
+    // ctx.fillRect(50, 50, 75, 50);
+    // ctx.fillStyle = "green";
+    // ctx.fillRect(80, 80, 75, 50);
+  }
 }
+
