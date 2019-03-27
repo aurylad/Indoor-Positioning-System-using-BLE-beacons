@@ -1,6 +1,9 @@
 package iamus.ips.rest;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -13,9 +16,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import iamus.ips.jpa.entity.BeaconEntity;
 import iamus.ips.jpa.entity.BeaconInPlanEntity;
+import iamus.ips.jpa.entity.LogEntity;
 import iamus.ips.jpa.entity.ObjectEntity;
 import iamus.ips.jpa.repository.BeaconInPlanRepository;
 import iamus.ips.jpa.repository.BeaconRepository;
+import iamus.ips.jpa.repository.LogRepository;
 import iamus.ips.jpa.repository.ObjectRepository;
 import iamus.ips.server.api.DeviceDataApi;
 import iamus.ips.server.model.DeviceData;
@@ -25,11 +30,15 @@ import iamus.ips.server.model.DeviceData;
 @CrossOrigin(origins="http://localhost:4200", allowedHeaders="*")
 public class DeviceDataRest implements DeviceDataApi {
 
+
 	@Autowired
 	private BeaconRepository beaconRepository;
 
 	@Autowired
 	private BeaconInPlanRepository beaconInPlanRepository;
+	
+	@Autowired
+	private LogRepository logRepository;
 	
 	@Autowired
 	private ObjectRepository objectRepository;
@@ -38,6 +47,8 @@ public class DeviceDataRest implements DeviceDataApi {
 		this.beaconRepository = null;
 		this.beaconInPlanRepository = null;
 		this.objectRepository = null;
+		this.logRepository = null;
+		
 	}
 
 	@Override
@@ -94,6 +105,9 @@ public class DeviceDataRest implements DeviceDataApi {
 			beaconInPlanEntity.setPlan(src.getPlan());
 
 		}
+		
+		
+		
 
 		System.out.println("Device d ALL info:    " + deviceData);
 		// Included Plan object info and Beacon object info
@@ -104,6 +118,18 @@ public class DeviceDataRest implements DeviceDataApi {
 		System.out.println("Plan info:	" + beaconInPlanEntity.getPlan() + ".get...");
 		//All Object data info
 		System.out.println("Object info:    " + object.getObjName() + ".get...");
+		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		Date date = new Date();
+		
+		LogEntity log = new LogEntity();
+		log.setLogCoordinateX(beaconInPlanEntity.getCoordinateX());
+		log.setLogCoordinateY(beaconInPlanEntity.getCoordinateY());
+		log.setLogDateTime(date);
+		log.setObject(object);
+		log.setPlan(beaconInPlanEntity.getPlan());
+		
+		logRepository.save(log);
+		
 
 		return null;
 	}
@@ -126,5 +152,7 @@ public class DeviceDataRest implements DeviceDataApi {
 		
 		
 	}
+
+
 
 }
