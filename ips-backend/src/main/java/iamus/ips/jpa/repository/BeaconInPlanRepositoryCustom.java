@@ -6,5 +6,5 @@ import iamus.ips.jpa.entity.BeaconInPlanEntity;
 
 public interface BeaconInPlanRepositoryCustom {
 
-	List<BeaconInPlanEntity> findBeaconInPlanByBeaconId (Long beaconId); 
+	List<BeaconInPlanEntity> findBeaconInPlanByBeaconId (String beaconId); 
 }

@@ -22,7 +22,7 @@ import lombok.ToString;
 @UniqueConstraint(columnNames = { "beacon_id" }))
 public class BeaconEntity extends AbstractBaseEntity {
 	
-	@Column(name = "beacon_id", nullable = true)
+	@Column(name = "beacon_id", nullable = false)
 	private String beaconId;
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "beacon")

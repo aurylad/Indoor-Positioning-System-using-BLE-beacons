@@ -19,11 +19,12 @@ public class BeaconInPlanRepositoryImpl implements BeaconInPlanRepositoryCustom 
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List <BeaconInPlanEntity> findBeaconInPlanByBeaconId(Long beaconId) {
-		Query query = entityManager
-				.createNativeQuery("SELECT * FROM beacons_in_plan WHERE beacons_in_plan.beacon_id LIKE ?", BeaconInPlanEntity.class);
-		query.setParameter(1, beaconId + "%");
-		return query.getResultList();
+	public List <BeaconInPlanEntity> findBeaconInPlanByBeaconId(String beaconId) {
+//		Query query = entityManager
+//				.createNativeQuery("SELECT * FROM beacons_in_plan WHERE beacons_in_plan.beacon_id LIKE ?", BeaconInPlanEntity.class);
+//		query.setParameter(1, beaconId + "%");
+//		return query.getResultList();
+		return null;
 	}
 
 }
