@@ -1,32 +1,52 @@
+<ngb-alert *ngIf="successMessage" type="success" (close)="successMessage = null">{{ successMessage }}</ngb-alert>
 <div class="row">
   <div class="col-md-12">
     <div class="card">
       <div class="card-body">
+        <h3 class="card-title">Uždraustos zonos registracija</h3>
+        <h6 class="card-subtitle">Pasirinkite planą, kuriame norite pažymėti draudžiamą zoną. Įrašykite <br> pažymėtos
+          zonos pavadinimą ir pasirinkite kurį prieigos lygį turintys objektai galės į ją patekti.</h6>
+          
+        <button class="btn btn-success" (click)="reset()" style="float: right;">IŠ NAUJO</button>
+        <form #areaForm="ngForm" (ngSubmit)="save(areaForm)">
+          <mat-form-field>
+            <mat-select placeholder="Pasirinkti planą" (selectionChange)="onMapSelected($event.value)" name="planName"
+              ngModel>
+              <mat-option *ngFor="let plans of plans" [value]="plans.id">
+                {{plans.planName}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          &nbsp;
+          <mat-form-field>
+            <input matInput placeholder="Vietos pavadinimas" name="areaName" ngModel required>
+          </mat-form-field>
+          &nbsp;
+          <mat-form-field>
+            <mat-select placeholder="Prieigos lygis" name="objectAccessLevel" ngModel required>
+              <mat-option value="Pirmas">Pirmas</mat-option>
+              <mat-option value="Antras">Antras</mat-option>
+              <mat-option value="Trečias">Trečias</mat-option>
+            </mat-select>
+          </mat-form-field>
 
-        <mat-form-field>
-          <mat-select placeholder="Pasirinkti planą" (selectionChange)="onMapSelected($event.value)">
-            <mat-option *ngFor="let plans of plans" [value]="plans.id">
-              {{plans.planName}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-
+          <div id="myDIV" style="display: none">
+            <br>
+            <h4 class="card-title">Draudžiamos zonos žymėjimas</h4>
+            <h6 class="card-subtitle">Spustelėdami ant plano pažymėkite keturis taškus, kurie sudarys kvadratą. <br>
+              Sudarytas kvadratas bus draudžiama zona. Netinkamai uždėję tašką, spauskite <br> mygtuką "IŠ NAUJO" ir
+              vėl
+              žymėkite taškus.</h6>
+            <div>
+              <p align="center">
+                <canvas id="objectsRenderingCanvas" (click)="drawRestrictedAreas($event)" align="center">
+                  Your browser does not support the canvas element.
+                </canvas>
+              </p>
+            </div>
+            <button type="submit" class="btn btn-success">IŠSAUGOTI</button>
+          </div>
+        </form>
       </div>
     </div>
   </div>
-
-
-  <div class="col-md-12">
-    <div class="card">
-      <div class="card-body">
-
-        <div>
-          <canvas id="objectsRenderingCanvas" (click)="setRestrictedAreas($event)">
-            Your browser does not support the canvas element.
-          </canvas>
-        </div>
-
-      </div>
-    </div>
-  </div>
-</div>

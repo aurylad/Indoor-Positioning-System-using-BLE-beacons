@@ -639,20 +639,35 @@ definitions:
       id:
         type: integer
         format: int64
-      coordinateTopX:
+      topLeftCoordX:
         type: number
         format: float 
-      coordinateTopY:
+      topLeftCoordY:
         type: number
         format: float
-      coordinateBottomX:
+      topRightCoordX:
         type: number
         format: float
-      coordinateBottomY:
+      topRightCoordY:
+        type: number
+        format: float
+      bottomLeftCoordX:
+        type: number
+        format: float 
+      bottomLeftCoordY:
+        type: number
+        format: float
+      bottomRightCoordX:
+        type: number
+        format: float
+      bottomRightCoordY:
         type: number
         format: float
       planId:
-        type: integer
-        format: int64
+        type: string
+      restrictedAreaName:
+        type: string
+      accessLevel:
+        type: string
       
       

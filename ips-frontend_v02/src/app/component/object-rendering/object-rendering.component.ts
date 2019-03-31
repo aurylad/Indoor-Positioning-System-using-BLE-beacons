@@ -104,8 +104,11 @@ export class ObjectRenderingComponent implements OnInit {
       }
     });
     console.log(this.logByPlanAndObject);
-    let btn = document.getElementById("start");
-    btn.addEventListener("click", (e: Event) => this.movementSimulation(this.logByPlanAndObject));
+    console.log("Veikia");
+    
+    this.movementSimulation(this.logByPlanAndObject);
+    // let btn = document.getElementById("start");
+    // btn.addEventListener("click", (e: Event) => this.movementSimulation(this.logByPlanAndObject));
   }
 
 

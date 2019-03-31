@@ -17,23 +17,38 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper = true)
 @Entity(name = "Restricted_are")
 @Table(name = "restricted_area", uniqueConstraints = //
-@UniqueConstraint(columnNames = { "coordinate_top_x", "coordinate_top_y", "coordinate_bottom_x", "coordinate_bottom_y", "area_id" }))
+@UniqueConstraint(columnNames = { "top_left_x", "top_right_x", "area_id" }))
 public class RestrictedAreaEntity extends AbstractBaseEntity {
 	
 	@Column(name = "area_id", nullable = false)
-	private String areaId;
+	private String restrictedAreaName;
 	
-	@Column(name = "coordinate_top_x", nullable = false)
-	private Float coordinateTopX;
+	@Column(name = "access_level", nullable = false)
+	private String accessLevel;
+
+	@Column(name = "top_left_x", nullable = false)
+	private Float topLeftCoordX;
 	
-	@Column(name = "coordinate_top_y", nullable = false)
-	private Float coordinateTopY;
+	@Column(name = "top_left_y", nullable = false)
+	private Float topLeftCoordY;
 	
-	@Column(name = "coordinate_bottom_x", nullable = false)
-	private Float coordinateBottomX;
+	@Column(name = "top_right_x", nullable = false)
+	private Float topRightCoordX;
 	
-	@Column(name = "coordinate_bottom_y", nullable = false)
-	private Float coordinateBottomY;
+	@Column(name = "top_right_y", nullable = false)
+	private Float topRightCoordY;
+	
+	@Column(name = "bottom_left_x", nullable = false)
+	private Float bottomLeftCoordX;
+	
+	@Column(name = "bottom_left_y", nullable = false)
+	private Float bottomLeftCoordY;
+	
+	@Column(name = "bottom_right_x", nullable = false)
+	private Float bottomRightCoordX;
+	
+	@Column(name = "bottom_right_y", nullable = false)
+	private Float bottomRightCoordY;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "plan_id", nullable = false)
