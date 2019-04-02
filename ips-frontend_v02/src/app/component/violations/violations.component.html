@@ -1,0 +1,66 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-body">
+        <h3 class="card-title">Užregistruoti pažeidimai</h3>
+        <h6 class="card-subtitle">Žemiau matomi įvykdyti pažeidimai, kurie buvo užregistruoti automatiniu būdu, stebint kiekvieno objekto judėjimą.</h6>
+        <br>
+        <div class="mat-elevation-z8">
+          <table mat-table [dataSource]="dataSource">
+            ['id', 'objectCode', 'objectType', 'objectName', 'objectAccessLevel', 'RestrictedArea', 'PlanName', 'ViolationDateTime']
+            <!-- Position Column -->
+            <ng-container matColumnDef="id">
+              <th mat-header-cell *matHeaderCellDef> Nr. </th>
+              <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+            </ng-container>
+        
+            <!-- Name Column -->
+            <ng-container matColumnDef="objectCode">
+              <th mat-header-cell *matHeaderCellDef> Objekto kodas </th>
+              <td mat-cell *matCellDef="let element"> {{element.objectCode}} </td>
+            </ng-container>
+        
+            <!-- Weight Column -->
+            <ng-container matColumnDef="objectType">
+              <th mat-header-cell *matHeaderCellDef> Tipas </th>
+              <td mat-cell *matCellDef="let element"> {{element.objectType}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="objectName">
+              <th mat-header-cell *matHeaderCellDef> Vardas </th>
+              <td mat-cell *matCellDef="let element"> {{element.objectName}} </td>
+            </ng-container>
+        
+            <!-- Symbol Column -->
+            <ng-container matColumnDef="objectAccessLevel">
+              <th mat-header-cell *matHeaderCellDef> Prieigos lygis </th>
+              <td mat-cell *matCellDef="let element"> {{element.objectAccessLevel}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="RestrictedArea">
+              <th mat-header-cell *matHeaderCellDef> Zona </th>
+              <td mat-cell *matCellDef="let element"> {{element.RestrictedArea}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="PlanName">
+              <th mat-header-cell *matHeaderCellDef> Planas </th>
+              <td mat-cell *matCellDef="let element"> {{element.PlanName}} </td>
+            </ng-container>
+        
+            <ng-container matColumnDef="ViolationDateTime">
+              <th mat-header-cell *matHeaderCellDef> Laikas </th>
+              <td mat-cell *matCellDef="let element"> {{element.ViolationDateTime}} </td>
+            </ng-container>
+        
+        
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+        
+          <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+        </div>
+        
+
+      </div>
+    </div>
+  </div>

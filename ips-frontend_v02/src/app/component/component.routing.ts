@@ -18,6 +18,7 @@ import { BeaconRegComponent } from './beacon-reg/beacon-reg.component';
 import { ObjectRegComponent } from './object-reg/object-reg.component';
 import { ObjectRenderingComponent } from './object-rendering/object-rendering.component';
 import { RestrictedAreaRegComponent } from './restricted-area-reg/restricted-area-reg.component';
+import { ViolationsComponent } from './violations/violations.component';
 
 
 export const ComponentsRoutes: Routes = [
@@ -76,6 +77,17 @@ export const ComponentsRoutes: Routes = [
           urls: [
             { title: 'Pagrindinis', url: '/dashboard' },
             { title: 'Draudžiamų zonų nustatymas' }
+          ]
+        }
+      },
+      {
+        path: 'violations',
+        component: ViolationsComponent,
+        data: {
+          title: 'Pažeidimai',
+          urls: [
+            { title: 'Pagrindinis', url: '/dashboard' },
+            { title: 'Užregistruoti pažeidimai' }
           ]
         }
       },

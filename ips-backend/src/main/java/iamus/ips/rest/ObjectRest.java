@@ -15,21 +15,28 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import iamus.ips.jpa.entity.ObjectEntity;
+import iamus.ips.jpa.entity.RestrictedAreaEntity;
 import iamus.ips.jpa.repository.ObjectRepository;
+import iamus.ips.jpa.repository.RestrictedAreaRepository;
 import io.swagger.annotations.ApiParam;
 import iamus.ips.server.api.TrackedObjectApi;
 import iamus.ips.server.model.TrackedObject;
+import iamus.ips.violations.ViolationCheck;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins="http://localhost:4200", allowedHeaders="*")
+@CrossOrigin(origins = "http://localhost:4200", allowedHeaders = "*")
 public class ObjectRest implements TrackedObjectApi {
 
 	@Autowired
 	private ObjectRepository objectRepository;
 
+	@Autowired
+	private RestrictedAreaRepository restrictedAreaRepository;
+
 	public ObjectRest() {
 		this.objectRepository = null;
+		this.restrictedAreaRepository = null;
 	}
 
 	@Override
@@ -46,6 +53,10 @@ public class ObjectRest implements TrackedObjectApi {
 
 	@Override
 	public ResponseEntity<List<TrackedObject>> getObject() {
+		
+//		ViolationCheck violationCheck = new ViolationCheck();
+//		violationCheck.setDataForChecking();
+		
 		final List<TrackedObject> list = new ArrayList<>();
 		for (final ObjectEntity src : objectRepository.findAllByOrderByIdAsc()) {
 			list.add(toTrackedObject(src));
@@ -89,4 +100,27 @@ public class ObjectRest implements TrackedObjectApi {
 		return ResponseEntity.ok().build();
 	}
 
+	
+	
+	
+	
+	
+	
+	
+	
+	private static RestrictedAreaEntity toRestrictedArea (RestrictedAreaEntity src) {
+		final RestrictedAreaEntity tgt = new RestrictedAreaEntity();
+		tgt.setBottomLeftCoordX(src.getBottomLeftCoordX());
+		tgt.setBottomLeftCoordY(src.getBottomLeftCoordY());
+		tgt.setBottomRightCoordX(src.getBottomRightCoordX());
+		tgt.setBottomRightCoordY(src.getBottomRightCoordY());
+		tgt.setTopLeftCoordX(src.getTopLeftCoordX());
+		tgt.setTopLeftCoordY(src.getTopLeftCoordY());
+		tgt.setTopRightCoordX(src.getTopRightCoordX());
+		tgt.setTopRightCoordY(src.getTopRightCoordY());
+		tgt.setRestrictedAreaName(src.getRestrictedAreaName());
+		tgt.setPlan(src.getPlan());
+		tgt.setAccessLevel(src.getAccessLevel());
+		return tgt;
+	}
 }

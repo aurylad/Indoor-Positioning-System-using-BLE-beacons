@@ -44,7 +44,7 @@ export const ROUTES: RouteInfo[] = [
   {
     path: '/component/object-rendering',
     title: 'Objektų atvaizdavimas',
-    icon: 'mdi mdi-satellite',
+    icon: 'mdi mdi-monitor',
     class: '',
     extralink: false,
     submenu: []
@@ -53,6 +53,14 @@ export const ROUTES: RouteInfo[] = [
     path: '/component/restricted-area-reg',
     title: 'Draudžiamos zonos',
     icon: 'mdi mdi-minus-circle-outline',
+    class: '',
+    extralink: false,
+    submenu: []
+  },
+  {
+    path: '/component/violations',
+    title: 'Užregistruoti pažeidimai',
+    icon: 'mdi mdi-clipboard-text',
     class: '',
     extralink: false,
     submenu: []

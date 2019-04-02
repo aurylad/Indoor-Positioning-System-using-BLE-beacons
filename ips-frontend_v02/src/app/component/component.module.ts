@@ -34,6 +34,7 @@ import { MatInputModule, MatSelectModule, MatCheckboxModule } from '@angular/mat
 import { ObjectRegComponent } from './object-reg/object-reg.component';
 import { ObjectRenderingComponent } from './object-rendering/object-rendering.component';
 import { RestrictedAreaRegComponent } from './restricted-area-reg/restricted-area-reg.component';
+import { ViolationsComponent } from './violations/violations.component';
 
 
 @NgModule({
@@ -74,6 +75,7 @@ import { RestrictedAreaRegComponent } from './restricted-area-reg/restricted-are
     ObjectRegComponent,
     ObjectRenderingComponent,
     RestrictedAreaRegComponent,
+    ViolationsComponent,
   ]
 })
 export class ComponentsModule { }

@@ -20,6 +20,7 @@ import iamus.ips.jpa.repository.PlanRepository;
 import iamus.ips.jpa.repository.RestrictedAreaRepository;
 import iamus.ips.server.api.RestrictedAreaApi;
 import iamus.ips.server.model.RestrictedArea;
+import iamus.ips.violations.ViolationCheck;
 import io.swagger.annotations.ApiParam;
 
 @RestController
@@ -49,7 +50,7 @@ public class RestrictedAreaRest implements RestrictedAreaApi {
 		restrictedAreaRepository.deleteById(id);
 		return ResponseEntity.ok().build();
 	}
-
+	
 	@Override
 	public ResponseEntity<List<RestrictedArea>> getRestrictedArea() {
 		final List<RestrictedArea> list = new ArrayList<>();
@@ -106,6 +107,7 @@ public class RestrictedAreaRest implements RestrictedAreaApi {
 		tgt.setTopRightCoordY(src.getTopRightCoordY());
 		tgt.setRestrictedAreaName(src.getRestrictedAreaName());
 		tgt.setPlanId(src.getPlan().getPlanId());
+		tgt.setAccessLevel(src.getAccessLevel());
 		return tgt;
 	}
 

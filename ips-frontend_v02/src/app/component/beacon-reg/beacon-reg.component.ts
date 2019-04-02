@@ -116,7 +116,9 @@ export class BeaconRegComponent implements OnInit {
       const canvas = <HTMLCanvasElement>document.getElementById("beaconRegCanvas");
       var rect = canvas.getBoundingClientRect();
       var x = event.clientX - rect.left;
+      console.log(x);
       var y = event.clientY - rect.top;
+      console.log(y);
       var ctx = canvas.getContext("2d");
       ctx.beginPath();
       ctx.font = "16px Arial";
