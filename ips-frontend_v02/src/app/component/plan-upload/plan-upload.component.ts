@@ -21,6 +21,8 @@ export class NgbdplanUploadBasicComponent implements OnInit {
   indexForCoordToShow = 0;
   firstPointX;
   firstPointY;
+  secondPointX;
+  secondPointY;
   resultDistBetweenPoints;
   img = new Image();
 
