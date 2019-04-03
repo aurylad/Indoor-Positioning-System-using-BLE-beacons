@@ -20,6 +20,7 @@ import iamus.ips.jpa.repository.PlanRepository;
 import iamus.ips.jpa.repository.RestrictedAreaRepository;
 import iamus.ips.server.api.RestrictedAreaApi;
 import iamus.ips.server.model.RestrictedArea;
+import iamus.ips.violations.Test;
 import iamus.ips.violations.ViolationCheck;
 import io.swagger.annotations.ApiParam;
 

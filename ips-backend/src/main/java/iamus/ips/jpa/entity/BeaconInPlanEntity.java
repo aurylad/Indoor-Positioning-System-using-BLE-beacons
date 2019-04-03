@@ -41,5 +41,5 @@ public class BeaconInPlanEntity extends AbstractBaseEntity {
 
 	public BeaconInPlanEntity() {
 	}
-
+	
 }

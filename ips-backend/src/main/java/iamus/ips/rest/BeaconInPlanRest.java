@@ -73,6 +73,7 @@ public class BeaconInPlanRest implements BeaconInPlanApi {
 					required = true) @PathVariable("id") Long id) {
 		Optional<BeaconInPlanEntity> optional = beaconInPlanRepository.findById(id);
 		if (optional.isPresent()) {
+			System.out.println(optional.get().getPlan());
 			return ResponseEntity.ok(toBeaconInPlan(optional.get()));
 		} else {
 			return ResponseEntity.notFound().build();

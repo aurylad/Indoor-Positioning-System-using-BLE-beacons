@@ -42,7 +42,6 @@
 
 	<dependencies>
 
-
 		<!-- For Web support -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

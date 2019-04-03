@@ -15,7 +15,7 @@ import lombok.ToString;
 @Data
 @ToString(callSuper=true)
 @EqualsAndHashCode(callSuper = true)
-@Entity(name = "Restricted_are")
+@Entity(name = "RestrictedArea")
 @Table(name = "restricted_area", uniqueConstraints = //
 @UniqueConstraint(columnNames = { "top_left_x", "top_right_x", "area_id" }))
 public class RestrictedAreaEntity extends AbstractBaseEntity {

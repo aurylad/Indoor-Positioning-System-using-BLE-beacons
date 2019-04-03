@@ -21,11 +21,15 @@ import iamus.ips.jpa.entity.BeaconInPlanEntity;
 import iamus.ips.jpa.entity.LogEntity;
 import iamus.ips.jpa.entity.ObjectEntity;
 import iamus.ips.jpa.entity.PlanEntity;
+import iamus.ips.jpa.entity.RestrictedAreaEntity;
+import iamus.ips.jpa.entity.ViolationsEntity;
 import iamus.ips.jpa.repository.BeaconInPlanRepository;
 import iamus.ips.jpa.repository.BeaconRepository;
 import iamus.ips.jpa.repository.LogRepository;
 import iamus.ips.jpa.repository.ObjectRepository;
 import iamus.ips.jpa.repository.PlanRepository;
+import iamus.ips.jpa.repository.RestrictedAreaRepository;
+import iamus.ips.jpa.repository.ViolationsRepository;
 import iamus.ips.server.api.DeviceDataApi;
 import iamus.ips.server.model.BeaconInPlan;
 import iamus.ips.server.model.DeviceData;
@@ -35,7 +39,7 @@ import io.swagger.annotations.ApiParam;
 @RequestMapping("/api")
 @CrossOrigin(origins = "http://localhost:4200", allowedHeaders = "*")
 public class DeviceDataRest implements DeviceDataApi {
-	
+
 //	// Mock list of transmitters
 //			//_______________________________________
 //			List<Object> transmitter1 = new ArrayList<>();
@@ -130,45 +134,52 @@ public class DeviceDataRest implements DeviceDataApi {
 	@Autowired
 	private ObjectRepository objectRepository;
 
+	@Autowired
+	private RestrictedAreaRepository restrictedAreaRepository;
+
+	@Autowired
+	public ViolationsRepository violationsRepository;
+
 	public DeviceDataRest() {
 		this.beaconRepository = null;
 		this.beaconInPlanRepository = null;
 		this.objectRepository = null;
 		this.logRepository = null;
-
+		this.restrictedAreaRepository = null;
+		this.violationsRepository = null;
 	}
 
 	@Override
 	public ResponseEntity<Void> addDeviceData(@ApiParam(value = "") @Valid @RequestBody DeviceData deviceData) {
-		//_______________________________________
+		// _______________________________________
 		List<Object> transmitter1 = new ArrayList<>();
 		transmitter1.add(deviceData.getObjectId1());
 		transmitter1.add(deviceData.getSignal1());
 		transmitter1.add(deviceData.getTransmitterId1());
-		
+
 		List<Object> transmitter2 = new ArrayList<>();
 		transmitter2.add(deviceData.getObjectId2());
 		transmitter2.add(deviceData.getSignal2());
 		transmitter2.add(deviceData.getTransmitterId2());
-		
+
 		List<Object> transmitter3 = new ArrayList<>();
 		transmitter3.add(deviceData.getObjectId3());
 		transmitter3.add(deviceData.getSignal3());
 		transmitter3.add(deviceData.getTransmitterId3());
-		
+
 		List<List> transmitterList = new ArrayList<>();
 		transmitterList.add(transmitter1);
 		transmitterList.add(transmitter2);
 		transmitterList.add(transmitter3);
-		//_______________________________________
-        //
+		// _______________________________________
+		//
 		List closestTransmitter = proximity(transmitterList);
-		
+
 		return save(closestTransmitter, null);
 	}
 
 	private ResponseEntity<Void> save(final List src, Long deviceDataId) {
-		
+
 		final ObjectEntity object = objectRepository.findOneByObjectCode(String.valueOf(src.get(0)));
 		final BeaconEntity beacon = beaconRepository.findOneByBeaconId(String.valueOf(src.get(2)));
 		final BeaconInPlanEntity beaconInPlan = beaconInPlanRepository.findOneByBeaconId(beacon.getId());
@@ -196,6 +207,45 @@ public class DeviceDataRest implements DeviceDataApi {
 		}
 		System.out.println("proximity: " + closestTransmitter);
 		return closestTransmitter;
+	}
+
+	public void checkForViolation(float coordX, float coordY, ObjectEntity object, PlanEntity plan) {
+		final List<RestrictedAreaEntity> areasList = new ArrayList<>();
+		for (final RestrictedAreaEntity src : restrictedAreaRepository.findRestrictedAreasByPlanId(plan.getId())) {
+			areasList.add(src);
+		}
+		if (!(areasList.isEmpty())) {
+			for (RestrictedAreaEntity tempRestrArea : areasList) {
+				if (rectPointInside(tempRestrArea.getTopLeftCoordX(), tempRestrArea.getTopRightCoordX(),
+						tempRestrArea.getTopLeftCoordY(), tempRestrArea.getBottomLeftCoordY(), coordX, coordY)) {
+					if (!(object.getAccessLevel().equalsIgnoreCase(tempRestrArea.getAccessLevel()))) {
+						System.out.println("--------------BAD access_level");
+						saveViolation(object, tempRestrArea, null);
+					}
+				}
+			}
+		}
+	}
+
+	public boolean rectPointInside(double LTopX, double RTopX, double LTopY, double LBottY, double x, double y) {
+		if (x >= LTopX && x <= RTopX) {
+			if (y >= LTopY && y <= LBottY) {
+				return true;
+			}
+		}
+		System.out.println("-------------NOT FOUND");
+		return false;
+	}
+
+	private ResponseEntity<Void> saveViolation(ObjectEntity object, RestrictedAreaEntity restrictedArea,
+			Long violationId) {
+		Date violationDateTime = new Date();
+		final ViolationsEntity tgt = new ViolationsEntity(violationId);
+		tgt.setObject(object);
+		tgt.setRestrictedArea(restrictedArea);
+		tgt.setViolationDateTime(violationDateTime);
+		violationsRepository.save(tgt);
+		return ResponseEntity.ok().build();
 	}
 
 }

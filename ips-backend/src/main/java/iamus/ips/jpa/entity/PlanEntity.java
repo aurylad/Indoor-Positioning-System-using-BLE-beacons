@@ -15,8 +15,8 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 @Data
-@ToString(callSuper = true, exclude = { "beaconInPlan", "log" })
-@EqualsAndHashCode(callSuper = true, exclude = { "beaconInPlan", "log" })
+@ToString(callSuper = true, exclude = { "beaconInPlan", "log", "restrictedArea" })
+@EqualsAndHashCode(callSuper = true, exclude = { "beaconInPlan", "log", "restrictedArea" })
 @Entity(name = "Plan")
 @Table(name = "building_plan", uniqueConstraints = //
 @UniqueConstraint(columnNames = { "name" }))
@@ -42,7 +42,10 @@ public class PlanEntity extends AbstractBaseEntity {
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "plan")
 	private Set<LogEntity> log;
-
+	
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "plan")
+	private Set<RestrictedAreaEntity> restrictedArea;
+	
 	public PlanEntity(Long id) {
 		super(id);
 	}

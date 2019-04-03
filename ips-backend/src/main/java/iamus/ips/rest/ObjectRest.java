@@ -53,10 +53,6 @@ public class ObjectRest implements TrackedObjectApi {
 
 	@Override
 	public ResponseEntity<List<TrackedObject>> getObject() {
-		
-//		ViolationCheck violationCheck = new ViolationCheck();
-//		violationCheck.setDataForChecking();
-		
 		final List<TrackedObject> list = new ArrayList<>();
 		for (final ObjectEntity src : objectRepository.findAllByOrderByIdAsc()) {
 			list.add(toTrackedObject(src));

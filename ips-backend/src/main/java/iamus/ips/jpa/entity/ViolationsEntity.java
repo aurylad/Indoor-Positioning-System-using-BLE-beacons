@@ -33,7 +33,7 @@ public class ViolationsEntity extends AbstractBaseEntity {
 	private RestrictedAreaEntity restrictedArea;
 	
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "date_time", nullable = true)
+	@Column(name = "date_time", nullable = false)
 	private Date violationDateTime;
 	
 //	@Column(name = "access_level", nullable = false)
