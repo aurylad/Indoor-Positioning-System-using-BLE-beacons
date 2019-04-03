@@ -26,6 +26,8 @@ import iamus.ips.jpa.repository.BeaconRepository;
 import iamus.ips.jpa.repository.LogRepository;
 import iamus.ips.jpa.repository.ObjectRepository;
 import iamus.ips.jpa.repository.PlanRepository;
+import iamus.ips.objectLocation.Proximity;
+import iamus.ips.objectLocation.Trilateration;
 import iamus.ips.server.api.DeviceDataApi;
 import iamus.ips.server.model.BeaconInPlan;
 import iamus.ips.server.model.DeviceData;
@@ -35,85 +37,6 @@ import io.swagger.annotations.ApiParam;
 @RequestMapping("/api")
 @CrossOrigin(origins = "http://localhost:4200", allowedHeaders = "*")
 public class DeviceDataRest implements DeviceDataApi {
-	
-//	// Mock list of transmitters
-//			//_______________________________________
-//			List<Object> transmitter1 = new ArrayList<>();
-//			transmitter1.add(deviceData.getObjectId1());
-//			transmitter1.add(deviceData.getSignal1());
-//			transmitter1.add(deviceData.getTransmitterId1());
-//			
-//			List<Object> transmitter2 = new ArrayList<>();
-//			transmitter2.add(deviceData.getObjectId2());
-//			transmitter2.add(deviceData.getSignal2());
-//			transmitter2.add(deviceData.getTransmitterId2());
-//			
-//			List<Object> transmitter3 = new ArrayList<>();
-//			transmitter3.add(deviceData.getObjectId3());
-//			transmitter3.add(deviceData.getSignal3());
-//			transmitter3.add(deviceData.getTransmitterId3());
-//			
-//			List<List> transmitterList = new ArrayList<>();
-//			transmitterList.add(transmitter1);
-//			transmitterList.add(transmitter2);
-//			transmitterList.add(transmitter3);
-//			//_______________________________________
-//	        //
-//			
-//			System.out.println("Device ALL info:    " + deviceData);
-//			List closestTransmitter = proximity(transmitterList);
-//			
-//			//List closestTransmitter = proximity(transmitterList);
-//			System.out.println("Device id:    " + closestTransmitter.get(2));
-//		
-//
-//			final ObjectEntity object = objectRepository.findOneByObjectCode(String.valueOf(closestTransmitter.get(0)));
-//			final BeaconEntity beacon = beaconRepository.findOneByBeaconId( String.valueOf(closestTransmitter.get(2)));
-//			System.out.println("Beacon:    " + beacon);
-//			
-////			final ObjectEntity object = objectRepository.findOneByObjectId("ss55");
-////			//final BeaconEntity beacon = beaconRepository.findOneByBeaconId("Ak50");
-////			
-//			final List<BeaconInPlanEntity> beaconInPlanAllData = beaconInPlanRepository
-//					.findBeaconInPlanByBeaconId(beacon.getId());
-//
-//			// Container for info
-//			BeaconInPlanEntity beaconInPlanEntity = new BeaconInPlanEntity();
-//
-//			for (BeaconInPlanEntity src : beaconInPlanAllData) {
-//				beaconInPlanEntity.setCoordinateX(src.getCoordinateX());
-//				beaconInPlanEntity.setCoordinateY(src.getCoordinateY());
-//				beaconInPlanEntity.setBeacon(src.getBeacon());
-//				beaconInPlanEntity.setPlan(src.getPlan());
-//
-//			}
-//			
-//			
-//			
-//
-//			System.out.println("Device d ALL info:    " + deviceData);
-//			// Included Plan object info and Beacon object info
-//			System.out.println("BeaconInPlan ALL info:    " + beaconInPlanEntity);
-//			// ALL Beacon object info
-//			System.out.println("Beacon info:	" + beaconInPlanEntity.getBeacon() + ".get...");
-//			// ALL Plan object info
-//			System.out.println("Plan info:	" + beaconInPlanEntity.getPlan() + ".get...");
-//			//All Object data info
-//			System.out.println("Object info:    " + object.getObjName() + ".get...");
-//			DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-//			Date date = new Date();
-//			
-//			LogEntity log = new LogEntity();
-//			log.setLogCoordinateX(beaconInPlanEntity.getCoordinateX());
-//			log.setLogCoordinateY(beaconInPlanEntity.getCoordinateY());
-//			log.setLogDateTime(date);
-//			log.setObject(object);
-//			log.setPlan(beaconInPlanEntity.getPlan());
-//			
-//			logRepository.save(log);
-//			
-//
-//			return null;
 
 	@Autowired
 	private BeaconRepository beaconRepository;
@@ -162,7 +85,10 @@ public class DeviceDataRest implements DeviceDataApi {
 		transmitterList.add(transmitter3);
 		//_______________________________________
         //
-		List closestTransmitter = proximity(transmitterList);
+		Proximity proximity = new Proximity();
+		Trilateration trilateration = new Trilateration();
+		List closestTransmitter = proximity.proximity(transmitterList);
+		//List trilaterationResult = trilateration.trilateration(transmitterList);
 		
 		return save(closestTransmitter, null);
 	}
@@ -185,17 +111,17 @@ public class DeviceDataRest implements DeviceDataApi {
 		return ResponseEntity.ok().build();
 	}
 
-	public List proximity(List<List> transmitterList) {
-		List closestTransmitter = null;
-		float strongestSignal = (float) transmitterList.get(0).get(1);
-		for (List transmitter : transmitterList) {
-			if ((float) transmitter.get(1) >= strongestSignal) {
-				closestTransmitter = transmitter;
-				strongestSignal = (float) transmitter.get(1);
-			}
-		}
-		System.out.println("proximity: " + closestTransmitter);
-		return closestTransmitter;
-	}
+//	public List proximity(List<List> transmitterList) {
+//		List closestTransmitter = null;
+//		float strongestSignal = (float) transmitterList.get(0).get(1);
+//		for (List transmitter : transmitterList) {
+//			if ((float) transmitter.get(1) >= strongestSignal) {
+//				closestTransmitter = transmitter;
+//				strongestSignal = (float) transmitter.get(1);
+//			}
+//		}
+//		System.out.println("proximity: " + closestTransmitter);
+//		return closestTransmitter;
+//	}
 
 }
