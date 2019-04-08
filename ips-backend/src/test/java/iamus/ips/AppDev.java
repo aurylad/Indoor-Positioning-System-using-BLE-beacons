@@ -15,7 +15,6 @@ import org.springframework.data.rest.core.mapping.RepositoryDetectionStrategy.Re
 import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurer;
 
 import iamus.ips.App;
-import iamus.ips.violations.ViolationCheck;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.spi.DocumentationType;

@@ -3,6 +3,8 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import 'hammerjs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatButtonModule} from '@angular/material/button';
+
 
 import {
   CommonModule,
@@ -35,7 +37,7 @@ import { from } from 'rxjs';
     FullComponent,
     NavigationComponent,
     BreadcrumbComponent,
-    SidebarComponent
+    SidebarComponent,
   ],
   imports: [
     CommonModule,
@@ -45,14 +47,15 @@ import { from } from 'rxjs';
     NgbModule.forRoot(),
     RouterModule.forRoot(Approutes, { useHash: false }),
     BrowserAnimationsModule
-  ],
+    ],
 
   providers: [
     {
       provide: LocationStrategy,
-      useClass: HashLocationStrategy
+      useClass: HashLocationStrategy,
     }
   ],
   bootstrap: [AppComponent]
+
 })
 export class AppModule { }

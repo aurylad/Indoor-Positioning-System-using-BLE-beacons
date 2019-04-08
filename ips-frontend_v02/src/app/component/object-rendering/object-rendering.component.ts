@@ -114,9 +114,6 @@ export class ObjectRenderingComponent implements OnInit {
 
   //Read array throw time interval and draw a circle on plan
   movementSimulation(logData) {
-    console.log("TRIGGER");
-
-    let a = 1                     //Test  
     var curNewsIndex = -1;
     var intervalID = setInterval(() => {
       ++curNewsIndex;
@@ -132,8 +129,6 @@ export class ObjectRenderingComponent implements OnInit {
         this.ctx.fillStyle = "red";
         this.ctx.fill();
         this.ctx.stroke();
-        console.log(logData[curNewsIndex])       //Test
-        console.log(a++);                        //Test
       }
     }, 200);
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -143,7 +138,6 @@ export class ObjectRenderingComponent implements OnInit {
   getLogs() {
     this._apiService.getLog().subscribe((log) => {
       this.log = log
-      console.log(this.log);
     }, (error) => {
       console.log(error);
     })

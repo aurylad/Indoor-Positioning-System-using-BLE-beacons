@@ -1,8 +1,71 @@
 <div class="row">
-    <div class="col-12">
+    <div class="col-6">
         <div class="card">
             <div class="card-body">
-                {{subtitle}}
+                <h5 class="card-title">Infrastruktūra</h5>
+                <hr>
+
+            </div>
+        </div>
+    </div>
+    <div class="col-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Pranešimai</h5>
+                <hr>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Planai</h5>
+                <hr>
+                <div class="mat-elevation-z8">
+                    <table mat-table [dataSource]="dataSource" width="100%">
+                        ['id', 'planName', 'planWidth', 'planHeight']
+                        <!-- Position Column -->
+                        <ng-container matColumnDef="id">
+                            <th mat-header-cell *matHeaderCellDef> Nr. </th>
+                            <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+                        </ng-container>
+
+                        <!-- planName Column -->
+                        <ng-container matColumnDef="planName">
+                            <th mat-header-cell *matHeaderCellDef> Patalpos pavad. </th>
+                            <td mat-cell *matCellDef="let element"> {{element.planName}} </td>
+                        </ng-container>
+
+                        <!-- planWidth Column -->
+                        <ng-container matColumnDef="planWidth">
+                            <th mat-header-cell *matHeaderCellDef> Plotis (m) </th>
+                            <td mat-cell *matCellDef="let element"> {{element.planWidth}} </td>
+                        </ng-container>
+
+                        <!-- planHeight Column -->
+                        <ng-container matColumnDef="planHeight">
+                            <th mat-header-cell *matHeaderCellDef> ilgis(m) </th>
+                            <td mat-cell *matCellDef="let element"> {{element.planHeight}} </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    </table>
+
+                    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Zonos</h5>
+                <hr>
+
             </div>
         </div>
     </div>

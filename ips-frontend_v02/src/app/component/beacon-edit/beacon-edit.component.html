@@ -1,0 +1,13 @@
+<form #beaconForm="ngForm">
+  <div class="form-group">
+    <label for="beaconId">SIŲSTUVO KODAS:</label>
+    <div class="input-group">
+      <input type="text" class="form-control" name="beaconId" [(ngModel)]="beaconData.beaconId">
+    </div>
+  </div>
+  <span class="input-group-btn">
+      <button class="btn btn-secondary" (click)="onClose()">Atšaukti</button>
+      &nbsp;
+      <button type="submit" class="btn btn-success" (click)="onEdit(beaconForm)">Redaguoti</button>
+    </span>
+</form>

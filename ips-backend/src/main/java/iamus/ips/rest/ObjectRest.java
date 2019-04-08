@@ -21,7 +21,6 @@ import iamus.ips.jpa.repository.RestrictedAreaRepository;
 import io.swagger.annotations.ApiParam;
 import iamus.ips.server.api.TrackedObjectApi;
 import iamus.ips.server.model.TrackedObject;
-import iamus.ips.violations.ViolationCheck;
 
 @RestController
 @RequestMapping("/api")

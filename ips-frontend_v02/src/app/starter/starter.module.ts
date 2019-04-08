@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
+import {MatTableModule} from '@angular/material/table';
+import {MatPaginatorModule} from '@angular/material/paginator';
 
 import { StarterComponent } from './starter.component';
 
@@ -9,10 +11,10 @@ const routes: Routes = [
   {
     path: '',
     data: {
-      title: 'Starter Page',
+      title: 'Pagrindinis',
       urls: [
         { title: 'Dashboard', url: '/dashboard' },
-        { title: 'Starter Page' }
+        { title: 'Pagrindinis' }
       ]
     },
     component: StarterComponent
@@ -20,7 +22,15 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [FormsModule, CommonModule, RouterModule.forChild(routes)],
-  declarations: [StarterComponent]
+  imports: [
+    FormsModule,
+    CommonModule,
+    RouterModule.forChild(routes),
+    MatTableModule,
+    MatPaginatorModule
+  ],
+  declarations: [
+    StarterComponent
+  ]
 })
-export class StarterModule {}
+export class StarterModule { }

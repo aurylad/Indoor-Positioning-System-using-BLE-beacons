@@ -37,11 +37,12 @@ public class ViolationRest implements ViolationsApi {
 
 	private static Violations toViolation(ViolationsEntity src) {
 		final Violations tgt = new Violations();
-//		tgt.setObjectAccessLevel(src.getAccess_level());
-		tgt.setObjectCode("Jon1711");
-		tgt.setObjectName("Jonas Jonaitis");
-		tgt.setObjectType("Žmogus");
-		tgt.setPlanName("plan-1");
+		tgt.setId(src.getId());
+		tgt.setObjectAccessLevel(src.getObject().getAccessLevel());
+		tgt.setObjectCode(src.getObject().getObjectCode());
+		tgt.setObjectName(src.getObject().getObjName());
+		tgt.setObjectType(src.getObject().getObjType());
+		tgt.setPlanName(src.getRestrictedArea().getPlan().getPlanId());
 		tgt.setRestrictedArea(src.getRestrictedArea().getRestrictedAreaName());
 		tgt.setViolationDateTime(src.getViolationDateTime());
 		return tgt;

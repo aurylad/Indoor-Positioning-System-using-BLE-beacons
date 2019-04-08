@@ -6,6 +6,9 @@ import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { Plan, BeaconInPlan } from 'src/app/api/models';
 import { SelectionModel } from '@angular/cdk/collections';
+import { MatDialog, MatDialogConfig } from '@angular/material';
+import { EditDataService } from 'src/app/api/services/edit-data.service';
+import { BeaconEditComponent } from '../beacon-edit/beacon-edit.component';
 
 @Component({
   selector: 'app-beacon-reg',
@@ -14,11 +17,12 @@ import { SelectionModel } from '@angular/cdk/collections';
 })
 export class BeaconRegComponent implements OnInit {
 
-  constructor(private _apiService: ApiService, private _router: Router) { }
+  constructor(private _apiService: ApiService, private _router: Router, private dialog: MatDialog, private service: EditDataService) { }
 
   staticAlertClosed = false;
   successMessage: string;
   private _success = new Subject<string>();
+
   ngOnInit(): void {
     setTimeout(() => (this.staticAlertClosed = true), 20000);
     this._success.subscribe(message => (this.successMessage = message));
@@ -30,7 +34,6 @@ export class BeaconRegComponent implements OnInit {
 
   //--------------------- TAB - beacon reg in plan--------------------------
 
-
   private plan: Plan[];
   getPlans() {
     this._apiService.getPlan().subscribe((plans) => {
@@ -39,7 +42,6 @@ export class BeaconRegComponent implements OnInit {
       console.log(error);
     })
   }
-
 
   private beacons: Beacon[];
   getBeacons() {
@@ -83,7 +85,6 @@ export class BeaconRegComponent implements OnInit {
     }
   }
 
-
   private plans: Plan = {};
   img = new Image();
   onMapSelected(selectedPlanId) {
@@ -106,7 +107,7 @@ export class BeaconRegComponent implements OnInit {
 
 
   displayedColumnsBeaconReg: string[] = ['select', 'id', 'beaconId'];
-  displayedColumnsBeaconList: string[] = ['id', 'beaconId'];
+  displayedColumnsBeaconList: string[] = ['id', 'beaconId', 'actions'];
   selection = new SelectionModel<Beacon>(true, []);
   PLACED_BEACON_DATA: Beacon[] = [];
 
@@ -171,6 +172,28 @@ export class BeaconRegComponent implements OnInit {
       });
     } else {
       alert("Atsiprašome, įvyko klaida. Patikrinkite ar siųstuvas tokiu pavadinimu jau nėra užregistruotas.")
+    }
+  }
+
+  // Editing and deleting 
+  onEdit(row): void {
+    this.service.beaconSetter(row);
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = "30%";
+    this.dialog.open(BeaconEditComponent, dialogConfig);
+  }
+
+  onDelete(row): void {
+    if (confirm('Ar tikrai norite ištrinti šį įrašą?')) {
+      this.service.beaconSetter(row);
+      this._apiService.deleteBeacon(this.service.beaconGetter().id).subscribe((deletedBeacon) => {
+        this.beacons = this.getBeacons();
+      }, (error) => {
+        console.log(error);
+        alert('Šio siųstuvo panaikinti negalima, nes jis susijąs su kitu sąrašu.');
+      });
     }
   }
 

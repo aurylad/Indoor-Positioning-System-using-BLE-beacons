@@ -337,6 +337,42 @@ class ApiService extends __BaseService {
   }
 
   /**
+   * @param planId Datetime of the log to get log data.
+   * @return Successful response, with a representation of plan.
+   */
+  getLogByDatetimeResponse(planId: number): __Observable<__StrictHttpResponse<Array<Log>>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+
+    let req = new HttpRequest<any>(
+      'GET',
+      this.rootUrl + `/log/real-time/${planId}`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<Array<Log>>;
+      })
+    );
+  }
+  /**
+   * @param planId Datetime of the log to get log data.
+   * @return Successful response, with a representation of plan.
+   */
+  getLogByDatetime(planId: number): __Observable<Array<Log>> {
+    return this.getLogByDatetimeResponse(planId).pipe(
+      __map(_r => _r.body as Array<Log>)
+    );
+  }
+
+  /**
    * @return Successful response, with a representation of the beacon data.
    */
   getBeaconResponse(): __Observable<__StrictHttpResponse<Array<Beacon>>> {

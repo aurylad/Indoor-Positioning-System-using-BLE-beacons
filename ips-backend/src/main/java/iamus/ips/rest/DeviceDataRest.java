@@ -35,6 +35,7 @@ import iamus.ips.objectLocation.Trilateration;
 import iamus.ips.server.api.DeviceDataApi;
 import iamus.ips.server.model.BeaconInPlan;
 import iamus.ips.server.model.DeviceData;
+import iamus.ips.server.model.Plan;
 import io.swagger.annotations.ApiParam;
 
 @RestController
@@ -70,11 +71,12 @@ public class DeviceDataRest implements DeviceDataApi {
 		this.logRepository = null;
 		this.restrictedAreaRepository = null;
 		this.violationsRepository = null;
+		this.planRepository = null;
 	}
 
 	@Override
 	public ResponseEntity<Void> addDeviceData(@ApiParam(value = "") @Valid @RequestBody DeviceData deviceData) {
-		// _______________________________________
+
 		List<Object> transmitter1 = new ArrayList<>();
 		transmitter1.add(deviceData.getObjectId1());
 		transmitter1.add(deviceData.getSignal1());
@@ -98,16 +100,23 @@ public class DeviceDataRest implements DeviceDataApi {
 		Proximity proximity = new Proximity();
 		Trilateration trilateration = new Trilateration();
 		List closestTransmitter = proximity.proximity(transmitterList);
-		//List trilaterationResult = trilateration.trilateration(transmitterList);
-		
+		// List trilaterationResult = trilateration.trilateration(transmitterList);
+//		System.out.println(closestTransmitter);
+		System.out.println(closestTransmitter);
 		return save(closestTransmitter, null);
+	}
+
+	public void impl() {
+		final Iterable<PlanEntity> plan = planRepository.findAll();
 	}
 
 	private ResponseEntity<Void> save(final List src, Long deviceDataId) {
 
+		impl();
 		final ObjectEntity object = objectRepository.findOneByObjectCode(String.valueOf(src.get(0)));
 		final BeaconEntity beacon = beaconRepository.findOneByBeaconId(String.valueOf(src.get(2)));
 		final BeaconInPlanEntity beaconInPlan = beaconInPlanRepository.findOneByBeaconId(beacon.getId());
+
 		Date date = new Date();
 
 		final LogEntity tgt = new LogEntity(deviceDataId);
@@ -117,6 +126,9 @@ public class DeviceDataRest implements DeviceDataApi {
 		tgt.setObject(object);
 		tgt.setPlan(beaconInPlan.getPlan());
 		logRepository.save(tgt);
+
+		checkForViolation(beaconInPlan.getCoordinateX(), beaconInPlan.getCoordinateY(), object,
+				beaconInPlan.getPlan().getId());
 
 		return ResponseEntity.ok().build();
 	}
@@ -133,10 +145,13 @@ public class DeviceDataRest implements DeviceDataApi {
 //		System.out.println("proximity: " + closestTransmitter);
 //		return closestTransmitter;
 //	}
+	String tempObjectCode;
+	Date previous = new Date();
+	int index = 1;
 
-	public void checkForViolation(float coordX, float coordY, ObjectEntity object, PlanEntity plan) {
+	public void checkForViolation(float coordX, float coordY, ObjectEntity object, long planId) {
 		final List<RestrictedAreaEntity> areasList = new ArrayList<>();
-		for (final RestrictedAreaEntity src : restrictedAreaRepository.findRestrictedAreasByPlanId(plan.getId())) {
+		for (final RestrictedAreaEntity src : restrictedAreaRepository.findRestrictedAreasByPlanId(planId)) {
 			areasList.add(src);
 		}
 		if (!(areasList.isEmpty())) {
@@ -144,8 +159,8 @@ public class DeviceDataRest implements DeviceDataApi {
 				if (rectPointInside(tempRestrArea.getTopLeftCoordX(), tempRestrArea.getTopRightCoordX(),
 						tempRestrArea.getTopLeftCoordY(), tempRestrArea.getBottomLeftCoordY(), coordX, coordY)) {
 					if (!(object.getAccessLevel().equalsIgnoreCase(tempRestrArea.getAccessLevel()))) {
-						System.out.println("--------------BAD access_level");
-						saveViolation(object, tempRestrArea, null);
+						Date now = new Date();
+						saveViolation(object, tempRestrArea, null, now);
 					}
 				}
 			}
@@ -158,18 +173,36 @@ public class DeviceDataRest implements DeviceDataApi {
 				return true;
 			}
 		}
-		System.out.println("-------------NOT FOUND");
 		return false;
 	}
 
 	private ResponseEntity<Void> saveViolation(ObjectEntity object, RestrictedAreaEntity restrictedArea,
-			Long violationId) {
-		Date violationDateTime = new Date();
+			Long violationId, Date now) {
+
 		final ViolationsEntity tgt = new ViolationsEntity(violationId);
 		tgt.setObject(object);
 		tgt.setRestrictedArea(restrictedArea);
-		tgt.setViolationDateTime(violationDateTime);
-		violationsRepository.save(tgt);
+		tgt.setViolationDateTime(now);
+		
+		if (index == 1) {
+			previous = now;
+			tempObjectCode = object.getObjectCode();
+			violationsRepository.save(tgt);
+			index++;
+			System.out.println("Index 1");
+		} else if (now.getTime() - previous.getTime() >= 1 * 60 * 1000 && tempObjectCode.equalsIgnoreCase(object.getObjectCode())) {
+			previous = now;
+			tempObjectCode = object.getObjectCode();
+			violationsRepository.save(tgt);
+			System.out.println("Saved");
+		} 
+		else if (!(tempObjectCode.equalsIgnoreCase(object.getObjectCode()))) {
+			System.out.println(tempObjectCode);
+			System.out.println(object.getObjectCode());
+			tempObjectCode = object.getObjectCode();
+			violationsRepository.save(tgt);
+			System.out.println("ELSE");
+		}
 		return ResponseEntity.ok().build();
 	}
 

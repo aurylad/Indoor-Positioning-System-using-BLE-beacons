@@ -12,5 +12,6 @@ public interface RestrictedAreaRepository extends PagingAndSortingRepository<Res
 	Iterable<RestrictedAreaEntity> findAllByOrderByIdAsc();
 	RestrictedAreaEntity findOneByRestrictedAreaName(@Param("restrictedAreaName") String restrictedAreaName);
 	List<RestrictedAreaEntity> findRestrictedAreasByPlanId(Long planId);
+
 }
 

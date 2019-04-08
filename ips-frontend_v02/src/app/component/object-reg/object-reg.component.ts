@@ -1,11 +1,13 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, NgForm } from '@angular/forms';
-import { MatPaginator, MatTableDataSource } from '@angular/material';
+import { NgForm } from '@angular/forms';
+import { MatPaginator, MatDialogConfig } from '@angular/material';
 import { TrackedObject } from 'src/app/api/models';
 import { ApiService } from 'src/app/api/services';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
-import { stringify } from '@angular/compiler/src/util';
+import { MatDialog, MatDialogRef } from '@angular/material';
+import { ObjectEditComponent } from '../object-edit/object-edit.component';
+import { EditDataService } from 'src/app/api/services/edit-data.service';
 
 
 @Component({
@@ -15,17 +17,16 @@ import { stringify } from '@angular/compiler/src/util';
 })
 export class ObjectRegComponent implements OnInit {
 
-  constructor(private _apiService: ApiService) { }
+  constructor(private _apiService: ApiService, private dialog: MatDialog, private service: EditDataService) { }
 
   private trackedObjects: TrackedObject[];
-  displayedColumns: string[] = ['position', 'name', 'type', 'accessLevel', 'objectCode'];
+  displayedColumns: string[] = ['position', 'name', 'type', 'accessLevel', 'objectCode', 'actions'];
   userForm: any = {};
   staticAlertClosed = false;
   successMessage: string;
   private _success = new Subject<string>();
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
-
 
   ngOnInit() {
     setTimeout(() => (this.staticAlertClosed = true), 20000);
@@ -35,7 +36,7 @@ export class ObjectRegComponent implements OnInit {
   }
 
 
-  getTrackedObjects() {
+  getTrackedObjects(): any {
     this._apiService.getObject().subscribe((trackedObjects) => {
       this.trackedObjects = trackedObjects
     }, (error) => {
@@ -44,9 +45,8 @@ export class ObjectRegComponent implements OnInit {
     return this.trackedObjects;
   }
 
-
   // private trackedObjectToSave: TrackedObject = {};
-  saveTrackedObject(trackedObjectToSave: TrackedObject = {}) {
+  saveTrackedObject(trackedObjectToSave: TrackedObject = {}): void {
     this._apiService.addObject(trackedObjectToSave).subscribe((trackedObjectToSave) => {
       this._success.next(`Operacija atlikta sėkmingai!`);
       this.getTrackedObjects();
@@ -74,4 +74,27 @@ export class ObjectRegComponent implements OnInit {
       alert("Visi laukai privalo būti užpildyti.");
     }
   }
+
+  // Editing and deleting 
+  onEdit(row): void {
+    this.service.objectSetter(row);
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = "30%";
+    this.dialog.open(ObjectEditComponent, dialogConfig);
+  }
+
+  onDelete(row): void {
+    if (confirm('Ar tikrai norite ištrinti šį įrašą?')) {
+      this.service.objectSetter(row);
+      this._apiService.deleteObject(this.service.objectGetter().id).subscribe((deletedObjet) => {
+        this.trackedObjects = this.getTrackedObjects();
+      }, (error) => {
+        console.log(error);
+        alert('Šio objekto panaikinti negalima, nes jis susijąs su įvykdytų pažeidimų sąrašu.');
+      });
+    }
+  }
+
 }

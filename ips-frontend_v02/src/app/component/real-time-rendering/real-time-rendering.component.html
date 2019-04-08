@@ -18,38 +18,17 @@
             </mat-option>
           </mat-select>
         </mat-form-field>
-
-
-        <div class="datetime">
-          <label for="StartDatetimepicker">Pradžios laikas:</label>
-          <angular2-date-picker id="StartDatetimepicker" [(ngModel)]="date" [settings]="settings"
-            (onDateSelect)="onDateSelect($event)"></angular2-date-picker>
-
-          <label for="StartDatetimepicker">Pabaigos laikas:</label>
-          <angular2-date-picker id="EndDatetimepicker" [(ngModel)]="date" [settings]="settings"
-            (onDateSelect)="onDateSelect($event)"></angular2-date-picker>
-        </div>
-
-
         <br>
-        <br>
-        <button class="btn btn-success" (click)="trigger()">PRADĖTI</button>
-        <!-- &nbsp; 
-         <button class="btn btn-success" value="Click" id="start">TRIGGER</button> -->
-
+        <button class="btn btn-success" (click)="realTimeDataByIntervals()">PRADĖTI</button>
+        &nbsp;
+        <button class="btn btn-success" (click)="stop()">STOP</button>
       </div>
     </div>
   </div>
 
-
-
-
-
   <div class="col-md-12">
     <div class="card">
       <div class="card-body">
-
-        <!-- (click)="selectBeaconPlace($event)" -->
         <div align="center">
           <canvas id="objectsRenderingCanvas">
             Your browser does not support the canvas element.

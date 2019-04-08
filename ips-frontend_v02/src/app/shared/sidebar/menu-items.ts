@@ -3,7 +3,7 @@ import { RouteInfo } from './sidebar.metadata';
 export const ROUTES: RouteInfo[] = [
   {
     path: '',
-    title: 'Personal',
+    title: 'Meniu',
     icon: 'mdi mdi-dots-horizontal',
     class: 'nav-small-cap',
     extralink: true,
@@ -45,6 +45,14 @@ export const ROUTES: RouteInfo[] = [
     path: '/component/object-rendering',
     title: 'Objektų atvaizdavimas',
     icon: 'mdi mdi-monitor',
+    class: '',
+    extralink: false,
+    submenu: []
+  },
+  {
+    path: '/component/real-time-rendering',
+    title: 'Stebėti objektus',
+    icon: 'mdi mdi-message-video',
     class: '',
     extralink: false,
     submenu: []

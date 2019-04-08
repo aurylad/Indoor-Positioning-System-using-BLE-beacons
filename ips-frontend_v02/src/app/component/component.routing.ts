@@ -19,6 +19,7 @@ import { ObjectRegComponent } from './object-reg/object-reg.component';
 import { ObjectRenderingComponent } from './object-rendering/object-rendering.component';
 import { RestrictedAreaRegComponent } from './restricted-area-reg/restricted-area-reg.component';
 import { ViolationsComponent } from './violations/violations.component';
+import { RealTimeRenderingComponent } from './real-time-rendering/real-time-rendering.component';
 
 
 export const ComponentsRoutes: Routes = [
@@ -66,6 +67,17 @@ export const ComponentsRoutes: Routes = [
           urls: [
             { title: 'Pagrindinis', url: '/dashboard' },
             { title: 'Objektų atvaizdavimas' }
+          ]
+        }
+      },
+      {
+        path: 'real-time-rendering',
+        component: RealTimeRenderingComponent,
+        data: {
+          title: 'Stebėti objektus',
+          urls: [
+            { title: 'Pagrindinis', url: '/dashboard' },
+            { title: 'Objektų stebėjimas' }
           ]
         }
       },

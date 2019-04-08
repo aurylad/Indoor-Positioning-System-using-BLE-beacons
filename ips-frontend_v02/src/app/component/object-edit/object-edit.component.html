@@ -1,0 +1,37 @@
+<form #userForm="ngForm">
+  <div class="example-container">
+
+    <mat-form-field hintLabel="Ne daugiau  20 simbolių">
+      <mat-label>Objekto pavadinimas</mat-label>
+      <input matInput #input maxlength="20" class="form-control" name="objectName" [(ngModel)]="objectData.objectName"
+        required>
+      <mat-hint align="end">{{input.value?.length || 0}}/20</mat-hint>
+    </mat-form-field>
+
+    &nbsp;
+    <mat-form-field>
+      <mat-select placeholder="Prieigos lygis" name="objectAccessLevel" [(ngModel)]="objectData.objectAccessLevel"
+        required>
+        <mat-option value="Pirmas">Pirmas</mat-option>
+        <mat-option value="Antras">Antras</mat-option>
+        <mat-option value="Trečias">Trečias</mat-option>
+      </mat-select>
+      <mat-hint align="end">Išskleidžiamas sąrašas ^</mat-hint>
+    </mat-form-field>
+
+    <br>
+    <br>
+    <mat-radio-group aria-label="Select an option" name="objectType" [(ngModel)]="objectData.objectType" required>
+      <mat-radio-button value="Žmogus">Žmogus</mat-radio-button>
+      &nbsp;
+      <mat-radio-button value="Kitas objektas">Kitas judantis objektas</mat-radio-button>
+    </mat-radio-group>
+
+  </div>
+  <br>
+  <span class="input-group-btn">
+    <button class="btn btn-secondary" (click)="onClose()">Atšaukti</button>
+    &nbsp;
+    <button type="submit" class="btn btn-success" (click)="onEdit(userForm)">Redaguoti</button>
+  </span>
+</form>

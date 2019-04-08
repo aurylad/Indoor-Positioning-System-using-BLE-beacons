@@ -24,8 +24,6 @@ import iamus.ips.jpa.repository.ViolationsRepository;
 import io.swagger.annotations.ApiParam;
 import iamus.ips.server.api.LogApi;
 import iamus.ips.server.model.Log;
-import iamus.ips.violations.Test;
-import iamus.ips.violations.ViolationCheck;
 
 @RestController
 @RequestMapping("/api")
@@ -57,7 +55,6 @@ public class LogRest implements LogApi {
 		for (final LogEntity src : logRepository.findAllByOrderByIdAsc()) {
 			list.add(toLog(src));
 		}
-		test();
 		return Utils.toResponseEntity(list);
 	}
 
@@ -95,103 +92,14 @@ public class LogRest implements LogApi {
 		return tgt;
 	}
 
-	
-	
-	
-	
-	
-	
-	
-	
-	public void test() {
-		final List<LogEntity> list = new ArrayList<>();
-		for (final LogEntity src : logRepository.findAllByOrderByIdAsc()) {
-			list.add(toLogs(src));
-			checkForViolation(src.getLogCoordinateX(), src.getLogCoordinateY());
+	@Override
+	public ResponseEntity<List<Log>> getLogByDatetime(@ApiParam(value = " Datetime of the log to get log data.", //
+			required = true) @PathVariable("planId") Long planId) {
+		final List<Log> list = new ArrayList<>();
+		for (final LogEntity src : logRepository.findLogsByPlanId(planId)) {
+			list.add(toLog(src));
 		}
-	}
-	
-	public ObjectEntity testObjectData() {
-		Optional<ObjectEntity> optional = objectRepository.findById((long) 1);
-		if (optional.isPresent()) {
-			return optional.get();
-		}
-		return null;
-	}
-	
-	public RestrictedAreaEntity testAreaData() {
-		Optional<RestrictedAreaEntity> optional = restrictedAreaRepository.findById((long) 1);
-		if (optional.isPresent()) {
-			return optional.get();
-		}
-		return null;
-	}
-	
-//	public void checkForViolation(float coordX, float coordY, ObjectEntity object, PlanEntity plan) {
-		public void checkForViolation(float coordX, float coordY) {
-		final List<RestrictedAreaEntity> areasList = new ArrayList<>();
-		for (final RestrictedAreaEntity src : restrictedAreaRepository.findRestrictedAreasByPlanId((long) 1)) {
-			areasList.add(src);
-		}
-		if (!(areasList.isEmpty())) {
-			for (RestrictedAreaEntity tempRestrArea : areasList) {
-				if (rectPointInside(tempRestrArea.getTopLeftCoordX(), tempRestrArea.getTopRightCoordX(), tempRestrArea.getTopLeftCoordY(),
-						tempRestrArea.getBottomLeftCoordY(), coordX, coordY)) {
-					if (!(testObjectData().getAccessLevel().equalsIgnoreCase(tempRestrArea.getAccessLevel()))) {
-						System.out.println("--------------BAD access_level");
-						
-						saveViolation(testObjectData(), tempRestrArea, null);
-					}
-				}
-			}
-		}
+		return Utils.toResponseEntity(list);
 	}
 
-	public boolean rectPointInside(double LTopX, double RTopX, double LTopY, double LBottY, double x, double y) {
-		if (x >= LTopX && x <= RTopX) {
-			if (y >= LTopY && y <= LBottY) {
-				return true;
-			}
-		}
-		System.out.println("-------------NOT FOUND");
-		return false;
-	}
-
-	private ResponseEntity<Void> saveViolation(ObjectEntity object, RestrictedAreaEntity restrictedArea,
-			Long violationId) {
-		Date violationDateTime = new Date();
-		final ViolationsEntity tgt = new ViolationsEntity(violationId);
-		tgt.setObject(object);
-		tgt.setRestrictedArea(restrictedArea);
-		tgt.setViolationDateTime(violationDateTime);
-		violationsRepository.save(tgt);
-		return ResponseEntity.ok().build();
-	}
-
-	private static RestrictedAreaEntity toRestrictedArea(RestrictedAreaEntity src) {
-		final RestrictedAreaEntity tgt = new RestrictedAreaEntity();
-		tgt.setBottomLeftCoordX(src.getBottomLeftCoordX());
-		tgt.setBottomLeftCoordY(src.getBottomLeftCoordY());
-		tgt.setBottomRightCoordX(src.getBottomRightCoordX());
-		tgt.setBottomRightCoordY(src.getBottomRightCoordY());
-		tgt.setTopLeftCoordX(src.getTopLeftCoordX());
-		tgt.setTopLeftCoordY(src.getTopLeftCoordY());
-		tgt.setTopRightCoordX(src.getTopRightCoordX());
-		tgt.setTopRightCoordY(src.getTopRightCoordY());
-		tgt.setRestrictedAreaName(src.getRestrictedAreaName());
-		tgt.setPlan(src.getPlan());
-		tgt.setAccessLevel(src.getAccessLevel());
-		return tgt;
-	}
-	
-	private static LogEntity toLogs(LogEntity src) {
-		final LogEntity tgt = new LogEntity();
-		tgt.setLogCoordinateX(src.getLogCoordinateX());
-		tgt.setLogCoordinateY(src.getLogCoordinateY());
-		tgt.setLogDateTime(src.getLogDateTime());
-		tgt.setObject(src.getObject());
-		tgt.setPlan(src.getPlan());
-		return tgt;
-	}
-	
 }
