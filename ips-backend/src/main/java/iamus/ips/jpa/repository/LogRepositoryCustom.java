@@ -12,4 +12,6 @@ public interface LogRepositoryCustom {
 	List<LogEntity> findLogsByObjectId(Long objectId);
 
 	List<LogEntity> findLogsByDateTime(Long planId);
+	
+	List<LogEntity> findLogsByPlanIdObjectIdAndDateTime(Long planId, Long objectId, Date startDate, Date endDate);
 }

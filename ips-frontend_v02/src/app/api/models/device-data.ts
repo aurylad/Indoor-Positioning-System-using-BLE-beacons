@@ -2,14 +2,14 @@
 export interface DeviceData {
 
   /**
+   * 1 Beacon name, from which signal was received
+   */
+  TransmitterId1?: string;
+
+  /**
    * Tracking object 1 indentif. code
    */
   objectId1?: string;
-
-  /**
-   * Tracking object 2 indentif. code
-   */
-  objectId2?: string;
 
   /**
    * Tracking object 3 indentif. code
@@ -32,9 +32,9 @@ export interface DeviceData {
   signal3?: number;
 
   /**
-   * 1 Beacon name, from which signal was received
+   * Tracking object 2 indentif. code
    */
-  TransmitterId1?: string;
+  objectId2?: string;
 
   /**
    * 2 Beacon name, from which signal was received
@@ -45,4 +45,7 @@ export interface DeviceData {
    * 3 Beacon name, from which signal was received
    */
   TransmitterId3?: string;
+  TxPower1?: number;
+  TxPower2?: number;
+  TxPower3?: number;
 }

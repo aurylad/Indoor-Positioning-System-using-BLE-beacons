@@ -43,7 +43,6 @@ export class RealTimeRenderingComponent implements OnInit {
         this.canvas.width = plan.planWidth;
         this.canvas.height = plan.planHeight;
         this.ctx.drawImage(this.img, 0, 0);
-
         var x = document.getElementById("myDIV");
         if (x.style.display === "none") {
           x.style.display = "block";

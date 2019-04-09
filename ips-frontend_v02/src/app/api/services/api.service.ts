@@ -373,6 +373,63 @@ class ApiService extends __BaseService {
   }
 
   /**
+   * @param params The `ApiService.GetLogByTimeIntervalParams` containing the following parameters:
+   *
+   * - `startDate`: Time intevrals to get log data.
+   *
+   * - `planId`: Time intevrals to get log data.
+   *
+   * - `objectId`: Time intevrals to get log data.
+   *
+   * - `endDate`: Time intevrals to get log data.
+   *
+   * @return Successful response, with a representation of plan.
+   */
+  getLogByTimeIntervalResponse(params: ApiService.GetLogByTimeIntervalParams): __Observable<__StrictHttpResponse<Array<Log>>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+
+
+
+
+    let req = new HttpRequest<any>(
+      'GET',
+      this.rootUrl + `/log/time-interval/${params.planId}/${params.objectId}/${params.startDate}/${params.endDate}`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<Array<Log>>;
+      })
+    );
+  }
+  /**
+   * @param params The `ApiService.GetLogByTimeIntervalParams` containing the following parameters:
+   *
+   * - `startDate`: Time intevrals to get log data.
+   *
+   * - `planId`: Time intevrals to get log data.
+   *
+   * - `objectId`: Time intevrals to get log data.
+   *
+   * - `endDate`: Time intevrals to get log data.
+   *
+   * @return Successful response, with a representation of plan.
+   */
+  getLogByTimeInterval(params: ApiService.GetLogByTimeIntervalParams): __Observable<Array<Log>> {
+    return this.getLogByTimeIntervalResponse(params).pipe(
+      __map(_r => _r.body as Array<Log>)
+    );
+  }
+
+  /**
    * @return Successful response, with a representation of the beacon data.
    */
   getBeaconResponse(): __Observable<__StrictHttpResponse<Array<Beacon>>> {
@@ -1091,6 +1148,32 @@ class ApiService extends __BaseService {
 }
 
 module ApiService {
+
+  /**
+   * Parameters for getLogByTimeInterval
+   */
+  export interface GetLogByTimeIntervalParams {
+
+    /**
+     * Time intevrals to get log data.
+     */
+    startDate: string;
+
+    /**
+     * Time intevrals to get log data.
+     */
+    planId: number;
+
+    /**
+     * Time intevrals to get log data.
+     */
+    objectId: number;
+
+    /**
+     * Time intevrals to get log data.
+     */
+    endDate: string;
+  }
 }
 
 export { ApiService }

@@ -178,6 +178,45 @@ paths:
             type: array
             items:
               $ref: '#/definitions/Log'
+              
+  /log/time-interval/{planId}/{objectId}/{startDate}/{endDate}:
+    get:
+      operationId: getLogByTimeInterval
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: planId
+          type: integer
+          format: int64
+          required: true
+          description: Time intevrals to get log data.
+        - in: path
+          name: objectId
+          type: integer
+          format: int64
+          required: true
+          description: Time intevrals to get log data.
+        - in: path
+          name: startDate
+          type: string
+          format: date-time
+          required: true
+          description: Time intevrals to get log data.
+        - in: path
+          name: endDate
+          type: string
+          format: date-time
+          required: true
+          description: Time intevrals to get log data.
+      responses:
+        '200':
+          description: >-
+            Successful response, with a representation of plan.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Log'            
                   # BEACONS
                   
   /beacon:

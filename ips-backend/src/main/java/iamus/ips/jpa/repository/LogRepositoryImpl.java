@@ -34,14 +34,25 @@ public class LogRepositoryImpl implements LogRepositoryCustom {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<LogEntity> findLogsByDateTime(Long planId) {
-		Date currDateMinusMin = new Date(System.currentTimeMillis() -3 * 1000);
+		Date currDateMinusMin = new Date(System.currentTimeMillis() - 3 * 1000);
 //		Timestamp ts = new Timestamp(currDateMinusMin.getTime());
 
-		Query query = entityManager.createNativeQuery(
-				"SELECT * FROM results_log WHERE date_time > ? AND plan_id = ?",
+		Query query = entityManager.createNativeQuery("SELECT * FROM results_log WHERE date_time > ? AND plan_id = ?",
 				LogEntity.class); // later change this < to this >
 		query.setParameter(1, currDateMinusMin);
 		query.setParameter(2, planId);
+		return query.getResultList();
+	}
+
+	@Override
+	public List<LogEntity> findLogsByPlanIdObjectIdAndDateTime(Long planId, Long objectId, Date startDate,
+			Date endDate) {
+		Query query = entityManager.createNativeQuery("SELECT * FROM results_log WHERE object_id = ? AND plan_id = ? AND date_time > ? AND date_time < ?;",
+				LogEntity.class); // later change this < to this >
+		query.setParameter(1, objectId);
+		query.setParameter(2, planId);
+		query.setParameter(3, startDate);
+		query.setParameter(4, endDate);
 		return query.getResultList();
 	}
 

@@ -108,4 +108,15 @@ public class LogRest implements LogApi {
 		return Utils.toResponseEntity(list);
 	}
 
+	@Override
+	public ResponseEntity<List<Log>> getLogByTimeInterval(Long planId, Long objectId, Date startDate, Date endDate) {
+		System.out.println(planId);
+		System.out.println(objectId);
+		System.out.println(startDate);
+		System.out.println(endDate);
+
+		return null;
+	}
+
+
 }

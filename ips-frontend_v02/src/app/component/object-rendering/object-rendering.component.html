@@ -2,9 +2,19 @@
   <div class="col-md-12">
     <div class="card">
       <div class="card-body">
-
+        <h3 class="card-title">Istorijos peržiūra</h3>
+        <h6 class="card-subtitle">Pasirinkę planą ir sekamą objektą galite matyti kaip jis judėjo pasirinktame plane.
+          <br> Taip pat galite pasirinkti laiko intervalą, kuriame bus rodoma objekto judėjimo istorija.</h6>
+        <br>
+        <div style="float: right;">
+          <button class="btn btn-success" (click)="start()">PRADĖTI</button>
+          &nbsp;
+          <button class="btn btn-primary" (click)="startByInterval()">IŠKOTI INTERVALE</button>
+          &nbsp;
+          <button class="btn btn-secondary" (click)="stop()">SUSTABDYTI</button>
+        </div>
         <mat-form-field>
-          <mat-select placeholder="Pasirinkti planą" (selectionChange)="onMapSelected($event.value)">
+          <mat-select placeholder="Pasirinkti planą" (selectionChange)="onMapSelected($event.value)" id="planInput">
             <mat-option *ngFor="let plans of plans" [value]="plans.id">
               {{plans.planName}}
             </mat-option>
@@ -13,50 +23,35 @@
         &nbsp;
         <mat-form-field>
           <mat-select placeholder="Pasirinkti objektą" (selectionChange)="onObjectSelected($event.value)">
-            <mat-option *ngFor="let trackedObjects of trackedObjects" [value]="trackedObjects">
-              {{trackedObjects.objectName}}
+            <mat-option *ngFor="let objects of objects" [value]="objects">
+              {{objects.objectName}}
             </mat-option>
           </mat-select>
         </mat-form-field>
 
-
-        <div class="datetime">
-          <label for="StartDatetimepicker">Pradžios laikas:</label>
-          <angular2-date-picker id="StartDatetimepicker" [(ngModel)]="date" [settings]="settings"
-            (onDateSelect)="onDateSelect($event)"></angular2-date-picker>
-
-          <label for="StartDatetimepicker">Pabaigos laikas:</label>
-          <angular2-date-picker id="EndDatetimepicker" [(ngModel)]="date" [settings]="settings"
-            (onDateSelect)="onDateSelect($event)"></angular2-date-picker>
+        &nbsp;
+        <div id="myDIV2" style="display: none">
+          <div class="datetime">
+            <label for="StartDatetimepicker">Pradžios laikas:</label>
+            <angular2-date-picker id="StartDatetimepicker" [(ngModel)]="stratDate" [settings]="settings"
+              (onDateSelect)="onStartDateSelect($event)"></angular2-date-picker>
+            &nbsp;
+            <label for="EndDatetimepicker">Pabaigos laikas:</label>
+            <angular2-date-picker id="EndDatetimepicker" [(ngModel)]="endDate" [settings]="settings"
+              (onDateSelect)="onEndDateSelect($event)"></angular2-date-picker>
+          </div>
         </div>
-
 
         <br>
         <br>
-        <button class="btn btn-success" (click)="trigger()">PRADĖTI</button>
-        <!-- &nbsp; 
-         <button class="btn btn-success" value="Click" id="start">TRIGGER</button> -->
-
-      </div>
-    </div>
-  </div>
-
-
-
-
-
-  <div class="col-md-12">
-    <div class="card">
-      <div class="card-body">
-
-        <!-- (click)="selectBeaconPlace($event)" -->
-        <div align="center">
-          <canvas id="objectsRenderingCanvas">
-            Your browser does not support the canvas element.
-          </canvas>
+        <br>
+        <div id="myDIV" style="display: none">
+          <div align="center">
+            <canvas id="objectsRenderingCanvas">
+              Your browser does not support the canvas element.
+            </canvas>
+          </div>
         </div>
-
       </div>
     </div>
   </div>
-</div>

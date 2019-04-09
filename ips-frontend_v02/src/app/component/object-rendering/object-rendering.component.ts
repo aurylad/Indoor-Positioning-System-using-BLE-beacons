@@ -11,37 +11,29 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class ObjectRenderingComponent implements OnInit {
 
-  private log: Log[];
-  private trackedObjects: TrackedObject[];
-  private plan: Plan = {};
-  private plans: Plan[];
-  private logByPlanId: Log[];
-  private logByObjectId: Log[];
-  logByPlanAndObject: Log[] = [];
+  intervalID;
 
-  private selectedObjectCode;
+  private plans: Plan[];
+  private plan: Plan;
+  private objects: TrackedObject[];
+  private logs: Log[];
+  private logsByObject: Log[] = [];
+  private checkMap = false;
+  private checkObject = false;
+  private selectedObject;
+  private startDate: Date;
+  private endDate: Date;
 
   img = new Image();
   canvas: HTMLCanvasElement;
   ctx: CanvasRenderingContext2D;
 
-  isLinear = false;
-  firstFormGroup: FormGroup;
-  secondFormGroup: FormGroup;
-
-  constructor(private _apiService: ApiService, private _formBuilder: FormBuilder) { }
+  constructor(private _apiService: ApiService) { }
 
   ngOnInit() {
-    this.firstFormGroup = this._formBuilder.group({
-      firstCtrl: ['', Validators.required]
-    });
-    this.secondFormGroup = this._formBuilder.group({
-      secondCtrl: ['', Validators.required]
-    });
-    this.getLogs();
-
-    this.getObjects();
     this.getPlans();
+    this.getObjects();
+    // this.getLogsByTimeInterval();
   }
 
   date: Date = new Date();
@@ -53,98 +45,44 @@ export class ObjectRenderingComponent implements OnInit {
     closeOnSelect: false
   };
 
-  onDateSelect(event: Date){
-    console.log(event.getMinutes() + "asds");
+  onStartDateSelect(event) {
+    this.startDate = new Date(event);
+  }
+
+  onEndDateSelect(event: Date) {
+    this.endDate = new Date(event);
   }
 
   onObjectSelected(selectedObjectId) {
-    this.selectedObjectCode = selectedObjectId.objectCode;
-    this.getLogByObjectId(selectedObjectId.id);
+    this.checkObject = true;
+    this.selectedObject = selectedObjectId;
+    this.filterForLogsByObject(selectedObjectId);
   }
 
-  // --------------------------------------------------IF PLAN SELECTED----------------------------------------------//
-  onMapSelected(selectedPlanId) {
+  onMapSelected(selectedPlanId): void {
+    this.checkMap = true;
     this._apiService.getPlanById(selectedPlanId).subscribe((plan) => {
-      console.log(selectedPlanId);
-      
       this.img.onload = () => {
         this.canvas = <HTMLCanvasElement>document.getElementById("objectsRenderingCanvas");
         this.ctx = this.canvas.getContext("2d");
-        console.log(this.ctx);
-
         this.canvas.width = plan.planWidth;
         this.canvas.height = plan.planHeight;
         this.ctx.drawImage(this.img, 0, 0);
-
-        //Get all logs records by selected plan
-        this.getLogByPlanId(selectedPlanId);
-
-        //Event lisiner for movement simulation begin
-        // let btn = document.getElementById("coolbutton");
-        // btn.addEventListener("click", (e: Event) => this.movementSimulation(this.logByPlanId));
+        var x = document.getElementById("myDIV");
+        if (x.style.display === "none") {
+          x.style.display = "block";
+        }
       }
       this.img.src = plan.planImage;
       this.plan = plan;
+      this.getLogsByPlan();
     }, (error) => {
       console.log(error);
       alert("Atsiprašome, įvyko klaida, bandykte dar kartą.");
     })
-
-  }
-  // --------------------------------------------------------------------------------------------------------------//
-
-
-  trigger() {
-    console.log("IŠSAUGOTI");
-
-    this.logByPlanAndObject = [];
-    this.logByPlanId.forEach(element => {
-      if (element.objectId === this.selectedObjectCode) {
-        this.logByPlanAndObject.push(element);
-      }
-    });
-    console.log(this.logByPlanAndObject);
-    console.log("Veikia");
-    
-    this.movementSimulation(this.logByPlanAndObject);
-    // let btn = document.getElementById("start");
-    // btn.addEventListener("click", (e: Event) => this.movementSimulation(this.logByPlanAndObject));
   }
 
-
-  //Read array throw time interval and draw a circle on plan
-  movementSimulation(logData) {
-    var curNewsIndex = -1;
-    var intervalID = setInterval(() => {
-      ++curNewsIndex;
-      if (curNewsIndex >= logData.length) {
-        clearInterval(intervalID);
-      } else {
-        this.ctx.drawImage(this.img, 0, 0);
-        this.ctx.beginPath();
-        this.ctx.font = "16px Arial";
-        this.ctx.fillStyle = "black";
-        this.ctx.fillText(logData[curNewsIndex].objectId, logData[curNewsIndex].coordinateX - 10, logData[curNewsIndex].coordinateY + 25);
-        this.ctx.arc(logData[curNewsIndex].coordinateX, logData[curNewsIndex].coordinateY, 6, 0, 2 * Math.PI);
-        this.ctx.fillStyle = "red";
-        this.ctx.fill();
-        this.ctx.stroke();
-      }
-    }, 200);
-    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-  }
-
-
-  getLogs() {
-    this._apiService.getLog().subscribe((log) => {
-      this.log = log
-    }, (error) => {
-      console.log(error);
-    })
-    return this.log;
-  }
-
-  getPlans() {
+  getPlans(): Plan[] {
     this._apiService.getPlan().subscribe((plans) => {
       this.plans = plans
     }, (error) => {
@@ -153,40 +91,97 @@ export class ObjectRenderingComponent implements OnInit {
     return this.plans;
   }
 
-  getPlanById(planId: number) {
-    this._apiService.getPlanById(planId).subscribe((plan) => {
-      this.plan = plan
+  getObjects(): TrackedObject[] {
+    this._apiService.getObject().subscribe((objects) => {
+      this.objects = objects;
     }, (error) => {
       console.log(error);
     })
-    return this.plan;
+    return this.objects;
   }
 
-  getLogByPlanId(logPlanId: number) {
-    this._apiService.getLogByPlanId(logPlanId).subscribe((logByPlanId) => {
-      this.logByPlanId = logByPlanId
+  getLogsByPlan() {
+    this._apiService.getLogByPlanId(this.plan.id).subscribe((logs) => {
+      this.logs = logs;
+      console.log(logs);
     }, (error) => {
       console.log(error);
     })
-    return this.logByPlanId;
   }
 
-  getLogByObjectId(logObjectId: number) {
-    this._apiService.getLogByObjectId(logObjectId).subscribe((logByObjectId) => {
-      this.logByObjectId = logByObjectId
-    }, (error) => {
-      console.log(error);
-    })
-    return this.logByObjectId;
+  movementSimulation(logData) {
+    var curNewsIndex = -1;
+    if (logData !== null) {
+      this.intervalID = setInterval(() => {
+        ++curNewsIndex;
+        if (curNewsIndex >= logData.length) {
+          clearInterval(this.intervalID);
+          this.img.src = this.plan.planImage;
+        } else {
+          console.log("testing");
+          this.ctx.drawImage(this.img, 0, 0);
+          this.ctx.beginPath();
+          this.ctx.font = "16px Arial";
+          this.ctx.fillStyle = "black";
+          this.ctx.fillText(logData[curNewsIndex].objectId, logData[curNewsIndex].coordinateX - 10, logData[curNewsIndex].coordinateY + 25);
+          this.ctx.arc(logData[curNewsIndex].coordinateX, logData[curNewsIndex].coordinateY, 6, 0, 2 * Math.PI);
+          this.ctx.fillStyle = "red";
+          this.ctx.fill();
+          this.ctx.stroke();
+        }
+      }, 100);
+    } else {
+      console.log("No records found");
+    }
   }
 
-  getObjects() {
-    this._apiService.getObject().subscribe((trackedObjects) => {
-      this.trackedObjects = trackedObjects
+  filterForLogsByObject(selectedObject: TrackedObject) {
+    if (this.plan !== undefined) {
+      this.logsByObject = [];
+      this.logs.forEach(element => {
+        if (element.objectId === selectedObject.objectCode) {
+          this.logsByObject.push(element);
+        }
+      });
+    } else {
+      alert("Pirmiau pasirinkite planą!");
+    }
+    console.log(this.logsByObject);
+  }
+
+  getLogsByTimeInterval() {
+    var data = { planId: 1, objectId: 2, startDate: this.startDate + "", endDate: this.endDate + "" };
+    this._apiService.getLogByTimeInterval(data).subscribe((interval) => {
+      console.log(interval);
     }, (error) => {
       console.log(error);
     })
-    return this.trackedObjects;
+  }
+
+  start() {
+    if (this.checkMap) {
+      if (this.checkObject) {
+        this.movementSimulation(this.logsByObject);
+      } else {
+        this.movementSimulation(this.logs);
+      }
+    } else {
+      alert("Pasirinkite planą!");
+    }
+  }
+
+  startByInterval() {
+    var x = document.getElementById("myDIV2");
+    if (x.style.display === "none") {
+      x.style.display = "block";
+    }
+  }
+
+  stop() {
+    clearInterval(this.intervalID);
+    this.img.src = this.plan.planImage;
+    // this.logs = [];
+    // this.logsByObject = [];
   }
 
 }
