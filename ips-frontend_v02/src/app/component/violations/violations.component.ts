@@ -23,9 +23,11 @@ export class ViolationsComponent implements OnInit {
 
   getViolations() {
     this._apiService.getViolation().subscribe((violations) => {
-      this.violations = violations
-      this.dataSource = new MatTableDataSource<Violations>(this.violations);
-      this.dataSource.paginator = this.paginator;      
+      if (violations != null) {
+        this.violations = violations
+        this.dataSource = new MatTableDataSource<Violations>(this.violations);
+        this.dataSource.paginator = this.paginator;     
+      }
     }, (error) => {
       console.log(error);
     })

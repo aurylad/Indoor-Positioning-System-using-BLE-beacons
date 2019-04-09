@@ -98,17 +98,17 @@ public class Trilateration {
 			meetingPoint.setY(coordList.get(closestId).getY());
 		}
 		
-		if(closestDistance < 0.25) {
-			meetingPoint.setX(coordList.get(closestId).getX());
-			meetingPoint.setY(coordList.get(closestId).getY());
-			
-		}else if(closestDistance < 1) {
-			double middlePoint = (meetingPoint.getX() + coordList.get(closestId).getX())/2;
-			meetingPoint.setX(middlePoint);
-			middlePoint = (meetingPoint.getY() + coordList.get(closestId).getY())/2;
-			meetingPoint.setY(middlePoint);
-		}
-			
+//		if(closestDistance < 0.25) {
+//			meetingPoint.setX(coordList.get(closestId).getX());
+//			meetingPoint.setY(coordList.get(closestId).getY());
+//			
+//		}else if(closestDistance < 1) {
+//			double middlePoint = (meetingPoint.getX() + coordList.get(closestId).getX())/2;
+//			meetingPoint.setX(middlePoint);
+//			middlePoint = (meetingPoint.getY() + coordList.get(closestId).getY())/2;
+//			meetingPoint.setY(middlePoint);
+//		}
+//			
 
 		
 		

@@ -27,7 +27,7 @@ export class StarterComponent implements AfterViewInit {
   getPlans() {
     this._apiService.getPlan().subscribe((plans) => {
       this.plans = plans;
-      this.planDataToView();
+      // this.planDataToView();
     }, (error) => {
       console.log(error);
     })
@@ -53,7 +53,7 @@ export class StarterComponent implements AfterViewInit {
   getBeacons() {
     this._apiService.getBeacon().subscribe((beacons) => {
       this.beacons = beacons;
-      this.beaconsDataToView();
+      // this.beaconsDataToView();
     }, (error) => {
       console.log(error);
     })

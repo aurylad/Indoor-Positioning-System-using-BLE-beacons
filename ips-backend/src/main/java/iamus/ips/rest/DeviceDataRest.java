@@ -164,8 +164,8 @@ public class DeviceDataRest implements DeviceDataApi {
 		tgt.setPlan(beaconInPlan.getPlan());
 		logRepository.save(tgt);
 
-		checkForViolation(beaconInPlan.getCoordinateX(), beaconInPlan.getCoordinateY(), object,
-				beaconInPlan.getPlan().getId());
+//		checkForViolation(beaconInPlan.getCoordinateX(), beaconInPlan.getCoordinateY(), object,
+//				beaconInPlan.getPlan().getId());
 
 		return ResponseEntity.ok().build();
 	}

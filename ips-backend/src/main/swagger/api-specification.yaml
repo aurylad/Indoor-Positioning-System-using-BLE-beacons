@@ -523,6 +523,12 @@ definitions:
       TransmitterId3:
         type: string
         description: 3 Beacon name, from which signal was received
+      TxPower1:
+        type: number
+      TxPower2:
+        type: number
+      TxPower3:
+        type: number
  
   Plan:
     type: object
