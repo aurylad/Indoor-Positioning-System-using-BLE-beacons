@@ -32,6 +32,7 @@ import iamus.ips.jpa.repository.RestrictedAreaRepository;
 import iamus.ips.jpa.repository.ViolationsRepository;
 import iamus.ips.objectLocation.Proximity;
 import iamus.ips.objectLocation.Trilateration;
+import iamus.ips.objectLocation.XYCoord;
 import iamus.ips.server.api.DeviceDataApi;
 import iamus.ips.server.model.BeaconInPlan;
 import iamus.ips.server.model.DeviceData;
@@ -77,6 +78,8 @@ public class DeviceDataRest implements DeviceDataApi {
 	@Override
 	public ResponseEntity<Void> addDeviceData(@ApiParam(value = "") @Valid @RequestBody DeviceData deviceData) {
 
+		// _______________________________________
+//		Creating list of transmitted device data
 		List<Object> transmitter1 = new ArrayList<>();
 		transmitter1.add(deviceData.getObjectId1());
 		transmitter1.add(deviceData.getSignal1());
@@ -97,31 +100,65 @@ public class DeviceDataRest implements DeviceDataApi {
 		transmitterList.add(transmitter2);
 		transmitterList.add(transmitter3);
 
+		
+//		Proximity for finding objects location
 		Proximity proximity = new Proximity();
 		Trilateration trilateration = new Trilateration();
 		List closestTransmitter = proximity.proximity(transmitterList);
-		// List trilaterationResult = trilateration.trilateration(transmitterList);
-//		System.out.println(closestTransmitter);
-		System.out.println(closestTransmitter);
-		return save(closestTransmitter, null);
+		
+//		Trilateration for finding objects location
+		List<XYCoord> coordList = new ArrayList<>();
+		List<Double> rssiList = new ArrayList<>();
+		
+		BeaconEntity beacon = beaconRepository.findOneByBeaconId(String.valueOf(transmitterList.get(0).get(2)));
+		BeaconInPlanEntity beaconInPlan = beaconInPlanRepository.findOneByBeaconId(beacon.getId());
+		XYCoord coord =new XYCoord(beaconInPlan.getCoordinateX(), beaconInPlan.getCoordinateY());
+		double rssi = Double.parseDouble(new Float((float) transmitterList.get(0).get(1)).toString());
+		coordList.add(coord);
+		rssiList.add(rssi);
+		System.out.println("Beacon: "+beacon.getBeaconId());
+		
+		beacon = beaconRepository.findOneByBeaconId(String.valueOf(transmitterList.get(1).get(2)));
+		beaconInPlan = beaconInPlanRepository.findOneByBeaconId(beacon.getId());
+		coord = new XYCoord(beaconInPlan.getCoordinateX(), beaconInPlan.getCoordinateY());
+		rssi = Double.parseDouble(new Float((float) transmitterList.get(1).get(1)).toString());
+		coordList.add(coord);
+		rssiList.add(rssi);
+		System.out.println("Beacon: "+beacon.getBeaconId());
+		
+		beacon = beaconRepository.findOneByBeaconId(String.valueOf(transmitterList.get(2).get(2)));
+		beaconInPlan = beaconInPlanRepository.findOneByBeaconId(beacon.getId());
+		coord = new XYCoord(beaconInPlan.getCoordinateX(), beaconInPlan.getCoordinateY());
+		rssi = Double.parseDouble(new Float((float) transmitterList.get(2).get(1)).toString());
+		coordList.add(coord);
+		rssiList.add(rssi);
+		System.out.println("Beacon: "+beacon.getBeaconId());
+		
+		PlanEntity plan = beaconInPlan.getPlan();
+		
+		XYCoord trilaterationResult = trilateration.getLocationByTrilateration(coordList, rssiList, plan);
+		
+		System.out.println("_____________________________________________");
+		System.out.println("Result: "+trilaterationResult.getX()+" , "+trilaterationResult.getY());
+		
+		return save(closestTransmitter, trilaterationResult,null);
 	}
 
 	public void impl() {
 		final Iterable<PlanEntity> plan = planRepository.findAll();
 	}
 
-	private ResponseEntity<Void> save(final List src, Long deviceDataId) {
+	private ResponseEntity<Void> save(final List src,XYCoord coord, Long deviceDataId) {
 
 		impl();
 		final ObjectEntity object = objectRepository.findOneByObjectCode(String.valueOf(src.get(0)));
 		final BeaconEntity beacon = beaconRepository.findOneByBeaconId(String.valueOf(src.get(2)));
 		final BeaconInPlanEntity beaconInPlan = beaconInPlanRepository.findOneByBeaconId(beacon.getId());
-
 		Date date = new Date();
 
 		final LogEntity tgt = new LogEntity(deviceDataId);
-		tgt.setLogCoordinateX(beaconInPlan.getCoordinateX());
-		tgt.setLogCoordinateY(beaconInPlan.getCoordinateY());
+		tgt.setLogCoordinateX((float) coord.getX());
+		tgt.setLogCoordinateY((float) coord.getY());
 		tgt.setLogDateTime(date);
 		tgt.setObject(object);
 		tgt.setPlan(beaconInPlan.getPlan());
