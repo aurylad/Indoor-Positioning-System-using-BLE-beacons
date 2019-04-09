@@ -84,6 +84,7 @@ public class DeviceDataRest implements DeviceDataApi {
 		transmitter1.add(deviceData.getObjectId1());
 		transmitter1.add(deviceData.getSignal1());
 		transmitter1.add(deviceData.getTransmitterId1());
+		transmitter1.add(deviceData.getTxPower1());
 
 		List<Object> transmitter2 = new ArrayList<>();
 		transmitter2.add(deviceData.getObjectId2());
@@ -109,6 +110,7 @@ public class DeviceDataRest implements DeviceDataApi {
 //		Trilateration for finding objects location
 		List<XYCoord> coordList = new ArrayList<>();
 		List<Double> rssiList = new ArrayList<>();
+		List<Integer> txPowerList = new ArrayList<>();
 		
 		BeaconEntity beacon = beaconRepository.findOneByBeaconId(String.valueOf(transmitterList.get(0).get(2)));
 		BeaconInPlanEntity beaconInPlan = beaconInPlanRepository.findOneByBeaconId(beacon.getId());
@@ -116,6 +118,7 @@ public class DeviceDataRest implements DeviceDataApi {
 		double rssi = Double.parseDouble(new Float((float) transmitterList.get(0).get(1)).toString());
 		coordList.add(coord);
 		rssiList.add(rssi);
+		txPowerList.add(deviceData.getTxPower1());
 		System.out.println("Beacon: "+beacon.getBeaconId());
 		
 		beacon = beaconRepository.findOneByBeaconId(String.valueOf(transmitterList.get(1).get(2)));
@@ -124,6 +127,7 @@ public class DeviceDataRest implements DeviceDataApi {
 		rssi = Double.parseDouble(new Float((float) transmitterList.get(1).get(1)).toString());
 		coordList.add(coord);
 		rssiList.add(rssi);
+		txPowerList.add(deviceData.getTxPower2());
 		System.out.println("Beacon: "+beacon.getBeaconId());
 		
 		beacon = beaconRepository.findOneByBeaconId(String.valueOf(transmitterList.get(2).get(2)));
@@ -132,11 +136,12 @@ public class DeviceDataRest implements DeviceDataApi {
 		rssi = Double.parseDouble(new Float((float) transmitterList.get(2).get(1)).toString());
 		coordList.add(coord);
 		rssiList.add(rssi);
+		txPowerList.add(deviceData.getTxPower3());
 		System.out.println("Beacon: "+beacon.getBeaconId());
 		
 		PlanEntity plan = beaconInPlan.getPlan();
 		
-		XYCoord trilaterationResult = trilateration.getLocationByTrilateration(coordList, rssiList, plan);
+		XYCoord trilaterationResult = trilateration.getLocationByTrilateration(coordList, rssiList,txPowerList, plan);
 		
 		System.out.println("_____________________________________________");
 		System.out.println("Result: "+trilaterationResult.getX()+" , "+trilaterationResult.getY());

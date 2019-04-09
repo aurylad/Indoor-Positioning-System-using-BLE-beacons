@@ -563,11 +563,14 @@ definitions:
         type: string
         description: 3 Beacon name, from which signal was received
       TxPower1:
-        type: number
+        type: integer
+        format: int32
       TxPower2:
-        type: number
+        type: integer
+        format: int32
       TxPower3:
-        type: number
+        type: integer
+        format: int32
  
   Plan:
     type: object
