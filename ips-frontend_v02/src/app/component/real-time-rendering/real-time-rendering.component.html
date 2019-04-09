@@ -2,7 +2,15 @@
   <div class="col-md-12">
     <div class="card">
       <div class="card-body">
-
+        <h3 class="card-title">Objektų stebėjimas realiu laiku </h3>
+        <h6 class="card-subtitle">Pasirinkę planą ir paspaudę mygtuką "PRADĖTI" matysite objektus, kurie <br> šuo metu
+          yra pasirinktame plane. Taip pat matysite kaip jie judą patalpoje.</h6>
+        <br>
+        <div style="float: right;">
+          <button class="btn btn-success" (click)="realTimeDataByIntervals()" sstyle='margin-right:16px'>PRADĖTI</button>
+          &nbsp;
+          <button class="btn btn-secondary" (click)="stop()">SUSTABDYTI</button>
+        </div>
         <mat-form-field>
           <mat-select placeholder="Pasirinkti planą" (selectionChange)="onMapSelected($event.value)">
             <mat-option *ngFor="let plans of plans" [value]="plans.id">
@@ -12,29 +20,20 @@
         </mat-form-field>
         &nbsp;
         <mat-form-field>
-          <mat-select placeholder="Pasirinkti objektą" (selectionChange)="onObjectSelected($event.value)">
+          <mat-select placeholder="Pasirinkti objektą" (selectionChange)="onObjectSelected($event.value)" disabled=true>
             <mat-option *ngFor="let trackedObjects of trackedObjects" [value]="trackedObjects">
               {{trackedObjects.objectName}}
             </mat-option>
           </mat-select>
         </mat-form-field>
         <br>
-        <button class="btn btn-success" (click)="realTimeDataByIntervals()">PRADĖTI</button>
-        &nbsp;
-        <button class="btn btn-success" (click)="stop()">STOP</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="col-md-12">
-    <div class="card">
-      <div class="card-body">
-        <div align="center">
-          <canvas id="objectsRenderingCanvas">
-            Your browser does not support the canvas element.
-          </canvas>
+        <div id="myDIV" style="display: none">
+          <div align="center">
+            <canvas id="objectsRenderingCanvas">
+              Your browser does not support the canvas element.
+            </canvas>
+          </div>
         </div>
-
       </div>
     </div>
   </div>

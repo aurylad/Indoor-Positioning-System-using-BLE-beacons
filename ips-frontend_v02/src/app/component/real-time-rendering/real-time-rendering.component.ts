@@ -24,7 +24,6 @@ export class RealTimeRenderingComponent implements OnInit {
 
   ngOnInit() {
     this.getPlans();
-    // this.getLogs();
   }
 
   getPlans(): Plan[] {
@@ -44,6 +43,11 @@ export class RealTimeRenderingComponent implements OnInit {
         this.canvas.width = plan.planWidth;
         this.canvas.height = plan.planHeight;
         this.ctx.drawImage(this.img, 0, 0);
+
+        var x = document.getElementById("myDIV");
+        if (x.style.display === "none") {
+          x.style.display = "block";
+        }
       }
       this.img.src = plan.planImage;
       this.plan = plan;
@@ -71,8 +75,7 @@ export class RealTimeRenderingComponent implements OnInit {
   realTimeDataByIntervals() {
     this.intervalID = setInterval(() => {
       this.getRealTimeLogs();
-      console.log(this.logs);
-    }, 5000);
+    }, 3000);
   }
 
   stop() {
@@ -81,26 +84,31 @@ export class RealTimeRenderingComponent implements OnInit {
     this.logs = [];
   }
 
-
   movementSimulation(logData) {
+    console.log(logData);
+    
     var curNewsIndex = -1;
-    var intervalID = setInterval(() => {
-      ++curNewsIndex;
-      if (curNewsIndex >= logData.length) {
-        clearInterval(intervalID);
-      } else {
-        console.log(1);
-        this.ctx.drawImage(this.img, 0, 0);
-        this.ctx.beginPath();
-        this.ctx.font = "16px Arial";
-        this.ctx.fillStyle = "black";
-        this.ctx.fillText(logData[curNewsIndex].objectId, logData[curNewsIndex].coordinateX - 10, logData[curNewsIndex].coordinateY + 25);
-        this.ctx.arc(logData[curNewsIndex].coordinateX, logData[curNewsIndex].coordinateY, 6, 0, 2 * Math.PI);
-        this.ctx.fillStyle = "red";
-        this.ctx.fill();
-        this.ctx.stroke();
-      }
-    }, 600);
+    if (logData !== null) {
+      var intervalID = setInterval(() => {
+        ++curNewsIndex;
+        if (curNewsIndex >= logData.length) {
+          clearInterval(intervalID);
+        } else {
+          console.log(1);
+          this.ctx.drawImage(this.img, 0, 0);
+          this.ctx.beginPath();
+          this.ctx.font = "16px Arial";
+          this.ctx.fillStyle = "black";
+          this.ctx.fillText(logData[curNewsIndex].objectId, logData[curNewsIndex].coordinateX - 10, logData[curNewsIndex].coordinateY + 25);
+          this.ctx.arc(logData[curNewsIndex].coordinateX, logData[curNewsIndex].coordinateY, 6, 0, 2 * Math.PI);
+          this.ctx.fillStyle = "red";
+          this.ctx.fill();
+          this.ctx.stroke();
+        }
+      }, 500);
+    } else {
+      console.log("No records found");
+    }
   }
 
 }

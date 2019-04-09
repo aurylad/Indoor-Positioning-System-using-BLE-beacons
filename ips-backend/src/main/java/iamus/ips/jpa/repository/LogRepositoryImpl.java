@@ -1,5 +1,6 @@
 package iamus.ips.jpa.repository;
 
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -33,13 +34,14 @@ public class LogRepositoryImpl implements LogRepositoryCustom {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<LogEntity> findLogsByDateTime(Long planId) {
-		System.out.println(planId);
-		Date currDateMinusMin = new Date(System.currentTimeMillis() - 60 * 1000);
-		
-		Query query = entityManager.createNativeQuery("SELECT * FROM results_log WHERE date_time < ?  AND plan_id = ?", LogEntity.class); // later change this < to this >
+		Date currDateMinusMin = new Date(System.currentTimeMillis() -3 * 1000);
+//		Timestamp ts = new Timestamp(currDateMinusMin.getTime());
+
+		Query query = entityManager.createNativeQuery(
+				"SELECT * FROM results_log WHERE date_time > ? AND plan_id = ?",
+				LogEntity.class); // later change this < to this >
 		query.setParameter(1, currDateMinusMin);
 		query.setParameter(2, planId);
-		System.out.println(query.getResultList());
 		return query.getResultList();
 	}
 

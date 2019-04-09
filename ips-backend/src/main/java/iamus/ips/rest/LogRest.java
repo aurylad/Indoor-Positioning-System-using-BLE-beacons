@@ -96,9 +96,15 @@ public class LogRest implements LogApi {
 	public ResponseEntity<List<Log>> getLogByDatetime(@ApiParam(value = " Datetime of the log to get log data.", //
 			required = true) @PathVariable("planId") Long planId) {
 		final List<Log> list = new ArrayList<>();
-		for (final LogEntity src : logRepository.findLogsByPlanId(planId)) {
+		for (final LogEntity src : logRepository.findLogsByDateTime(planId)) {
 			list.add(toLog(src));
 		}
+		
+		System.out.println("---------------------------------------------------------------------------------");
+		Date currDateMinusMin = new Date(System.currentTimeMillis() - 3 * 1000);
+		System.out.println(currDateMinusMin);
+		System.out.println("---------------------------------------------------------------------------------");
+		System.out.println(list);
 		return Utils.toResponseEntity(list);
 	}
 

@@ -42,22 +42,6 @@ export const ROUTES: RouteInfo[] = [
     submenu: []
   },
   {
-    path: '/component/object-rendering',
-    title: 'Objektų atvaizdavimas',
-    icon: 'mdi mdi-monitor',
-    class: '',
-    extralink: false,
-    submenu: []
-  },
-  {
-    path: '/component/real-time-rendering',
-    title: 'Stebėti objektus',
-    icon: 'mdi mdi-message-video',
-    class: '',
-    extralink: false,
-    submenu: []
-  },
-  {
     path: '/component/restricted-area-reg',
     title: 'Draudžiamos zonos',
     icon: 'mdi mdi-minus-circle-outline',
@@ -69,6 +53,30 @@ export const ROUTES: RouteInfo[] = [
     path: '/component/violations',
     title: 'Užregistruoti pažeidimai',
     icon: 'mdi mdi-clipboard-text',
+    class: '',
+    extralink: false,
+    submenu: []
+  },
+  {
+    path: '',
+    title: 'Objektų judėjimas',
+    icon: 'mdi mdi-dots-horizontal',
+    class: 'nav-small-cap',
+    extralink: true,
+    submenu: []
+  },
+  {
+    path: '/component/object-rendering',
+    title: 'Objektų atvaizdavimas',
+    icon: 'mdi mdi-monitor',
+    class: '',
+    extralink: false,
+    submenu: []
+  },
+  {
+    path: '/component/real-time-rendering',
+    title: 'Stebėti objektus',
+    icon: 'mdi mdi-message-video',
     class: '',
     extralink: false,
     submenu: []
