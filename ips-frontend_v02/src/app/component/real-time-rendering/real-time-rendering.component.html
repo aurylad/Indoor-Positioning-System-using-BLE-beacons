@@ -7,7 +7,7 @@
           yra pasirinktame plane. Taip pat matysite kaip jie judą patalpoje.</h6>
         <br>
         <div style="float: right;">
-          <button class="btn btn-success" (click)="realTimeDataByIntervals()" sstyle='margin-right:16px'>PRADĖTI</button>
+          <button class="btn btn-success" (click)="start()" sstyle='margin-right:16px'>PRADĖTI</button>
           &nbsp;
           <button class="btn btn-secondary" (click)="stop()">SUSTABDYTI</button>
         </div>
@@ -20,13 +20,21 @@
         </mat-form-field>
         &nbsp;
         <mat-form-field>
-          <mat-select placeholder="Pasirinkti objektą" (selectionChange)="onObjectSelected($event.value)" disabled=true>
-            <mat-option *ngFor="let trackedObjects of trackedObjects" [value]="trackedObjects">
-              {{trackedObjects.objectName}}
+          <mat-select placeholder="Pasirinkti objektą" (selectionChange)="onObjectSelected($event.value)"
+            disabled=false>
+            <mat-option *ngFor="let objects of objects" [value]="objects">
+              {{objects.objectName}}
             </mat-option>
           </mat-select>
         </mat-form-field>
         <br>
+        <br>
+        <br>
+        <div id="notification" style="display: none" align="center">
+          <canvas id="objectsRenderingCanvas">
+            Your browser does not support the canvas element.
+          </canvas>
+        </div>
         <div id="myDIV" style="display: none">
           <div align="center">
             <canvas id="objectsRenderingCanvas">

@@ -99,6 +99,24 @@ paths:
             Successful response, with a representation of plan.
           schema:
             $ref: '#/definitions/Plan'
+            
+  /plan/name/{planId}:
+    get:
+      operationId: getPlanByPlanName
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: planId
+          type: string
+          required: true
+          description: Name of the plan to get.
+      responses:
+        '200':
+          description: >-
+            Successful response, with a representation of plan.
+          schema:
+            $ref: '#/definitions/Plan'     
     
                   # LOGS
    
@@ -605,6 +623,10 @@ definitions:
         format: int64
       planId:
         type: string
+      planDbId:
+        type: integer
+        format: int64
+        description: Plan id
       coordinateX:
         type: number
         format: float

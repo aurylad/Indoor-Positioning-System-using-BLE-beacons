@@ -232,6 +232,42 @@ class ApiService extends __BaseService {
   }
 
   /**
+   * @param planId Name of the plan to get.
+   * @return Successful response, with a representation of plan.
+   */
+  getPlanByPlanNameResponse(planId: string): __Observable<__StrictHttpResponse<Plan>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+
+    let req = new HttpRequest<any>(
+      'GET',
+      this.rootUrl + `/plan/name/${planId}`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<Plan>;
+      })
+    );
+  }
+  /**
+   * @param planId Name of the plan to get.
+   * @return Successful response, with a representation of plan.
+   */
+  getPlanByPlanName(planId: string): __Observable<Plan> {
+    return this.getPlanByPlanNameResponse(planId).pipe(
+      __map(_r => _r.body as Plan)
+    );
+  }
+
+  /**
    * @return Successful response, with a representation of the log data.
    */
   getLogResponse(): __Observable<__StrictHttpResponse<Array<Log>>> {

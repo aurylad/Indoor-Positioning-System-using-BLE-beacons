@@ -86,6 +86,7 @@ public class LogRest implements LogApi {
 		tgt.setRegDateTime(src.getLogDateTime());
 		tgt.setObjectId(src.getObject().getObjectCode());
 		tgt.setPlanId(src.getPlan().getPlanId());
+		tgt.setPlanDbId(src.getPlan().getId());
 		tgt.setObjectAccessLevel(src.getObject().getAccessLevel());
 		tgt.setObjectName(src.getObject().getObjName());
 		tgt.setObjectType(src.getObject().getObjType());
@@ -110,12 +111,11 @@ public class LogRest implements LogApi {
 
 	@Override
 	public ResponseEntity<List<Log>> getLogByTimeInterval(Long planId, Long objectId, Date startDate, Date endDate) {
-		System.out.println(planId);
-		System.out.println(objectId);
-		System.out.println(startDate);
-		System.out.println(endDate);
-
-		return null;
+		final List<Log> list = new ArrayList<>();
+		for (final LogEntity src : logRepository.findLogsByPlanIdObjectIdAndDateTime(planId, objectId, startDate, endDate)) {
+			list.add(toLog(src));
+		}
+		return Utils.toResponseEntity(list);
 	}
 
 

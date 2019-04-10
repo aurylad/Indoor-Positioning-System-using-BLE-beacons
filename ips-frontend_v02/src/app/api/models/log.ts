@@ -4,6 +4,11 @@ export interface Log {
   planId?: string;
 
   /**
+   * Plan id
+   */
+  planDbId?: number;
+
+  /**
    * Object coordinate x on plan
    */
   coordinateX?: number;

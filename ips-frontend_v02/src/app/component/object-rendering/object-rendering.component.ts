@@ -18,9 +18,11 @@ export class ObjectRenderingComponent implements OnInit {
   private objects: TrackedObject[];
   private logs: Log[];
   private logsByObject: Log[] = [];
+  private logsByInterval: Log[];
   private checkMap = false;
   private checkObject = false;
-  private selectedObject;
+  private checkStartDate = false;
+  private selectedObject: TrackedObject;
   private startDate: Date;
   private endDate: Date;
 
@@ -33,9 +35,11 @@ export class ObjectRenderingComponent implements OnInit {
   ngOnInit() {
     this.getPlans();
     this.getObjects();
+   
     // this.getLogsByTimeInterval();
   }
 
+  //Time interval pick config
   date: Date = new Date();
   settings = {
     bigBanner: true,
@@ -45,8 +49,14 @@ export class ObjectRenderingComponent implements OnInit {
     closeOnSelect: false
   };
 
+  //Slide toggle config
+  color = 'primary';
+  checked = false;
+  disabled = false;
+
   onStartDateSelect(event) {
     this.startDate = new Date(event);
+    this.checkStartDate = true;
   }
 
   onEndDateSelect(event: Date) {
@@ -129,7 +139,7 @@ export class ObjectRenderingComponent implements OnInit {
           this.ctx.fill();
           this.ctx.stroke();
         }
-      }, 100);
+      }, 200);
     } else {
       console.log("No records found");
     }
@@ -150,23 +160,33 @@ export class ObjectRenderingComponent implements OnInit {
   }
 
   getLogsByTimeInterval() {
-    var data = { planId: 1, objectId: 2, startDate: this.startDate + "", endDate: this.endDate + "" };
+    if (this.endDate == undefined) {
+      var d: Date = new Date();
+      this.endDate = d;
+    }
+    var data = { planId: this.plan.id, objectId: this.selectedObject.id, startDate: this.startDate + "", endDate: this.endDate + "" };
     this._apiService.getLogByTimeInterval(data).subscribe((interval) => {
-      console.log(interval);
+      this.logsByInterval = interval;
+      this.movementSimulation(this.logsByInterval);
+      console.log(this.logsByInterval);
     }, (error) => {
       console.log(error);
     })
   }
 
   start() {
-    if (this.checkMap) {
-      if (this.checkObject) {
-        this.movementSimulation(this.logsByObject);
-      } else {
-        this.movementSimulation(this.logs);
-      }
+    if (this.checkStartDate && this.checkMap && this.checkObject) {
+      this.getLogsByTimeInterval();
     } else {
-      alert("Pasirinkite planą!");
+      if (this.checkMap) {
+        if (this.checkObject) {
+          this.movementSimulation(this.logsByObject);
+        } else {
+          this.movementSimulation(this.logs);
+        }
+      } else {
+        alert("Pasirinkite planą!");
+      }
     }
   }
 
@@ -174,6 +194,8 @@ export class ObjectRenderingComponent implements OnInit {
     var x = document.getElementById("myDIV2");
     if (x.style.display === "none") {
       x.style.display = "block";
+    } else {
+      x.style.display = "none";
     }
   }
 

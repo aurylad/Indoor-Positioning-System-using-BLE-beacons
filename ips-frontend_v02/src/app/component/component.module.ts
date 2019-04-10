@@ -31,6 +31,7 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { AngularDateTimePickerModule } from 'angular2-datetimepicker';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 
 import { MatInputModule, MatSelectModule, MatCheckboxModule } from '@angular/material';
@@ -61,7 +62,8 @@ import { RealTimeRenderingComponent } from './real-time-rendering/real-time-rend
     MatStepperModule,
     AngularDateTimePickerModule,
     MatDialogModule,
-    MatIconModule
+    MatIconModule,
+    MatSlideToggleModule
   ],
   declarations: [
     NgbdpregressbarBasicComponent,

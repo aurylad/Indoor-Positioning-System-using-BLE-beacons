@@ -22,7 +22,7 @@ import iamus.ips.server.model.Plan;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins="http://localhost:4200", allowedHeaders="*")
+@CrossOrigin(origins = "http://localhost:4200", allowedHeaders = "*")
 public class PlanRest implements PlanApi {
 
 	@Autowired
@@ -67,6 +67,14 @@ public class PlanRest implements PlanApi {
 	@Override
 	public ResponseEntity<Void> updatePlan(@ApiParam(value = "") @Valid @RequestBody Plan plan) {
 		return save(plan, plan.getId());
+	}
+
+	@Override
+	public ResponseEntity<Plan> getPlanByPlanName(@ApiParam(value = "Name of the plan to get.", //
+			required = true) @PathVariable("planId") String planId) {
+		PlanEntity optional = planRepository.findOneByPlanId(planId);
+		
+		return ResponseEntity.ok(toPlan(optional));
 	}
 
 	private ResponseEntity<Void> save(final Plan src, Long id) {
