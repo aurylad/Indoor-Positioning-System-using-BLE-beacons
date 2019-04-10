@@ -34,28 +34,28 @@ public class Trilateration {
 	 * @return 
 	*/
 	 
-	private XYCoord getMeetingPoints(double distanceA, double distanceB, double distanceC, double pointA1, double pointA2, double pointB1, double pointB2, double pointC1, double pointC2) {
-	 
-	    double w,z,x,y,y2;
-	    w = distanceA * distanceA - distanceB * distanceB - pointA1 * pointA1 - pointA2* pointA2 + pointB1 * pointB1 + pointB2 * pointB2;
-	 
-	    z = distanceB * distanceB - distanceC * distanceC - pointB1* pointB1 - pointB2 * pointB2 + pointC1 * pointC1 + pointC2 * pointC2;
-	 
-	    x = (w * ( pointC2 - pointB2) - z * ( pointB2 - pointA2)) / (2 * (( pointB1 - pointA1) * ( pointC1 - pointB2) - ( pointC1 - pointB1) * ( pointB2 - pointA2)));
-	 
-	    y = (w - 2 * x * (pointB1 - pointA1)) / (2 * ( pointB2 - pointA2));
-	 
-	    y2 = (z - 2 * x * ( pointC1 -pointB1)) / (2 * ( pointC1 - pointB2));
-	 
-	    y = (y + y2) / 2;
-	    
-	    System.out.println("_____________________________________________");
-		System.out.println("Rsult X: "+x);
-		System.out.println("Result Y: "+y);
-		return new XYCoord(x,y);
-	    
-	 
-	}
+//	private XYCoord getMeetingPoints(double distanceA, double distanceB, double distanceC, double pointA1, double pointA2, double pointB1, double pointB2, double pointC1, double pointC2) {
+//	 
+//	    double w,z,x,y,y2;
+//	    w = distanceA * distanceA - distanceB * distanceB - pointA1 * pointA1 - pointA2* pointA2 + pointB1 * pointB1 + pointB2 * pointB2;
+//	 
+//	    z = distanceB * distanceB - distanceC * distanceC - pointB1* pointB1 - pointB2 * pointB2 + pointC1 * pointC1 + pointC2 * pointC2;
+//	 
+//	    x = (w * ( pointC2 - pointB2) - z * ( pointB2 - pointA2)) / (2 * (( pointB1 - pointA1) * ( pointC1 - pointB2) - ( pointC1 - pointB1) * ( pointB2 - pointA2)));
+//	 
+//	    y = (w - 2 * x * (pointB1 - pointA1)) / (2 * ( pointB2 - pointA2));
+//	 
+//	    y2 = (z - 2 * x * ( pointC1 -pointB1)) / (2 * ( pointC1 - pointB2));
+//	 
+//	    y = (y + y2) / 2;
+//	    
+//	    System.out.println("_____________________________________________");
+//		System.out.println("Rsult X: "+x);
+//		System.out.println("Result Y: "+y);
+//		return new XYCoord(x,y);
+//	    
+//	 
+//	}
 	public XYCoord getLocationByTrilateration(List<XYCoord> coordList, List<Double> rssiList, List<Integer> txPowerList,PlanEntity plan){
 		
 		List<Double> distanceInMetersList = new ArrayList<>();
@@ -72,6 +72,7 @@ public class Trilateration {
 		double distanceInPx2 = distanceInMetersList.get(1)*100/plan.getPlanScale();
 		double distanceInPx3 = distanceInMetersList.get(2)*100/plan.getPlanScale();
 		double maxDistanceInPx = Math.sqrt((double)((plan.getPlanHeight()-10)*(plan.getPlanHeight()-10))+(double)((plan.getPlanWidth()-10)*(plan.getPlanWidth()-10)));
+		double changeDistanceInPx = 400/plan.getPlanScale();
 		
 		if(distanceInPx1 >= maxDistanceInPx) {
 			distanceInPx1 = maxDistanceInPx ;
@@ -234,7 +235,7 @@ public class Trilateration {
 		System.out.println("_____________________________________________");
 		System.out.println("result Y: "+tripty);
         XYCoord meetingPoint = new XYCoord(triptx,tripty);
-        
+        meetingPoint.setChangeInPx(changeDistanceInPx);
 		
 		if (meetingPoint.getX()<0 || meetingPoint.getX()>plan.getPlanWidth() || !Double.isFinite( meetingPoint.getX())) {
 			meetingPoint.setX(coordList.get(closestId).getX());
@@ -255,7 +256,7 @@ public class Trilateration {
 		}
 
 //	    return new XYCoord(meetingPoint.getX(), meetingPoint.getY());
-		return new XYCoord(meetingPoint.getX(), meetingPoint.getY());
+		return  meetingPoint;
 		
     
 }

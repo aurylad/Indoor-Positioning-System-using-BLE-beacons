@@ -74,6 +74,8 @@ public class DeviceDataRest implements DeviceDataApi {
 		this.violationsRepository = null;
 		this.planRepository = null;
 	}
+	
+	XYCoord lastLocation = new XYCoord(0,0);
 
 	@Override
 	public ResponseEntity<Void> addDeviceData(@ApiParam(value = "") @Valid @RequestBody DeviceData deviceData) {
@@ -167,7 +169,22 @@ public class DeviceDataRest implements DeviceDataApi {
 		tgt.setLogDateTime(date);
 		tgt.setObject(object);
 		tgt.setPlan(beaconInPlan.getPlan());
+//		if (lastLocation.getChangeInPx()>0) {
+//			double diference =Math.sqrt(Math.pow((coord.getX()-lastLocation.getX()), 2)+Math.pow((coord.getY()-lastLocation.getY()), 2));
+//		    if (diference>=coord.getChangeInPx()) {
+//		    	System.out.println("Distance is more than 4m :" +diference);
+//		    }else {
+//		    			    
+//		    	lastLocation = coord;
+//		    	logRepository.save(tgt);
+//		    }
+//		}
+//		else {
+//			lastLocation = coord;
+//			logRepository.save(tgt);
+//		}
 		logRepository.save(tgt);
+	
 
 //		checkForViolation(beaconInPlan.getCoordinateX(), beaconInPlan.getCoordinateY(), object,
 //				beaconInPlan.getPlan().getId());
@@ -175,18 +192,6 @@ public class DeviceDataRest implements DeviceDataApi {
 		return ResponseEntity.ok().build();
 	}
 
-//	public List proximity(List<List> transmitterList) {
-//		List closestTransmitter = null;
-//		float strongestSignal = (float) transmitterList.get(0).get(1);
-//		for (List transmitter : transmitterList) {
-//			if ((float) transmitter.get(1) >= strongestSignal) {
-//				closestTransmitter = transmitter;
-//				strongestSignal = (float) transmitter.get(1);
-//			}
-//		}
-//		System.out.println("proximity: " + closestTransmitter);
-//		return closestTransmitter;
-//	}
 	String tempObjectCode;
 	Date previous = new Date();
 	int index = 1;

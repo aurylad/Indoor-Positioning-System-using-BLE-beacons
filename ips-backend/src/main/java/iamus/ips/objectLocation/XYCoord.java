@@ -3,7 +3,12 @@ package iamus.ips.objectLocation;
 public class XYCoord {
 	private double x;
 	private double y;
+	private double changeInPx;
 	
+	public XYCoord() {
+
+	
+	}
 	
 	public XYCoord(double x, double y) {
 		this.x = x;
@@ -11,6 +16,16 @@ public class XYCoord {
 
 	
 	}
+	
+	
+	public double getChangeInPx() {
+		return changeInPx;
+	}
+
+	public void setChangeInPx(double changeInPx) {
+		this.changeInPx = changeInPx;
+	}
+
 	public double getX() {
 		return x;
 	}
@@ -23,6 +38,8 @@ public class XYCoord {
 	public void setY(double y) {
 		this.y = y;
 	}
+
+
 	
 	
 	
