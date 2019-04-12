@@ -5,7 +5,9 @@
       <div class="card-body">
         <h3 class="card-title">Uždraustos zonos registracija</h3>
         <h6 class="card-subtitle">Pasirinkite planą, kuriame norite pažymėti draudžiamą zoną. Įrašykite <br> pažymėtos
-          zonos pavadinimą ir pasirinkite kurį prieigos lygį turintys objektai galės į ją patekti.</h6>
+          zonos pavadinimą ir pasirinkite kurį prieigos lygį turintys objektai galės į ją patekti. <br> Nustatytas zonas
+          galite rasti <a href="/#/component/restricted-area-list"> draudžiamų
+            zonų sąrašo lange.</a></h6>
         <button class="btn btn-secondary" (click)="reset()" style="float: right;">IŠ NAUJO</button>
         <form #areaForm="ngForm" (ngSubmit)="save(areaForm)">
           <mat-form-field>

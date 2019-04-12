@@ -28,7 +28,7 @@
                 <h6 class="card-subtitle">Pasirinkite siųstuvą iš sąrašo, pažymėtas siųstuvas atsiras plane. Nutemkite
                   atsiradusį siųstuvą į norimą vietą.</h6>
 
-                <table mat-table [dataSource]="unusedBeaconsList" class="mat-elevation-z8">
+                <table mat-table [dataSource]="unusedBeaconsList">
 
                   <!-- Checkbox Column -->
                   <ng-container matColumnDef="select">
@@ -39,7 +39,6 @@
                       </mat-checkbox>
                     </td>
                   </ng-container>
-
 
                   <!-- Position Column -->
                   <ng-container matColumnDef="id">
@@ -114,6 +113,70 @@
                 <tr mat-header-row *matHeaderRowDef="displayedColumnsBeaconList"></tr>
                 <tr mat-row *matRowDef="let row; columns: displayedColumnsBeaconList;"></tr>
               </table>
+            </div>
+          </ng-template>
+        </ngb-tab>
+
+        <ngb-tab title="Siųstuvai plane">
+          <ng-template ngbTabContent>
+
+            <div class="row">
+              <div class="col-md-12 col-xlg-11">
+                <div class="card">
+                  <div class="card-body">
+                    <h3 class="card-title">Siųstuvai užregistruoti planuose</h3>
+                    <h6 class="card-subtitle">Šioje lentelėje matote siųstuvus, kurie jau yra užregistruoti sistemoje
+                      <br>
+                      esančiosse planuose. Šiame lange taip galite ištrinti ar redaguoti siųstuvų informaciją.</h6>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4 col-xlg-3">
+                <div class="card">
+                  <div class="card-body">
+
+                    <table mat-table [dataSource]="beaconsInPlan" class="mat-elevation-z8">
+                      <ng-container matColumnDef="id">
+                        <th mat-header-cell *matHeaderCellDef> ID </th>
+                        <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+                      </ng-container>
+
+                      <ng-container matColumnDef="beaconId">
+                        <th mat-header-cell *matHeaderCellDef> Siųstuvas </th>
+                        <td mat-cell *matCellDef="let element"> {{element.beaconId}} </td>
+                      </ng-container>
+
+                      <ng-container matColumnDef="plandId">
+                        <th mat-header-cell *matHeaderCellDef> Planas </th>
+                        <td mat-cell *matCellDef="let element"> {{element.plandId}} </td>
+                      </ng-container>
+
+                      <ng-container matColumnDef="actions">
+                        <th mat-header-cell *matHeaderCellDef></th>
+                        <td mat-cell *matCellDef="let row">
+                          <button mat-icon-button (click)="onEditBeaconInPlan(row)">
+                            <mat-icon>launch</mat-icon>
+                          </button>
+                          <button mat-icon-button (click)="onDeleteBeaconInPlan(row)" color="warn">
+                            <mat-icon>delete_outline</mat-icon>
+                          </button>
+                        </td>
+                      </ng-container>
+                      <tr mat-header-row *matHeaderRowDef="displayedColumnsBeaconInPlan"></tr>
+                      <tr mat-row *matRowDef="let row; columns: displayedColumnsBeaconInPlan;"></tr>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-8 col-xlg-7">
+                <div class="card">
+                  <div class="card-body">
+                    <canvas id="beaconInPlanCanvas">
+                      Your browser does not support the canvas element.
+                    </canvas>
+                  </div>
+                </div>
+              </div>
             </div>
           </ng-template>
         </ngb-tab>

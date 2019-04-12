@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from 'src/app/api/services';
 import { Plan, Log, TrackedObject } from 'src/app/api/models';
+import { Subject } from 'rxjs/internal/Subject';
+import { debounceTime } from 'rxjs/internal/operators/debounceTime';
 
 @Component({
   selector: 'app-real-time-rendering',
@@ -9,32 +11,47 @@ import { Plan, Log, TrackedObject } from 'src/app/api/models';
 })
 export class RealTimeRenderingComponent implements OnInit {
 
+  private _success = new Subject<string>();
+  staticAlertClosed = false;
+  successMessage: string;
+
   private plans: Plan[];
   private plan: Plan;
-  private logs: Log[];
-
+  private findedObjectData: Log[] = [];
   private objects: TrackedObject[];
+  private selectedObject: TrackedObject;
 
   img = new Image();
   canvas: HTMLCanvasElement;
   ctx: CanvasRenderingContext2D;
 
   intervalID: any;
-  intervalID2: any;
+  curNewsIndex: any;
+  resourcesLoaded = false;
+  dataReceived = false;
+  theSameHeightDiv = false;
 
-  private checkPlan = false;
-  private checkObject = false;
+  planPicDiv: any;
 
+  displayedColumns: string[] = ['objectId', 'objectName', 'objectAccessLevel', 'planId'];
+  private data: Log[] = [];
   constructor(private _apiService: ApiService) { }
 
   ngOnInit() {
+    setTimeout(() => (this.staticAlertClosed = true), 20000);
+    this._success.subscribe(message => (this.successMessage = message));
+    this._success.pipe(debounceTime(5000)).subscribe(() => (this.successMessage = null));
+
+    this.planPicDiv = document.getElementById("planPicDiv");
+
     this.getPlans();
     this.getObjects();
+    this.stop();
   }
 
   getPlans(): Plan[] {
     this._apiService.getPlan().subscribe((plans) => {
-      this.plans = plans
+      this.plans = plans;
     }, (error) => {
       console.log(error);
     })
@@ -50,131 +67,106 @@ export class RealTimeRenderingComponent implements OnInit {
     return this.objects;
   }
 
-  onObjectSelected(selectedObject) {
-    this.checkObject = true;
+  find() {
+    this.dataReceived = false;
+    this.theSameHeightDiv = false;
+    this.resourcesLoaded = true;
+    this.findedObjectData = [];
+    this.data = [];
+    var curNewsIndex = 0;
+
+    var intervalID2 = setInterval(() => {
+      ++curNewsIndex;
+      if (curNewsIndex >= 5) {
+        clearInterval(intervalID2);
+        this.resourcesLoaded = false;
+        this._success.next(`Šiuo metu objektas nėra aktyvus.`);
+      } else {
+        this._apiService.getLogByDatetime(1).subscribe((log) => {
+          if (log !== null) {
+            for (let index = 0; index < log.length; index++) {
+              if (log[index].objectName == this.selectedObject.objectName) {
+                this.findedObjectData.push(log[index]);
+                clearInterval(intervalID2);
+                this.data = this.findedObjectData;
+                this.dataReceived = true;
+                this.resourcesLoaded = false;
+                this.theSameHeightDiv = true;
+              }
+              break;
+            }
+          }
+        }, (error) => {
+          console.log(error);
+        })
+      }
+    }, 1000);
+  }
+
+  onObjectSelected(selectedObject): void {
+    this.selectedObject = selectedObject;
   }
 
   onMapSelected(selectedPlanId): void {
-    this.checkPlan = true;
-    this._apiService.getPlanById(selectedPlanId).subscribe((plan) => {
-      this.img.onload = () => {
-        this.canvas = <HTMLCanvasElement>document.getElementById("objectsRenderingCanvas");
-        this.ctx = this.canvas.getContext("2d");
-        this.canvas.width = plan.planWidth;
-        this.canvas.height = plan.planHeight;
-        this.ctx.drawImage(this.img, 0, 0);
-
-        var x = document.getElementById("myDIV");
-        if (x.style.display === "none") {
-          x.style.display = "block";
-        }
+    if (selectedPlanId == undefined) {
+      if (this.planPicDiv.style.display === "block") {
+        this.planPicDiv.style.display = "none";
       }
-      this.img.src = plan.planImage;
-      this.plan = plan;
-    }, (error) => {
-      console.log(error);
-      alert("Atsiprašome, įvyko klaida, bandykte dar kartą.");
-    })
+    } else {
+      this._apiService.getPlanById(selectedPlanId).subscribe((plan) => {
+        this.img.onload = () => {
+          this.canvas = <HTMLCanvasElement>document.getElementById("objectsRenderingCanvas");
+          this.ctx = this.canvas.getContext("2d");
+          this.canvas.width = plan.planWidth;
+          this.canvas.height = plan.planHeight;
+          this.ctx.drawImage(this.img, 0, 0);
+          if (this.planPicDiv.style.display === "none") {
+            this.planPicDiv.style.display = "block";
+          }
+        }
+        this.img.src = plan.planImage;
+        this.plan = plan;
+      }, (error) => {
+        console.log(error);
+        alert("Atsiprašome, ivyko klaida, bandykte dar karta.");
+      })
+    }
   }
 
-  //get logs which related with selected plan and are not oldest than 10 sec  
+  //get logs which related with selected plan and are not oldest than 3 sec  
   getRealTimeLogs(): any {
-    this._apiService.getLogByDatetime(456).subscribe((log) => {
-      this.logs = log;
-      if (this.checkPlan && !(this.checkObject)) {
-        this.movementSimulation(log);
-      }
-      if (this.checkObject) {
-        this.movementSimulationWithoutPlan(log);
-      }
-    }, (error) => {
-      console.log(error);
-    })
+    if (this.plan !== undefined) {
+      this._apiService.getLogByDatetime(1).subscribe((log) => {
+        if (log !== null) {
+          log.forEach(element => {
+            if (this.plan.planName == element.planId) {
+              this.ctx.drawImage(this.img, 0, 0);
+              this.ctx.beginPath();
+              this.ctx.font = "16px Arial";
+              this.ctx.fillStyle = "black";
+              this.ctx.fillText(element.objectId, element.coordinateX - 10, element.coordinateY + 25);
+              this.ctx.arc(element.coordinateX, element.coordinateY, 6, 0, 2 * Math.PI);
+              this.ctx.fillStyle = "red";
+              this.ctx.fill();
+              this.ctx.stroke();
+            }
+          });
+        }
+        console.log(log);
+      }, (error) => {
+        console.log(error);
+      })
+    } else {
+      alert("Pasirinkite plana.")
+      this.stop();
+    }
   }
 
   realTimeDataByIntervals() {
+    this._success.next(`Gaunami duomenys... Stebėjimas sėkmingai pradėtas.`);
     this.intervalID = setInterval(() => {
       this.getRealTimeLogs();
-      console.log("INTERVAL");
-
-    }, 3000);
-  }
-
-  movementSimulation(logData) {
-    console.log("FROM WITH PLAN>");
-    console.log(logData);
-
-    var curNewsIndex = -1;
-    if (logData !== null) {
-      this.intervalID2 = setInterval(() => {
-        ++curNewsIndex;
-        if (curNewsIndex >= logData.length) {
-          clearInterval(this.intervalID2);
-        } else {
-          if (logData[curNewsIndex].planId == this.plan.planName) {
-            this.ctx.drawImage(this.img, 0, 0);
-            this.ctx.beginPath();
-            this.ctx.font = "16px Arial";
-            this.ctx.fillStyle = "black";
-            this.ctx.fillText(logData[curNewsIndex].objectId, logData[curNewsIndex].coordinateX - 10, logData[curNewsIndex].coordinateY + 25);
-            this.ctx.arc(logData[curNewsIndex].coordinateX, logData[curNewsIndex].coordinateY, 6, 0, 2 * Math.PI);
-            this.ctx.fillStyle = "red";
-            this.ctx.fill();
-            this.ctx.stroke();
-          } else {
-
-          }
-        }
-      }, 1);
-    } else {
-      console.log("No records found");
-    }
-  }
-
-  movementSimulationWithoutPlan(logData) {
-    console.log("FROM WTHOUT PLAN>");
-    console.log(logData);
-
-    var curNewsIndex = -1;
-    if (logData !== null) {
-      this.intervalID2 = setInterval(() => {
-        ++curNewsIndex;
-        if (curNewsIndex >= logData.length) {
-          clearInterval(this.intervalID2);
-        } else {
-          //For find a map and load by log
-          this._apiService.getPlanByPlanName(logData[curNewsIndex].planId).subscribe((plan) => {
-            this.img.onload = () => {
-              this.canvas = <HTMLCanvasElement>document.getElementById("objectsRenderingCanvas");
-              this.ctx = this.canvas.getContext("2d");
-              this.canvas.width = plan.planWidth;
-              this.canvas.height = plan.planHeight;
-              this.ctx.drawImage(this.img, 0, 0);
-
-              var x = document.getElementById("myDIV");
-              if (x.style.display === "none") {
-                x.style.display = "block";
-              }
-            }
-            this.img.src = plan.planImage;
-          }, (error) => {
-            console.log(error);
-          })
-          //For moving simulation
-          this.ctx.drawImage(this.img, 0, 0);
-          this.ctx.beginPath();
-          this.ctx.font = "16px Arial";
-          this.ctx.fillStyle = "black";
-          this.ctx.fillText(logData[curNewsIndex].objectId, logData[curNewsIndex].coordinateX - 10, logData[curNewsIndex].coordinateY + 25);
-          this.ctx.arc(logData[curNewsIndex].coordinateX, logData[curNewsIndex].coordinateY, 6, 0, 2 * Math.PI);
-          this.ctx.fillStyle = "red";
-          this.ctx.fill();
-          this.ctx.stroke();
-        }
-      }, 1);
-    } else {
-      console.log("No records found");
-    }
+    }, 1000);
   }
 
   start() {
@@ -182,17 +174,12 @@ export class RealTimeRenderingComponent implements OnInit {
   }
 
   stop() {
-    console.log("STOP");
-    if (this.checkPlan) {
+    if (this.plan !== undefined) {
       this.img.src = this.plan.planImage;
+      this._success.next(`Stebėjimas sėkmingai nutrauktas.`);
     }
     clearInterval(this.intervalID);
-    clearInterval(this.intervalID2);
-    this.logs = [];
-  }
-
-  clear() {
-
   }
 
 }
+

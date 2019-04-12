@@ -80,6 +80,8 @@ public class DeviceDataRest implements DeviceDataApi {
 	@Override
 	public ResponseEntity<Void> addDeviceData(@ApiParam(value = "") @Valid @RequestBody DeviceData deviceData) {
 
+		impl();
+		
 		// _______________________________________
 //		Creating list of transmitted device data
 		List<Object> transmitter1 = new ArrayList<>();
@@ -157,7 +159,7 @@ public class DeviceDataRest implements DeviceDataApi {
 
 	private ResponseEntity<Void> save(final List src,XYCoord coord, Long deviceDataId) {
 
-		impl();
+//		impl();
 		final ObjectEntity object = objectRepository.findOneByObjectCode(String.valueOf(src.get(0)));
 		final BeaconEntity beacon = beaconRepository.findOneByBeaconId(String.valueOf(src.get(2)));
 		final BeaconInPlanEntity beaconInPlan = beaconInPlanRepository.findOneByBeaconId(beacon.getId());
@@ -185,9 +187,12 @@ public class DeviceDataRest implements DeviceDataApi {
 //		}
 		logRepository.save(tgt);
 	
+		System.out.println("-------------------------------------");
+		System.out.println(beaconInPlan.getPlan().getId());
+		System.out.println("-------------------------------------");
 
-//		checkForViolation(beaconInPlan.getCoordinateX(), beaconInPlan.getCoordinateY(), object,
-//				beaconInPlan.getPlan().getId());
+		checkForViolation(beaconInPlan.getCoordinateX(), beaconInPlan.getCoordinateY(), object,
+				beaconInPlan.getPlan().getId());
 
 		return ResponseEntity.ok().build();
 	}

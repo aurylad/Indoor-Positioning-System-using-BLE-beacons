@@ -4,7 +4,49 @@
             <div class="card-body">
                 <h5 class="card-title">Infrastruktūra</h5>
                 <hr>
+                <br>
+                <table mat-table [dataSource]="dataSourceForInfra" width="100%" id="infraTable">
+                    ['allBeacons', 'unusedBeacons', 'plans']
+                    <ng-container matColumnDef="allBeacons">
+                        <th mat-header-cell *matHeaderCellDef>
+                            <h4>Visi siųstuvai</h4>
+                        </th>
+                        <td mat-cell *matCellDef="let element">
+                            <font face="verdana">
+                                <h5>Visi siųstuvai</h5>
+                            </font> <br>
+                            <h1>{{element.allBeacons}}</h1>
+                        </td>
+                    </ng-container>
 
+                    <ng-container matColumnDef="unusedBeacons">
+                        <th mat-header-cell *matHeaderCellDef>
+                            <h4>Nepanaudoti siųstuvai</h4>
+                        </th>
+                        <td mat-cell *matCellDef="let element">
+                            <font face="verdana">
+                                <h5>Nepanaudoti siųstuvai</h5>
+                            </font><br>
+                            <h1>&nbsp;{{element.unusedBeacons}}</h1>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="plans">
+                        <th mat-header-cell *matHeaderCellDef>
+                            <h4>Planai</h4>
+                        </th>
+                        <td mat-cell *matCellDef="let element">
+                            <font face="verdana">
+                                <h5>Planai</h5>
+                            </font> <br>
+                            <h1>{{element.plans}}</h1>
+                        </td>
+                    </ng-container>
+
+                    <!-- <tr mat-header-row *matHeaderRowDef="displayedColumnsForInfra"></tr> -->
+                    <tr mat-row *matRowDef="let row; columns: displayedColumnsForInfra;"></tr>
+                </table>
+                <br>
             </div>
         </div>
     </div>
@@ -13,6 +55,14 @@
             <div class="card-body">
                 <h5 class="card-title">Pranešimai</h5>
                 <hr>
+                <div id="no-notifications" align="center">
+                    <h4>Šiuo metu jūs neturite jokių pranešimų</h4>
+                    <p>Šiame pranešimų lange rodomi užfiksuoti pažeidimai, kurie <br> nėra senesni nei viena diena. Šiuo
+                        metu tokių pažeidimų nersta. <br>
+                        Senesnius pažeidimus visuomet galite rasti <a href="/#/component/violations"> pažeidimų
+                            lange.</a></p>
+                    <button class="btn btn-success">ATNAUJINTI</button>
+                </div>
             </div>
         </div>
     </div>
@@ -24,11 +74,40 @@
             <div class="card-body">
                 <h5 class="card-title">Planai</h5>
                 <hr>
-                <div class="mat-elevation-z8">
-                   
+                <table mat-table [dataSource]="dataSourceForPlans" width="100%">
+                    ['id', 'planName', 'planWidth', 'planHeight']
+                    <ng-container matColumnDef="id">
+                        <th mat-header-cell *matHeaderCellDef> Nr. </th>
+                        <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+                    </ng-container>
 
-                    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
-                </div>
+                    <ng-container matColumnDef="planName">
+                        <th mat-header-cell *matHeaderCellDef> Patalpos pavad. </th>
+                        <td mat-cell *matCellDef="let element"> {{element.planName}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="planWidth">
+                        <th mat-header-cell *matHeaderCellDef> Plotis (m) </th>
+                        <td mat-cell *matCellDef="let element"> {{element.planWidth}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="planHeight">
+                        <th mat-header-cell *matHeaderCellDef> ilgis(m) </th>
+                        <td mat-cell *matCellDef="let element"> {{element.planHeight}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="actions">
+                        <th mat-header-cell *matHeaderCellDef></th>
+                        <td mat-cell *matCellDef="let row">
+                            <mat-icon (click)="onDeleteArea(row)" >delete_outline</mat-icon>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumnsForPlans"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumnsForPlans;"></tr>
+                </table>
+
+                <mat-paginator #plansPaginator [pageSizeOptions]="[5]" showFirstLastButtons></mat-paginator>
             </div>
         </div>
     </div>
@@ -37,7 +116,36 @@
             <div class="card-body">
                 <h5 class="card-title">Zonos</h5>
                 <hr>
+                <h6 class="card-subtitle">Tikslesnę informaciją apie nustatytas zonas galite rasti <br> <a
+                        href="/#/component/restricted-area-list">draudžiamų zonų sąrašo lange.</a></h6>
+                <table mat-table [dataSource]="dataSourceForAreas" width="100%">
+                    ['id', 'restrictedAreaName', 'accessLevel', 'planId']
 
+                    <ng-container matColumnDef="id">
+                        <th mat-header-cell *matHeaderCellDef> Nr. </th>
+                        <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="restrictedAreaName">
+                        <th mat-header-cell *matHeaderCellDef> Zona </th>
+                        <td mat-cell *matCellDef="let element"> {{element.restrictedAreaName}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="accessLevel">
+                        <th mat-header-cell *matHeaderCellDef> Prieigos lygis </th>
+                        <td mat-cell *matCellDef="let element"> {{element.accessLevel}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="planId">
+                        <th mat-header-cell *matHeaderCellDef> Planas </th>
+                        <td mat-cell *matCellDef="let element"> {{element.planId}} </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumnsForAreas"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumnsForAreas;"></tr>
+                </table>
+
+                <mat-paginator #areasPaginator [pageSizeOptions]="[5]" showFirstLastButtons></mat-paginator>
             </div>
         </div>
     </div>

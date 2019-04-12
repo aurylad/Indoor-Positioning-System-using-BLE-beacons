@@ -32,6 +32,7 @@ import { AngularDateTimePickerModule } from 'angular2-datetimepicker';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 
 import { MatInputModule, MatSelectModule, MatCheckboxModule } from '@angular/material';
@@ -42,6 +43,7 @@ import { ViolationsComponent } from './violations/violations.component';
 import { ObjectEditComponent } from './object-edit/object-edit.component';
 import { BeaconEditComponent } from './beacon-edit/beacon-edit.component';
 import { RealTimeRenderingComponent } from './real-time-rendering/real-time-rendering.component';
+import { RestrictedAreaListComponent } from './restricted-area-list/restricted-area-list.component';
 
 @NgModule({
   imports: [
@@ -63,7 +65,8 @@ import { RealTimeRenderingComponent } from './real-time-rendering/real-time-rend
     AngularDateTimePickerModule,
     MatDialogModule,
     MatIconModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    MatProgressSpinnerModule
   ],
   declarations: [
     NgbdpregressbarBasicComponent,
@@ -87,7 +90,8 @@ import { RealTimeRenderingComponent } from './real-time-rendering/real-time-rend
     ViolationsComponent,
     ObjectEditComponent,
     BeaconEditComponent,
-    RealTimeRenderingComponent
+    RealTimeRenderingComponent,
+    RestrictedAreaListComponent
   ],
   entryComponents: [
     ObjectEditComponent,

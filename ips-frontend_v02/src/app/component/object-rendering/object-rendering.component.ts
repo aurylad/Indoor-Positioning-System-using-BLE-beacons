@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Log, Plan, TrackedObject } from 'src/app/api/models';
 import { ApiService } from 'src/app/api/services';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatPaginator, MatTableDataSource } from '@angular/material';
+import { Subject } from 'rxjs/internal/Subject';
+import { debounceTime } from 'rxjs/internal/operators/debounceTime';
 
 
 @Component({
@@ -12,6 +14,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class ObjectRenderingComponent implements OnInit {
 
   intervalID;
+  displayedColumns: string[] = ['id', 'planId', 'objectName', 'objectId', 'objectType', 'objectAccessLevel', 'regDateTime'];
+  dataSource;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   private plans: Plan[];
   private plan: Plan;
@@ -30,12 +35,21 @@ export class ObjectRenderingComponent implements OnInit {
   canvas: HTMLCanvasElement;
   ctx: CanvasRenderingContext2D;
 
+  private _success = new Subject<string>();
+  staticAlertClosed = false;
+  successMessage: string;
+
   constructor(private _apiService: ApiService) { }
 
   ngOnInit() {
+
+    setTimeout(() => (this.staticAlertClosed = true), 20000);
+    this._success.subscribe(message => (this.successMessage = message));
+    this._success.pipe(debounceTime(5000)).subscribe(() => (this.successMessage = null));
+
     this.getPlans();
     this.getObjects();
-   
+
     // this.getLogsByTimeInterval();
   }
 
@@ -113,6 +127,12 @@ export class ObjectRenderingComponent implements OnInit {
   getLogsByPlan() {
     this._apiService.getLogByPlanId(this.plan.id).subscribe((logs) => {
       this.logs = logs;
+      if (this.logs !== null) {
+        this.dataSource = new MatTableDataSource<Log>(this.logs);
+        this.dataSource.paginator = this.paginator;
+      } else {
+        this._success.next(`Įrašų susijusių su šiuo planu nerasta.`);
+      }
       console.log(logs);
     }, (error) => {
       console.log(error);
@@ -139,7 +159,7 @@ export class ObjectRenderingComponent implements OnInit {
           this.ctx.fill();
           this.ctx.stroke();
         }
-      }, 200);
+      }, 500);
     } else {
       console.log("No records found");
     }
@@ -153,8 +173,10 @@ export class ObjectRenderingComponent implements OnInit {
           this.logsByObject.push(element);
         }
       });
+      this.dataSource = new MatTableDataSource<Log>(this.logsByObject);
+      this.dataSource.paginator = this.paginator;
     } else {
-      alert("Pirmiau pasirinkite planą!");
+      this._success.next(`Pirmiau pasirinkite planą!`);
     }
     console.log(this.logsByObject);
   }
@@ -167,6 +189,8 @@ export class ObjectRenderingComponent implements OnInit {
     var data = { planId: this.plan.id, objectId: this.selectedObject.id, startDate: this.startDate + "", endDate: this.endDate + "" };
     this._apiService.getLogByTimeInterval(data).subscribe((interval) => {
       this.logsByInterval = interval;
+      this.dataSource = new MatTableDataSource<Log>(this.logsByInterval);
+      this.dataSource.paginator = this.paginator;
       this.movementSimulation(this.logsByInterval);
       console.log(this.logsByInterval);
     }, (error) => {

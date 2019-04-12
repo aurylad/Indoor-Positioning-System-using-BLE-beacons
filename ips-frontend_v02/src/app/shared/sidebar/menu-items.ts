@@ -50,9 +50,9 @@ export const ROUTES: RouteInfo[] = [
     submenu: []
   },
   {
-    path: '/component/violations',
-    title: 'Užregistruoti pažeidimai',
-    icon: 'mdi mdi-clipboard-text',
+    path: '/component/restricted-area-list',
+    title: 'Draudžiamų zonų sąrašas',
+    icon: 'mdi mdi-equal',
     class: '',
     extralink: false,
     submenu: []
@@ -66,8 +66,16 @@ export const ROUTES: RouteInfo[] = [
     submenu: []
   },
   {
+    path: '/component/violations',
+    title: 'Užregistruoti pažeidimai',
+    icon: 'mdi mdi-clipboard-text',
+    class: '',
+    extralink: false,
+    submenu: []
+  },
+  {
     path: '/component/object-rendering',
-    title: 'Objektų atvaizdavimas',
+    title: 'Istorija',
     icon: 'mdi mdi-monitor',
     class: '',
     extralink: false,

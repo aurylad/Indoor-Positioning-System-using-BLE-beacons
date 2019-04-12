@@ -20,6 +20,7 @@ import { ObjectRenderingComponent } from './object-rendering/object-rendering.co
 import { RestrictedAreaRegComponent } from './restricted-area-reg/restricted-area-reg.component';
 import { ViolationsComponent } from './violations/violations.component';
 import { RealTimeRenderingComponent } from './real-time-rendering/real-time-rendering.component';
+import { RestrictedAreaListComponent } from './restricted-area-list/restricted-area-list.component';
 
 
 export const ComponentsRoutes: Routes = [
@@ -89,6 +90,17 @@ export const ComponentsRoutes: Routes = [
           urls: [
             { title: 'Pagrindinis', url: '/dashboard' },
             { title: 'Draudžiamų zonų nustatymas' }
+          ]
+        }
+      },
+      {
+        path: 'restricted-area-list',
+        component: RestrictedAreaListComponent,
+        data: {
+          title: 'Draudžiamų zonų sąrašas',
+          urls: [
+            { title: 'Pagrindinis', url: '/dashboard' },
+            { title: 'Draudžiamų zonų sąrašas' }
           ]
         }
       },

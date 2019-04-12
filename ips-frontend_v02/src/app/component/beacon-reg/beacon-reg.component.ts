@@ -23,6 +23,8 @@ export class BeaconRegComponent implements OnInit {
   successMessage: string;
   private _success = new Subject<string>();
 
+  private beaconsInPlan: BeaconInPlan[];
+
   ngOnInit(): void {
     setTimeout(() => (this.staticAlertClosed = true), 20000);
     this._success.subscribe(message => (this.successMessage = message));
@@ -53,7 +55,6 @@ export class BeaconRegComponent implements OnInit {
     return this.beacons;
   }
 
-  private beaconsInPlan: BeaconInPlan[];
   getBeaconsInPlan() {
     this._apiService.getBeaconInPlan().subscribe((beaconsInPlan) => {
       this.beaconsInPlan = beaconsInPlan
@@ -105,9 +106,12 @@ export class BeaconRegComponent implements OnInit {
     })
   }
 
+  imgWithBeacons = new Image();
+  private planswithBeacons: Plan = {};
 
   displayedColumnsBeaconReg: string[] = ['select', 'id', 'beaconId'];
   displayedColumnsBeaconList: string[] = ['id', 'beaconId', 'actions'];
+  displayedColumnsBeaconInPlan: string[] = ['id', 'beaconId', 'plandId', 'actions'];
   selection = new SelectionModel<Beacon>(true, []);
   PLACED_BEACON_DATA: Beacon[] = [];
 
@@ -185,11 +189,50 @@ export class BeaconRegComponent implements OnInit {
     this.dialog.open(BeaconEditComponent, dialogConfig);
   }
 
+  onEditBeaconInPlan(row): void {
+    console.log(row);
+    this._apiService.getPlanByPlanName(row.plandId).subscribe((plan) => {
+      this.imgWithBeacons.onload = () => {
+        const canvas = <HTMLCanvasElement>document.getElementById("beaconInPlanCanvas");
+        const ctx = canvas.getContext("2d");
+        canvas.width = plan.planWidth;
+        canvas.height = plan.planHeight;
+        ctx.drawImage(this.imgWithBeacons, 0, 0);
+        ctx.beginPath();
+        ctx.font = "16px Arial";
+        ctx.fillStyle = "black";
+        ctx.fillText(row.beaconId, row.beaconCoordinateX - 10, row.beaconCoordinateY + 25);
+        ctx.arc(row.beaconCoordinateX, row.beaconCoordinateY, 9, 0, 2 * Math.PI);
+        ctx.fillStyle = "green";
+        ctx.fill();
+        ctx.stroke();
+      }
+      this.imgWithBeacons.src = plan.planImage;
+      this.planswithBeacons = plan;
+    }, (error) => {
+      console.log(error);
+      alert("Atsiprašome, įvyko klaida.");
+    })
+
+  }
+
   onDelete(row): void {
     if (confirm('Ar tikrai norite ištrinti šį įrašą?')) {
       this.service.beaconSetter(row);
       this._apiService.deleteBeacon(this.service.beaconGetter().id).subscribe((deletedBeacon) => {
         this.beacons = this.getBeacons();
+      }, (error) => {
+        console.log(error);
+        alert('Šio siųstuvo panaikinti negalima, nes jis susijąs su kitu sąrašu.');
+      });
+    }
+  }
+
+  onDeleteBeaconInPlan(row) {
+    if (confirm('Ar tikrai norite ištrinti šį įrašą?')) {
+      this.service.beaconInPlanSetter(row);
+      this._apiService.deleteBeaconInPlan(this.service.beaconInPlanGetter().id).subscribe((deletedBeaconInPlan) => {
+        this.beaconsInPlan = this.getBeaconsInPlan();
       }, (error) => {
         console.log(error);
         alert('Šio siųstuvo panaikinti negalima, nes jis susijąs su kitu sąrašu.');

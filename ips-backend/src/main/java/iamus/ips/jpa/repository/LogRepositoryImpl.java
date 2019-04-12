@@ -34,7 +34,7 @@ public class LogRepositoryImpl implements LogRepositoryCustom {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<LogEntity> findLogsByDateTime(Long planId) {
-		Date currDateMinusMin = new Date(System.currentTimeMillis() - 86400 * 1000);
+		Date currDateMinusMin = new Date(System.currentTimeMillis() - 2 * 1000);
 
 //		Query query = entityManager.createNativeQuery("SELECT * FROM results_log WHERE date_time > ? AND plan_id = ?",
 		Query query = entityManager.createNativeQuery("SELECT * FROM results_log WHERE date_time > ?",
