@@ -22,4 +22,8 @@ describe('ObjectRegComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  // it('should have a text "Objekto registracija"', async(() => {
+  //   expect(component.staticAlertClosed).toEqual(true)
+  // }));
 });

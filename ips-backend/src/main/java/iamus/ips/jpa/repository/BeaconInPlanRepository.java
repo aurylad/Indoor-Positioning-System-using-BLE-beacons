@@ -14,5 +14,7 @@ public interface BeaconInPlanRepository extends PagingAndSortingRepository<Beaco
 	Iterable<BeaconInPlanEntity> findAllByOrderByIdAsc();
 
 	BeaconInPlanEntity findOneByBeaconId(@Param("beaconId") Long beaconId);
+	
+	BeaconInPlanEntity findOneByBeaconId(@Param("beaconId") String beaconId);
 
 }

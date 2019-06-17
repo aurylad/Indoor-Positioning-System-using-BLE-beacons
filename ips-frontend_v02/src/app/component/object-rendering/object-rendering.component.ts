@@ -71,10 +71,23 @@ export class ObjectRenderingComponent implements OnInit {
   onStartDateSelect(event) {
     this.startDate = new Date(event);
     this.checkStartDate = true;
+    console.log(this.startDate);
+    
   }
 
   onEndDateSelect(event: Date) {
     this.endDate = new Date(event);
+    console.log(this.endDate);
+
+    var data = { planId: this.plan.id, objectId: this.selectedObject.id, startDate: this.startDate + "", endDate: this.endDate + "" };
+    this._apiService.getLogByTimeInterval(data).subscribe((interval) => {
+      this.logsByInterval = interval;
+      this.dataSource = new MatTableDataSource<Log>(this.logsByInterval);
+      this.dataSource.paginator = this.paginator;
+    }, (error) => {
+      console.log(error);
+    })
+    
   }
 
   onObjectSelected(selectedObjectId) {
@@ -148,18 +161,20 @@ export class ObjectRenderingComponent implements OnInit {
           clearInterval(this.intervalID);
           this.img.src = this.plan.planImage;
         } else {
-          console.log("testing");
+          let date = new Date(logData[curNewsIndex].regDateTime)
+          console.log(date);
           this.ctx.drawImage(this.img, 0, 0);
           this.ctx.beginPath();
           this.ctx.font = "16px Arial";
           this.ctx.fillStyle = "black";
           this.ctx.fillText(logData[curNewsIndex].objectId, logData[curNewsIndex].coordinateX - 10, logData[curNewsIndex].coordinateY + 25);
+          this.ctx.fillText(date+"", 25, this.canvas.height - 25);
           this.ctx.arc(logData[curNewsIndex].coordinateX, logData[curNewsIndex].coordinateY, 6, 0, 2 * Math.PI);
           this.ctx.fillStyle = "red";
           this.ctx.fill();
           this.ctx.stroke();
         }
-      }, 500);
+      }, 1000);
     } else {
       console.log("No records found");
     }
@@ -185,7 +200,10 @@ export class ObjectRenderingComponent implements OnInit {
     if (this.endDate == undefined) {
       var d: Date = new Date();
       this.endDate = d;
+      console.log("suveikė undefined");
+      
     }
+    console.log(this.startDate);
     var data = { planId: this.plan.id, objectId: this.selectedObject.id, startDate: this.startDate + "", endDate: this.endDate + "" };
     this._apiService.getLogByTimeInterval(data).subscribe((interval) => {
       this.logsByInterval = interval;
@@ -201,12 +219,16 @@ export class ObjectRenderingComponent implements OnInit {
   start() {
     if (this.checkStartDate && this.checkMap && this.checkObject) {
       this.getLogsByTimeInterval();
+      console.log("pirmas if");
     } else {
       if (this.checkMap) {
+        console.log("antras if");
         if (this.checkObject) {
           this.movementSimulation(this.logsByObject);
+          console.log("trecias if");
         } else {
           this.movementSimulation(this.logs);
+          console.log("ketvirtas if");
         }
       } else {
         alert("Pasirinkite planą!");

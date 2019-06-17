@@ -1,9 +1,13 @@
 package iamus.ips.rest;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -35,10 +39,10 @@ public class LogRest implements LogApi {
 
 	@Autowired
 	private RestrictedAreaRepository restrictedAreaRepository;
-	
+
 	@Autowired
 	public ViolationsRepository violationsRepository;
-	
+
 	@Autowired
 	public ObjectRepository objectRepository; // FOR TESTING
 
@@ -68,13 +72,32 @@ public class LogRest implements LogApi {
 		return Utils.toResponseEntity(list);
 	}
 
+	int sec2;
+
 	@Override
 	public ResponseEntity<List<Log>> getLogByPlanId(@ApiParam(value = "Numeric ID of the plan to get log data.", //
 			required = true) @PathVariable("id") Long id) {
 		final List<Log> list = new ArrayList<>();
 		for (final LogEntity src : logRepository.findLogsByPlanId(id)) {
-			list.add(toLog(src));
+			if (src.getLogDateTime().getSeconds() != sec2) {
+				list.add(toLog(src));
+			}
+			sec2 = src.getLogDateTime().getSeconds();
 		}
+
+		Comparator<Log> regDateTimeComparator = new Comparator<Log>() {
+			public int compare(Log s1, Log s2) {
+				@Valid
+				Date reg1 = s1.getRegDateTime();
+				@Valid
+				Date reg2 = s2.getRegDateTime();
+				// ascending order
+				return reg1.compareTo(reg2);
+			}
+		};
+
+		Collections.sort(list, regDateTimeComparator);
+
 		return Utils.toResponseEntity(list);
 	}
 
@@ -100,23 +123,53 @@ public class LogRest implements LogApi {
 		for (final LogEntity src : logRepository.findLogsByDateTime(planId)) {
 			list.add(toLog(src));
 		}
-		
-		System.out.println("---------------------------------------------------------------------------------");
-		Date currDateMinusMin = new Date(System.currentTimeMillis() - 3 * 1000);
-		System.out.println(currDateMinusMin);
-		System.out.println("---------------------------------------------------------------------------------");
-		System.out.println(list);
+
+		Comparator<Log> regDateTimeComparator = new Comparator<Log>() {
+			public int compare(Log s1, Log s2) {
+				@Valid
+				Date reg1 = s1.getRegDateTime();
+				@Valid
+				Date reg2 = s2.getRegDateTime();
+				// ascending order
+				return reg1.compareTo(reg2);
+			}
+		};
+
+		Collections.sort(list, regDateTimeComparator);
+
 		return Utils.toResponseEntity(list);
 	}
+
+	int sec;
 
 	@Override
 	public ResponseEntity<List<Log>> getLogByTimeInterval(Long planId, Long objectId, Date startDate, Date endDate) {
 		final List<Log> list = new ArrayList<>();
-		for (final LogEntity src : logRepository.findLogsByPlanIdObjectIdAndDateTime(planId, objectId, startDate, endDate)) {
-			list.add(toLog(src));
+		for (final LogEntity src : logRepository.findLogsByPlanIdObjectIdAndDateTime(planId, objectId, startDate,
+				endDate)) {
+			if (src.getLogDateTime().getSeconds() != sec) {
+				list.add(toLog(src));
+			}
+			sec = src.getLogDateTime().getSeconds();
 		}
+
+		Comparator<Log> regDateTimeComparator = new Comparator<Log>() {
+			public int compare(Log s1, Log s2) {
+				@Valid
+				Date reg1 = s1.getRegDateTime();
+				@Valid
+				Date reg2 = s2.getRegDateTime();
+				// ascending order
+				return reg1.compareTo(reg2);
+			}
+		};
+
+		Collections.sort(list, regDateTimeComparator);
+		for (Log log : list) {
+			System.out.println(log.getRegDateTime());
+		}
+
 		return Utils.toResponseEntity(list);
 	}
-
 
 }

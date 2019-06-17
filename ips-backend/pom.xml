@@ -42,6 +42,12 @@
 
 	<dependencies>
 
+		<dependency>
+			<groupId>com.lemmingapex.trilateration</groupId>
+			<artifactId>trilateration</artifactId>
+			<version>1.0.2</version>
+		</dependency>
+
 		<!-- For Web support -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -57,7 +63,13 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-undertow</artifactId>
 		</dependency>
- 
+
+		<!-- For JPA Integration tests -->
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+		</dependency>
+
 		<!-- For JPA support -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -135,9 +147,9 @@
 			<version>${testcontainers.version}</version>
 			<scope>test</scope>
 		</dependency>
-		
-		
-		
+
+
+
 
 		<!-- Swagger UI support -->
 		<dependency>
@@ -239,7 +251,7 @@
 				</executions>
 			</plugin>
 
-			<!-- To make Eclipse and other IDE's use generated sources folders  -->
+			<!-- To make Eclipse and other IDE's use generated sources folders -->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>build-helper-maven-plugin</artifactId>

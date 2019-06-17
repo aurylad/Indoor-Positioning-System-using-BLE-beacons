@@ -3,23 +3,30 @@ package iamus.ips.objectLocation;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.math3.fitting.leastsquares.LeastSquaresOptimizer.Optimum;
+import org.apache.commons.math3.fitting.leastsquares.LevenbergMarquardtOptimizer;
+import org.apache.commons.math3.linear.RealMatrix;
+import org.apache.commons.math3.linear.RealVector;
+
+import com.lemmingapex.trilateration.NonLinearLeastSquaresSolver;
+import com.lemmingapex.trilateration.TrilaterationFunction;
+
 import iamus.ips.jpa.entity.PlanEntity;
 
 public class Trilateration {
 	
-	private double calculateBeaconDistance(double rssi, int txPow) {
+	public double calculateBeaconDistance(double rssi, int txPow) {
 		
-		float txPower = (float)txPow;
+		Double txPower = new Double(txPow);
 		 
 	     // Manufacture set this power in the device
 	    if (rssi == 0){
 	 
 	        return -1.0; // if we cannot determine accuracy, return -1.
-	 
 	    }
 	 
 	    double ratio = rssi*1.0 / txPower;
-	    if (ratio < 1.0){
+	    if (ratio <= 1.0){
 	        return Math.pow(ratio,10);
 	 
 	    }
@@ -106,6 +113,47 @@ public class Trilateration {
 			}
 		}
 		
+		
+		double[][] positions = new double[][] { { coordList.get(0).getX(), coordList.get(0).getY() }, { coordList.get(1).getX(), coordList.get(1).getY() }, { coordList.get(2).getX(), coordList.get(2).getY()}};
+		double[] distances = new double[] {  distanceInPx1,  distanceInPx2,  distanceInPx3,};
+
+		NonLinearLeastSquaresSolver solver = new NonLinearLeastSquaresSolver(new TrilaterationFunction(positions, distances), new LevenbergMarquardtOptimizer());
+		Optimum optimum = solver.solve();
+
+		// the answer
+		double[] centroid = optimum.getPoint().toArray();
+
+		// error and geometry information; may throw SingularMatrixException depending the threshold argument provided
+		RealVector standardDeviation = optimum.getSigma(0);
+		RealMatrix covarianceMatrix = optimum.getCovariances(0);
+		
+        XYCoord meetingPoint = new XYCoord(centroid[0],centroid[1]);
+      meetingPoint.setChangeInPx(changeDistanceInPx);
+		
+		if (meetingPoint.getX()<0 || meetingPoint.getX()>plan.getPlanWidth() || !Double.isFinite( meetingPoint.getX())) {
+			meetingPoint.setX(coordList.get(closestId).getX());
+		}
+		if (meetingPoint.getY()<0 || meetingPoint.getY()>plan.getPlanHeight() || !Double.isFinite( meetingPoint.getY())) {
+			meetingPoint.setY(coordList.get(closestId).getY());
+		}
+		
+		if(closestDistance < 0.25) {
+			meetingPoint.setX(coordList.get(closestId).getX());
+			meetingPoint.setY(coordList.get(closestId).getY());
+			
+		}else if(closestDistance < 1) {
+			double middlePoint = (meetingPoint.getX() + coordList.get(closestId).getX())/2;
+			meetingPoint.setX(middlePoint);
+			middlePoint = (meetingPoint.getY() + coordList.get(closestId).getY())/2;
+			meetingPoint.setY(middlePoint);
+		}
+		
+//		System.out.println("_____________________________________________");
+//		System.out.println(centroid[0]+" "+ centroid[1]);
+//		System.out.println(standardDeviation);
+//		System.out.println(covarianceMatrix);
+		
+		
 //		if (meetingPoint.getX()<0 || meetingPoint.getX()>plan.getPlanWidth() || !Double.isFinite( meetingPoint.getX())) {
 //			meetingPoint.setX(coordList.get(closestId).getX());
 //		}
@@ -139,121 +187,121 @@ public class Trilateration {
 		
 	    //DECLARE VARIABLES
 
-	    double[] P1   = new double[2];
-	    double[] P2   = new double[2];
-	    double[] P3   = new double[2];
-	    double[] ex   = new double[2];
-	    double[] ey   = new double[2];
-	    double[] p3p1 = new double[2];
-	    double jval  = 0;
-	    double temp  = 0;
-	    double ival  = 0;
-	    double p3p1i = 0;
-	    double triptx = 0;
-	    double tripty = 0;
-	    double xval;
-	    double yval;
-	    double t1;
-	    double t2;
-	    double t3;
-	    double t;
-	    double exx;
-	    double d;
-	    double eyy;
-
-	    //TRANSALTE POINTS TO VECTORS
-	    //POINT 1
-	    P1[0] = coordList.get(0).getX();
-	    P1[1] = coordList.get(0).getY();;
-	    //POINT 2
-	    P2[0] = coordList.get(1).getX();
-	    P2[1] = coordList.get(1).getY();
-	    //POINT 3
-	    P3[0] = coordList.get(2).getX();
-	    P3[1] = coordList.get(2).getY();
-//	    P3[0] = location3.getLatitude();
-//	    P3[1] = location3.getLongitude();
-	    
-
-	    for (int i = 0; i < P1.length; i++) {
-	        t1   = P2[i];
-	        t2   = P1[i];
-	        t    = t1 - t2;
-	        temp += (t*t);
-	    }
-	    d = Math.sqrt(temp);
-	    for (int i = 0; i < P1.length; i++) {
-	        t1    = P2[i];
-	        t2    = P1[i];
-	        exx   = (t1 - t2)/(Math.sqrt(temp));
-	        ex[i] = exx;
-	    }
-	    for (int i = 0; i < P3.length; i++) {
-	        t1      = P3[i];
-	        t2      = P1[i];
-	        t3      = t1 - t2;
-	        p3p1[i] = t3;
-	    }
-	    for (int i = 0; i < ex.length; i++) {
-	        t1 = ex[i];
-	        t2 = p3p1[i];
-	        ival += (t1*t2);
-	    }
-	    for (int  i = 0; i < P3.length; i++) {
-	        t1 = P3[i];
-	        t2 = P1[i];
-	        t3 = ex[i] * ival;
-	        t  = t1 - t2 -t3;
-	        p3p1i += (t*t);
-	    }
-	    for (int i = 0; i < P3.length; i++) {
-	        t1 = P3[i];
-	        t2 = P1[i];
-	        t3 = ex[i] * ival;
-	        eyy = (t1 - t2 - t3)/Math.sqrt(p3p1i);
-	        ey[i] = eyy;
-	    }
-	    for (int i = 0; i < ey.length; i++) {
-	        t1 = ey[i];
-	        t2 = p3p1[i];
-	        jval += (t1*t2);
-	    }
-	    xval = (Math.pow(distanceInPx1, 2) - Math.pow(distanceInPx2, 2) + Math.pow(d, 2))/(2*d);
-	    yval = ((Math.pow(distanceInPx1, 2) - Math.pow(distanceInPx3, 2) + Math.pow(ival, 2) + Math.pow(jval, 2))/(2*jval)) - ((ival/jval)*xval);
-
-	    t1 = coordList.get(0).getX();
-	    t2 = ex[0] * xval;
-	    t3 = ey[0] * yval;
-	    triptx = t1 + t2 + t3;
-
-	    t1 = coordList.get(0).getY();
-	    t2 = ex[1] * xval;
-	    t3 = ey[1] * yval;
-	    tripty = t1 + t2 + t3;
-		System.out.println("_____________________________________________");
-		System.out.println("result X: "+triptx);
-		System.out.println("_____________________________________________");
-		System.out.println("result Y: "+tripty);
-        XYCoord meetingPoint = new XYCoord(triptx,tripty);
-        meetingPoint.setChangeInPx(changeDistanceInPx);
-		
-		if (meetingPoint.getX()<0 || meetingPoint.getX()>plan.getPlanWidth() || !Double.isFinite( meetingPoint.getX())) {
-			meetingPoint.setX(coordList.get(closestId).getX());
-		}
-		if (meetingPoint.getY()<0 || meetingPoint.getY()>plan.getPlanHeight() || !Double.isFinite( meetingPoint.getY())) {
-			meetingPoint.setY(coordList.get(closestId).getY());
-		}
-		
-		if(closestDistance < 0.25) {
-			meetingPoint.setX(coordList.get(closestId).getX());
-			meetingPoint.setY(coordList.get(closestId).getY());
-			
-		}else if(closestDistance < 1) {
-			double middlePoint = (meetingPoint.getX() + coordList.get(closestId).getX())/2;
-			meetingPoint.setX(middlePoint);
-			middlePoint = (meetingPoint.getY() + coordList.get(closestId).getY())/2;
-			meetingPoint.setY(middlePoint);
-		}
+//	    double[] P1   = new double[2];
+//	    double[] P2   = new double[2];
+//	    double[] P3   = new double[2];
+//	    double[] ex   = new double[2];
+//	    double[] ey   = new double[2];
+//	    double[] p3p1 = new double[2];
+//	    double jval  = 0;
+//	    double temp  = 0;
+//	    double ival  = 0;
+//	    double p3p1i = 0;
+//	    double triptx = 0;
+//	    double tripty = 0;
+//	    double xval;
+//	    double yval;
+//	    double t1;
+//	    double t2;
+//	    double t3;
+//	    double t;
+//	    double exx;
+//	    double d;
+//	    double eyy;
+//
+//	    //TRANSALTE POINTS TO VECTORS
+//	    //POINT 1
+//	    P1[0] = coordList.get(0).getX();
+//	    P1[1] = coordList.get(0).getY();;
+//	    //POINT 2
+//	    P2[0] = coordList.get(1).getX();
+//	    P2[1] = coordList.get(1).getY();
+//	    //POINT 3
+//	    P3[0] = coordList.get(2).getX();
+//	    P3[1] = coordList.get(2).getY();
+////	    P3[0] = location3.getLatitude();
+////	    P3[1] = location3.getLongitude();
+//	    
+//
+//	    for (int i = 0; i < P1.length; i++) {
+//	        t1   = P2[i];
+//	        t2   = P1[i];
+//	        t    = t1 - t2;
+//	        temp += (t*t);
+//	    }
+//	    d = Math.sqrt(temp);
+//	    for (int i = 0; i < P1.length; i++) {
+//	        t1    = P2[i];
+//	        t2    = P1[i];
+//	        exx   = (t1 - t2)/(Math.sqrt(temp));
+//	        ex[i] = exx;
+//	    }
+//	    for (int i = 0; i < P3.length; i++) {
+//	        t1      = P3[i];
+//	        t2      = P1[i];
+//	        t3      = t1 - t2;
+//	        p3p1[i] = t3;
+//	    }
+//	    for (int i = 0; i < ex.length; i++) {
+//	        t1 = ex[i];
+//	        t2 = p3p1[i];
+//	        ival += (t1*t2);
+//	    }
+//	    for (int  i = 0; i < P3.length; i++) {
+//	        t1 = P3[i];
+//	        t2 = P1[i];
+//	        t3 = ex[i] * ival;
+//	        t  = t1 - t2 -t3;
+//	        p3p1i += (t*t);
+//	    }
+//	    for (int i = 0; i < P3.length; i++) {
+//	        t1 = P3[i];
+//	        t2 = P1[i];
+//	        t3 = ex[i] * ival;
+//	        eyy = (t1 - t2 - t3)/Math.sqrt(p3p1i);
+//	        ey[i] = eyy;
+//	    }
+//	    for (int i = 0; i < ey.length; i++) {
+//	        t1 = ey[i];
+//	        t2 = p3p1[i];
+//	        jval += (t1*t2);
+//	    }
+//	    xval = (Math.pow(distanceInPx1, 2) - Math.pow(distanceInPx2, 2) + Math.pow(d, 2))/(2*d);
+//	    yval = ((Math.pow(distanceInPx1, 2) - Math.pow(distanceInPx3, 2) + Math.pow(ival, 2) + Math.pow(jval, 2))/(2*jval)) - ((ival/jval)*xval);
+//
+//	    t1 = coordList.get(0).getX();
+//	    t2 = ex[0] * xval;
+//	    t3 = ey[0] * yval;
+//	    triptx = t1 + t2 + t3;
+//
+//	    t1 = coordList.get(0).getY();
+//	    t2 = ex[1] * xval;
+//	    t3 = ey[1] * yval;
+//	    tripty = t1 + t2 + t3;
+//		System.out.println("_____________________________________________");
+//		System.out.println("result X: "+triptx);
+//		System.out.println("_____________________________________________");
+//		System.out.println("result Y: "+tripty);
+//        XYCoord meetingPoint = new XYCoord(triptx,tripty);
+//        meetingPoint.setChangeInPx(changeDistanceInPx);
+//		
+//		if (meetingPoint.getX()<0 || meetingPoint.getX()>plan.getPlanWidth() || !Double.isFinite( meetingPoint.getX())) {
+//			meetingPoint.setX(coordList.get(closestId).getX());
+//		}
+//		if (meetingPoint.getY()<0 || meetingPoint.getY()>plan.getPlanHeight() || !Double.isFinite( meetingPoint.getY())) {
+//			meetingPoint.setY(coordList.get(closestId).getY());
+//		}
+//		
+//		if(closestDistance < 0.25) {
+//			meetingPoint.setX(coordList.get(closestId).getX());
+//			meetingPoint.setY(coordList.get(closestId).getY());
+//			
+//		}else if(closestDistance < 1) {
+//			double middlePoint = (meetingPoint.getX() + coordList.get(closestId).getX())/2;
+//			meetingPoint.setX(middlePoint);
+//			middlePoint = (meetingPoint.getY() + coordList.get(closestId).getY())/2;
+//			meetingPoint.setY(middlePoint);
+//		}
 
 //	    return new XYCoord(meetingPoint.getX(), meetingPoint.getY());
 		return  meetingPoint;
